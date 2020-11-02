@@ -3,7 +3,6 @@ import bcrypt
 
 
 class User(db.Model):
-
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -39,3 +38,7 @@ class User(db.Model):
     @staticmethod
     def check_password(pt_password, hashed_password):
         return bcrypt.checkpw(pt_password, hashed_password)
+
+    def __str__(self):
+        return f'User(username={self.username}, id={self.id})'
+
