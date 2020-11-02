@@ -43,3 +43,4 @@ api.add_resource(LogoutAccess, '/logout/access')
 api.add_resource(LogoutRefresh, '/logout/refresh')
 api.add_resource(TokenRefresh, '/refresh')
 api.add_resource(Sudoku, '/puzzle')
+
