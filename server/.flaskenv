@@ -1,0 +1,5 @@
+FLASK_ENV=development
+FLASK_APP=server.py
+SQLALCHEMY_DATABASE_URI_DEV=postgres://zwocfhjtazbegn:0908c22c4f58218bb08900e7a9475fcbd3f8d2b84df9c12fe23a8b2b7b398793@ec2-52-5-176-53.compute-1.amazonaws.com:5432/dcogpuar232pci
+SQLALCHEMY_DATABASE_URI_TEST=postgres://vkxyhzzjvibhhg:e7430eec04d2619a6ebb694244c04e22f4e3fd31977044504c01c79c38476464@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h
+JWT_SECRET_KEY=WF2RK8FLCvUBnn64

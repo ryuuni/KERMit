@@ -25,7 +25,7 @@ def invalid_token_callback(callback):
     """
     Token provided is invalid.
     """
-    return {'message': 'Invalid token provided.'}, 401
+    return {'message': 'Invalid token provided'}, 401
 
 
 @jwt.expired_token_loader

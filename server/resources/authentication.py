@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from server.models.users import Users
+from server.models.user import User
 from server.models.revoked_tokens import RevokedTokens
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required,
                                 jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
@@ -11,19 +11,20 @@ parser.add_argument('username', help='This field cannot be blank', required=True
 parser.add_argument('password', help='This field cannot be blank', required=True)
 
 
+class HealthCheck(Resource):
+    def get(self):
+        return {'status': 'OK'}
+
+
 class Registration(Resource):
     def post(self):
         data = parser.parse_args()
 
         # see if user already exists
-        if Users.find_by_username(data['username']):
+        if User.find_by_username(data['username']):
             return {'message': 'Username {} is already taken'.format(data['username'])}, 403
 
-        new_user = Users(
-            username=data['username'],
-            hashed_password=Users.hash_password(data['password'])
-        )
-
+        new_user = User(username=data['username'], password=data['password'])
         try:
             # save the new user to the database
             new_user.save()
@@ -37,7 +38,7 @@ class Registration(Resource):
 
         except Exception as e:
             print(f"Unexpected error occurred: {e}")
-            return {'message': 'An error occurred attempting to register new user'}, 500
+            return {'message': f'An error occurred attempting to register new user {e}'}, 500
 
 
 class Login(Resource):
@@ -45,12 +46,12 @@ class Login(Resource):
         data = parser.parse_args()
 
         # does the username exist?
-        user = Users.find_by_username(data['username'])
+        user = User.find_by_username(data['username'])
         if not user:
             return {'message': 'User {} does not exist'.format(data['username'])}, 404
 
         # is the password correct?
-        correct_password = Users.check_password(
+        correct_password = User.check_password(
             pt_password=data['password'],
             hashed_password=user.hashed_password
         )
