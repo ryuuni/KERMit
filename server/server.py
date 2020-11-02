@@ -29,7 +29,10 @@ jwt = JWTManager(app)
 
 
 # --------- Register endpoints and callbacks ----------
-from server.resources import Registration, Login, LogoutAccess, LogoutRefresh, TokenRefresh, Sudoku
+
+from server.resources.authentication import Registration, Login, LogoutAccess, LogoutRefresh, TokenRefresh
+from server.resources.sudoku import Sudoku
+from server.resources.callbacks import *
 
 api.add_resource(Registration, '/register')
 api.add_resource(Login, '/login')

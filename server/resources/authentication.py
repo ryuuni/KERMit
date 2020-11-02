@@ -1,46 +1,14 @@
 from flask_restful import Resource, reqparse
-from server.server import jwt
-from server.models.models import User, RevokedTokens
+from server.models.users import Users
+from server.models.revoked_tokens import RevokedTokens
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required,
                                 jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 
+
+# define parser to get username/password from request
 parser = reqparse.RequestParser()
 parser.add_argument('username', help='This field cannot be blank', required=True)
 parser.add_argument('password', help='This field cannot be blank', required=True)
-
-
-@jwt.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    """
-    Called everytime client tries to access secure endpoints.
-    Returns True or False depending on if the passed token in blacklisted
-    """
-    jti = decrypted_token['jti']
-    return RevokedTokens.is_jti_blacklisted(jti)
-
-
-@jwt.unauthorized_loader
-def unauthorized_callback(callback):
-    """
-    No authentication header provided.
-    """
-    return {'message': 'No JWT authentication header provided'}, 401
-
-
-@jwt.invalid_token_loader
-def invalid_token_callback(callback):
-    """
-    Token provided is invalid.
-    """
-    return {'message': 'Invalid token provided.'}, 401
-
-
-@jwt.expired_token_loader
-def expired_token_callback(callback):
-    """
-    Token has expired.
-    """
-    return {'message': 'Access token has expired'}, 401
 
 
 class Registration(Resource):
@@ -48,12 +16,12 @@ class Registration(Resource):
         data = parser.parse_args()
 
         # see if user already exists
-        if User.find_by_username(data['username']):
+        if Users.find_by_username(data['username']):
             return {'message': 'Username {} is already taken'.format(data['username'])}, 403
 
-        new_user = User(
+        new_user = Users(
             username=data['username'],
-            hashed_password=User.hash_password(data['password'])
+            hashed_password=Users.hash_password(data['password'])
         )
 
         try:
@@ -77,12 +45,12 @@ class Login(Resource):
         data = parser.parse_args()
 
         # does the username exist?
-        user = User.find_by_username(data['username'])
+        user = Users.find_by_username(data['username'])
         if not user:
             return {'message': 'User {} does not exist'.format(data['username'])}, 404
 
         # is the password correct?
-        correct_password = User.check_password(
+        correct_password = Users.check_password(
             pt_password=data['password'],
             hashed_password=user.hashed_password
         )
@@ -152,16 +120,4 @@ class TokenRefresh(Resource):
         access_token = create_access_token(identity=user)
         return {
             'access_token': access_token
-        }
-
-
-class Sudoku(Resource):
-
-    @jwt_required
-    def get(self):
-        """
-        Access to endpoint requires valid JWT access token (refresh token will not work).
-        """
-        return {
-            'sudoku': True
         }

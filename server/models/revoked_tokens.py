@@ -1,4 +1,4 @@
-from server.server import db
+from server.server import db  # db object from the file where db connection was initialized
 
 
 class RevokedTokens(db.Model):
@@ -15,7 +15,7 @@ class RevokedTokens(db.Model):
     @classmethod
     def is_jti_blacklisted(cls, jti):
         """
-        Does a check to determine if the token has been revoked.
+        Checks to determine if the token has is on the token 'blacklist'.
         """
         query = cls.query.filter_by(jti=jti).first()
         return bool(query)
