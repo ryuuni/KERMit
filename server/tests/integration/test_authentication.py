@@ -3,34 +3,7 @@ from server.models.user import User
 from server.config import TestingConfig
 import pytest
 import os
-
-
-@pytest.fixture(scope='module')
-def test_client():
-
-    app.config.from_object(TestingConfig)
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
-    print(f"OS set to {os.getenv('SQLALCHEMY_DATABASE_URI_TEST')}")
-
-    # create a test client using testing configurations
-    with app.test_client() as testing_client:
-        with app.app_context():
-            yield testing_client
-
-
-@pytest.fixture(scope='module')
-def init_db(test_client):
-
-    print("here")
-    # setup -- create the database tables
-    db.create_all()
-    db.session.commit()
-
-    yield db  # run the actual tests
-
-    # tear down -- drop the database tables
-    db.session.remove()
-    db.drop_all()
+from server.tests.integration.test_setup import test_client, init_db
 
 
 def test_registration_missing_user(test_client, init_db):
@@ -40,7 +13,7 @@ def test_registration_missing_user(test_client, init_db):
     """
     response = test_client.post('/register', data=dict(password='testertester'))
     assert response.status_code == 400
-    assert 'This field cannot be blank' in str(response.data) and 'username' in str(response.data)
+    assert response.json['message'] == {'username': 'The username field must be provided'}
 
 
 def test_registration_missing_password(test_client, init_db):
@@ -50,7 +23,7 @@ def test_registration_missing_password(test_client, init_db):
     """
     response = test_client.post('/register', data=dict(username='tester'))
     assert response.status_code == 400
-    assert 'This field cannot be blank' in str(response.data) and 'password' in str(response.data)
+    assert response.json['message'] == {'password': 'The password field must be provided'}
 
 
 def test_registration_valid(test_client, init_db):

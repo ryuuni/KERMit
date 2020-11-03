@@ -1,4 +1,4 @@
-from server.server import db, app # db object from the file where db connection was initialized
+from server.server import db, app  # db object from the file where db connection was initialized
 import bcrypt
 
 
@@ -23,6 +23,10 @@ class User(db.Model):
 
     @classmethod
     def find_by_username(cls, username):
+        """
+        Returns the User from the database associated with the username.
+        If the username does not exist, None will be returned
+        """
         return cls.query.filter_by(username=username).first()
 
     @staticmethod
@@ -41,4 +45,3 @@ class User(db.Model):
 
     def __str__(self):
         return f'User(username={self.username}, id={self.id})'
-

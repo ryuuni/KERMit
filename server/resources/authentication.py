@@ -6,9 +6,9 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_r
 
 
 # define parser to get username/password from request
-parser = reqparse.RequestParser()
-parser.add_argument('username', help='This field cannot be blank', required=True)
-parser.add_argument('password', help='This field cannot be blank', required=True)
+auth_parser = reqparse.RequestParser()
+auth_parser.add_argument('username', help='The username field must be provided', required=True)
+auth_parser.add_argument('password', help='The password field must be provided', required=True)
 
 
 class HealthCheck(Resource):
@@ -18,7 +18,7 @@ class HealthCheck(Resource):
 
 class Registration(Resource):
     def post(self):
-        data = parser.parse_args()
+        data = auth_parser.parse_args()
 
         # see if user already exists
         if User.find_by_username(data['username']):
@@ -43,7 +43,7 @@ class Registration(Resource):
 
 class Login(Resource):
     def post(self):
-        data = parser.parse_args()
+        data = auth_parser.parse_args()
 
         # does the username exist?
         user = User.find_by_username(data['username'])

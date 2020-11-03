@@ -5,11 +5,11 @@ from server.models.puzzle_exception import PuzzleException
 class PuzzlePiece(db.Model):
     __tablename__ = 'puzzle_pieces'
     __table_args__ = (
-        db.UniqueConstraint('game_id', 'x_coordinate', 'y_coordinate', name='unique_piece'),
+        db.UniqueConstraint('puzzle_id', 'x_coordinate', 'y_coordinate', name='unique_piece'),
     )
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    puzzle_id = db.Column(db.Integer, db.ForeignKey('sudoku_puzzles.id'))
+    puzzle_id = db.Column(db.Integer, db.ForeignKey('sudoku_puzzles.id'), nullable=False)
     x_coordinate = db.Column(db.Integer, nullable=False)
     y_coordinate = db.Column(db.Integer, nullable=False)
     static_piece = db.Column(db.Boolean, nullable=False)
@@ -22,12 +22,12 @@ class PuzzlePiece(db.Model):
         self.value = value
         self.static_piece = static_piece
 
-    def save(self, commit=False):
+    def save(self, autocommit=False):
         """
         Saves a new "puzzle piece" to the database. Optionally, you can auto-commit this puzzle piece.
         """
         db.session.add(self)
-        if commit:  # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
+        if autocommit:  # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
             db.session.commit()
 
     @classmethod
@@ -61,4 +61,3 @@ class PuzzlePiece(db.Model):
     def __str__(self):
         return f'PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}), x_coordinate={self.x_coordinate}, ' \
                f'y_coordinate={self.y_coordinate}, value={self.value}, static_piece={self.static_piece})'
-
