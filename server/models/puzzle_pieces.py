@@ -22,14 +22,6 @@ class PuzzlePiece(db.Model):
         self.value = value
         self.static_piece = static_piece
 
-    def save(self, autocommit=False):
-        """
-        Saves a new "puzzle piece" to the database. Optionally, you can auto-commit this puzzle piece.
-        """
-        db.session.add(self)
-        if autocommit:  # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
-            db.session.commit()
-
     @classmethod
     def find_all_pieces(cls, puzzle_id):
         """
@@ -38,25 +30,37 @@ class PuzzlePiece(db.Model):
         return cls.query.filter_by(puzzle_id=puzzle_id).all()
 
     @classmethod
-    def update_piece(cls, puzzle_id, x_coordinate, y_coordinate, new_value):
-        """
-        Updates the puzzle piece associated with the provided puzzle_id and coordinates
-        with the new value specified.
-        """
+    def get_piece(cls, puzzle_id, x_coordinate, y_coordinate):
         piece = cls.query.filter_by(
             puzzle_id=puzzle_id,
             x_coordinate=x_coordinate,
             y_coordinate=y_coordinate
-        ).one()
+        ).first()
 
-        if not piece:
-            raise PuzzleException(f"No puzzle piece was found at ({x_coordinate}, {y_coordinate}).")
+        if not piece:  # this happens when the coordinates do not exist
+            raise PuzzleException(f"No puzzle piece was found at ({x_coordinate}, {y_coordinate}). "
+                                  f"This position is off of the puzzle board.")
 
-        if piece.static_piece:
-            raise PuzzleException(f"Changes can only be made to non-static puzzle pieces. The item at "
-                                  f"({x_coordinate}, {y_coordinate}) is a set piece in the puzzle.")
-        piece.value = new_value
-        db.session.commit()
+    def save(self, autocommit=False):
+        """
+        Saves a new "puzzle piece" to the database. Optionally, you can auto-commit this puzzle piece.
+        """
+        db.session.add(self)
+        if autocommit:  # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
+            db.session.commit()
+
+    def update(self, new_value, autocommit=False):
+        """
+        Updates the puzzle piece associated with the provided puzzle_id and coordinates
+        with the new value specified.
+        """
+
+        if self.static_piece:  # you cannot change pieces that came with the game board
+            raise PuzzleException(f"Changes can only be made to non-static puzzle pieces.")
+
+        self.value = new_value
+        if autocommit:
+            db.session.commit()
 
     def __str__(self):
         return f'PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}), x_coordinate={self.x_coordinate}, ' \

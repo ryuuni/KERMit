@@ -1,5 +1,8 @@
 from server.server import db
 from server.models.user import User
+from server.models.puzzle_exception import PuzzleException
+
+MAX_PLAYERS_PER_PUZZLE = 4
 
 
 class PuzzlePlayer(db.Model):
@@ -35,7 +38,21 @@ class PuzzlePlayer(db.Model):
         """
         Returns a list of all users associated with a specific puzzle.
         """
-        return User.query.join(PuzzlePlayer, PuzzlePlayer.player_id == User.id).filter_by(puzzle_id=1).all()
+        print("hello")
+        return User.query\
+            .join(PuzzlePlayer, PuzzlePlayer.player_id == User.id)\
+            .filter_by(puzzle_id=puzzle_id)\
+            .all()
+
+    @classmethod
+    def add_player_to_puzzle(cls, puzzle_id, username):
+        if len(PuzzlePlayer.find_players_for_puzzle(puzzle_id)) > MAX_PLAYERS_PER_PUZZLE:
+            raise PuzzleException(f"There are already {MAX_PLAYERS_PER_PUZZLE} "
+                                  f"players affiliated with puzzle {puzzle_id}")
+
+        user = User.find_by_username(username)
+        puzzle_player = PuzzlePlayer(user.id, puzzle_id)
+        puzzle_player.save(autocommit=True)
 
     def __str__(self):
         return f"PuzzlePlayer(player_id={self.player_id}, puzzle_id={self.puzzle_id})"

@@ -10,18 +10,27 @@ def no_jwt(monkeypatch):
 
 @pytest.fixture(scope="function", autouse=True)
 def user(monkeypatch):
+    """Monkeypatch for the username of the requesting person, without JWT verification"""
     def mock_username(*args, **kwargs):
         return 'integration_tester'
 
     monkeypatch.setattr('server.resources.sudoku.get_request_username', mock_username)
 
 
-def test_save_new_puzzle_difficulty_not_specified(test_client, init_db):
-    response = test_client.post('/puzzles')
-    assert response.status_code == 400
-    assert response.json['message'] == {
-        'difficulty': 'The difficulty of the puzzle must be specified',
-        'size': 'The size of the puzzle must be specified'
+def test_get_all_puzzles_no_puzzles(test_client, init_db):
+    """
+    Test the response when the user makes a request to get their puzzles, but they don't have any.
+    """
+    response = test_client.get('/puzzles')
+    assert response.status_code == 200
+    assert response.json == {'message': 'No sudoku puzzles are associated with this account'}
+
+
+def test_get_nonexistent_puzzle(test_client, init_db):
+    response = test_client.get('/puzzles/2')
+    assert response.status_code == 404
+    assert response.json == {
+        'message': f"Puzzle requested does not exist or is not associated with user 'integration_tester'."
     }
 
 
@@ -32,7 +41,7 @@ def test_save_new_puzzle_valid(test_client, init_db):
         'message': 'New Sudoku puzzle successfully created',
         'difficulty': 0.5,
         'size': 3,
-        'puzzle_id': 1
+        'puzzle_id': 2
     }
 
 
@@ -86,87 +95,61 @@ def test_save_new_puzzle_invalid_size_small(test_client, init_db):
 
 def test_get_all_puzzles_for_user(test_client, init_db):
     response = test_client.get('/puzzles')
+    expected = {
+        'puzzles':
+        [
+            {
+                'puzzle_id': 2,
+                'completed': False,
+                'difficulty': 0.5,
+                'point_value': 90,
+                'pieces': ["this would ordinarily contain a list of pieces; they're not predictable in tests"],
+                'players': [{'username': 'integration_tester', 'id': 1}]
+            }
+        ]
+    }
+
+    # cannot test for pieces easily; this is randomly created by the Sudoku library for each round
+    response.json['puzzles'][0].pop('pieces')
+    expected['puzzles'][0].pop('pieces')
+
     assert response.status_code == 200
-    assert response.json == [{'puzzle_id': 1, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
-                              'pieces': [{'x_coordinate': 0, 'y_coordinate': 0, 'static_piece': True, 'value': 5},
-                                         {'x_coordinate': 0, 'y_coordinate': 1, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 0, 'y_coordinate': 2, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 0, 'y_coordinate': 3, 'static_piece': True, 'value': 6},
-                                         {'x_coordinate': 0, 'y_coordinate': 4, 'static_piece': True, 'value': 9},
-                                         {'x_coordinate': 0, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 0, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 0, 'y_coordinate': 7, 'static_piece': True, 'value': 2},
-                                         {'x_coordinate': 0, 'y_coordinate': 8, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 1, 'y_coordinate': 0, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 1, 'y_coordinate': 1, 'static_piece': True, 'value': 2},
-                                         {'x_coordinate': 1, 'y_coordinate': 2, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 1, 'y_coordinate': 3, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 1, 'y_coordinate': 4, 'static_piece': True, 'value': 4},
-                                         {'x_coordinate': 1, 'y_coordinate': 5, 'static_piece': True, 'value': 8},
-                                         {'x_coordinate': 1, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 1, 'y_coordinate': 7, 'static_piece': True, 'value': 9},
-                                         {'x_coordinate': 1, 'y_coordinate': 8, 'static_piece': True, 'value': 3},
-                                         {'x_coordinate': 2, 'y_coordinate': 0, 'static_piece': True, 'value': 4},
-                                         {'x_coordinate': 2, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 2, 'y_coordinate': 2, 'static_piece': True, 'value': 9},
-                                         {'x_coordinate': 2, 'y_coordinate': 3, 'static_piece': True, 'value': 3},
-                                         {'x_coordinate': 2, 'y_coordinate': 4, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 2, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 2, 'y_coordinate': 6, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 2, 'y_coordinate': 7, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 2, 'y_coordinate': 8, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 3, 'y_coordinate': 0, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 3, 'y_coordinate': 1, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 3, 'y_coordinate': 2, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 3, 'y_coordinate': 3, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 3, 'y_coordinate': 4, 'static_piece': True, 'value': 3},
-                                         {'x_coordinate': 3, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 3, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 3, 'y_coordinate': 7, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 3, 'y_coordinate': 8, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 4, 'y_coordinate': 0, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 4, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 4, 'y_coordinate': 2, 'static_piece': True, 'value': 2},
-                                         {'x_coordinate': 4, 'y_coordinate': 3, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 4, 'y_coordinate': 4, 'static_piece': True, 'value': 8},
-                                         {'x_coordinate': 4, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 4, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 4, 'y_coordinate': 7, 'static_piece': True, 'value': 3},
-                                         {'x_coordinate': 4, 'y_coordinate': 8, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 0, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 2, 'static_piece': True, 'value': 6},
-                                         {'x_coordinate': 5, 'y_coordinate': 3, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 4, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 5, 'y_coordinate': 7, 'static_piece': True, 'value': 4},
-                                         {'x_coordinate': 5, 'y_coordinate': 8, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 6, 'y_coordinate': 0, 'static_piece': True, 'value': 2},
-                                         {'x_coordinate': 6, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 6, 'y_coordinate': 2, 'static_piece': True, 'value': 5},
-                                         {'x_coordinate': 6, 'y_coordinate': 3, 'static_piece': True, 'value': 8},
-                                         {'x_coordinate': 6, 'y_coordinate': 4, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 6, 'y_coordinate': 5, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 6, 'y_coordinate': 6, 'static_piece': True, 'value': 4},
-                                         {'x_coordinate': 6, 'y_coordinate': 7, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 6, 'y_coordinate': 8, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 7, 'y_coordinate': 0, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 7, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 7, 'y_coordinate': 2, 'static_piece': True, 'value': 8},
-                                         {'x_coordinate': 7, 'y_coordinate': 3, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 7, 'y_coordinate': 4, 'static_piece': True, 'value': 2},
-                                         {'x_coordinate': 7, 'y_coordinate': 5, 'static_piece': True, 'value': 9},
-                                         {'x_coordinate': 7, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 7, 'y_coordinate': 7, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 7, 'y_coordinate': 8, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 8, 'y_coordinate': 0, 'static_piece': True, 'value': 9},
-                                         {'x_coordinate': 8, 'y_coordinate': 1, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 8, 'y_coordinate': 2, 'static_piece': True, 'value': 1},
-                                         {'x_coordinate': 8, 'y_coordinate': 3, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 8, 'y_coordinate': 4, 'static_piece': True, 'value': 7},
-                                         {'x_coordinate': 8, 'y_coordinate': 5, 'static_piece': True, 'value': 3},
-                                         {'x_coordinate': 8, 'y_coordinate': 6, 'static_piece': False, 'value': None},
-                                         {'x_coordinate': 8, 'y_coordinate': 7, 'static_piece': True, 'value': 8},
-                                         {'x_coordinate': 8, 'y_coordinate': 8, 'static_piece': False, 'value': None}],
-                              'players': [{'username': 'integration_tester', 'id': 1}]}]
+    assert response.json == expected
+
+
+def test_get_puzzle_valid(test_client, init_db):
+    """
+    An attempt to get a puzzle with a valid id that is associated with the requesting user should
+    be successful.
+    """
+    response = test_client.get('/puzzles/2')
+    expected = {
+        'puzzle_id': 2,
+        'completed': False,
+        'difficulty': 0.5,
+        'point_value': 90,
+        'pieces': ["this would ordinarily contain a list of pieces; they're not predictable in tests"],
+        'players': [{'username': 'integration_tester', 'id': 1}]
+    }
+
+    # cannot test for pieces easily; this is randomly created by the Sudoku library for each round
+    response.json.pop('pieces')
+    expected.pop('pieces')
+
+    assert response.status_code == 200
+    assert response.json == expected
+
+
+def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db):
+    """
+    An attempting to get a puzzle with a valid id, but that is not associated with the requesting
+    user should not return the puzzle.
+    """
+    response = test_client.get('/puzzles/1')
+    assert response.status_code == 404
+    assert response.json == {
+            'message': f"Puzzle requested does not exist or is not "
+                       f"associated with user 'integration_tester'."
+    }
+
+

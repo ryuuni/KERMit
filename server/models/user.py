@@ -13,14 +13,6 @@ class User(db.Model):
         self.username = username
         self.hashed_password = self.hash_password(password)
 
-    def save(self):
-        """
-        Saves User to the database.
-        """
-        print("Saving user...")
-        db.session.add(self)
-        db.session.commit()
-
     @classmethod
     def find_by_username(cls, username):
         """
@@ -28,6 +20,13 @@ class User(db.Model):
         If the username does not exist, None will be returned
         """
         return cls.query.filter_by(username=username).first()
+
+    def save(self):
+        """
+        Saves User to the database.
+        """
+        db.session.add(self)
+        db.session.commit()
 
     @staticmethod
     def hash_password(pt_password):
@@ -39,9 +38,11 @@ class User(db.Model):
         salt = bcrypt.gensalt(app.config.get('BCRYPT_SALT_ROUNDS'))
         return bcrypt.hashpw(pt_password, salt)
 
-    @staticmethod
-    def check_password(pt_password, hashed_password):
-        return bcrypt.checkpw(pt_password, hashed_password)
+    def check_password(self, pt_password):
+        """
+        Checks the plaintext password provided against the hashed password stored for the user.
+        """
+        return bcrypt.checkpw(pt_password, self.hashed_password)
 
     def __str__(self):
         return f'User(username={self.username}, id={self.id})'

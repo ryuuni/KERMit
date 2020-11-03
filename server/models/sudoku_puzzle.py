@@ -5,7 +5,7 @@ from server.server import db
 from sudoku import Sudoku
 
 
-class SudokuPuzzle(db.Model):
+class Puzzle(db.Model):
     __tablename__ = 'sudoku_puzzles'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -45,6 +45,19 @@ class SudokuPuzzle(db.Model):
         self.set_point_value()
         self.set_pieces()
 
+    @classmethod
+    def get_puzzle(cls, puzzle_id):
+        """
+        Returns the Puzzle matching the given id. If the puzzle doesn't exist, then None is returned.
+        """
+        puzzle = cls.query.filter_by(id=puzzle_id).first()  # returns None if no results matched
+        if not puzzle:
+            return None
+
+        # load in the puzzle pieces for the puzzle
+        puzzle.puzzle_pieces = PuzzlePiece.find_all_pieces(puzzle_id=puzzle_id)
+        return puzzle
+
     def save(self, autocommit=True):
         """
         Saves a new Sudoku puzzle to the database. This automatically adds new records
@@ -64,19 +77,6 @@ class SudokuPuzzle(db.Model):
 
         # return the id of the newly generated puzzle
         return self.id
-
-    @classmethod
-    def get_puzzle(cls, puzzle_id):
-        """
-        Returns the Puzzle matching the given id. If the puzzle doesn't exist, then None is returned.
-        """
-        puzzle = cls.query.filter_by(id=puzzle_id).first()  # returns None if no results matched
-        if not puzzle:
-            return None
-
-        # load in the puzzle pieces for the puzzle
-        puzzle.puzzle_pieces = PuzzlePiece.find_all_pieces(puzzle_id=puzzle_id)
-        return puzzle
 
     def set_difficulty(self, difficulty):
         """
@@ -136,6 +136,67 @@ class SudokuPuzzle(db.Model):
 
         # set point value as sum of points for difficulty and size
         self.point_value = difficulty_points + size_points
+
+    def update(self, x_coord, y_coord, value):
+        """
+        Update a puzzle with the specified value at the x, y coordinate on the puzzle board.
+        """
+        if self.completed:  # do not accept any changes to completed puzzles
+            raise PuzzleException('Updates cannot be made to previously completed puzzles.')
+
+        # update the piece in order to test if the puzzle is now complete
+        for piece in self.puzzle_piecies:
+            if piece.x_coordinate == x_coord and piece.y_coordinate == y_coord:
+                piece.update(value, autocommit=False)
+
+        if self.check_for_completion():
+            self.set_puzzle_complete()
+
+        # save all changes (change to the puzzle piece and the status of the
+        db.session.commit()
+
+    def check_for_completion(self):
+        """
+        Check if a puzzle is complete (i.e., has a winning configuration)
+        """
+        # if there are any None values, then puzzle has to be incomplete
+        if any(piece.value is None for piece in self.puzzle_pieces):
+            return False
+
+        # rebuild original sudoku puzzle form static pieces
+        original_board = self.get_piecies_as_arr(self.size, self.puzzle_pieces, static_only=True)
+        current_board = self.get_piecies_as_arr(self.size, self.puzzle_pieces)
+
+        # check against python sudoku
+        solved_board = Sudoku(self.size, self.size, board=original_board).solve().board
+        return solved_board == current_board
+
+    def set_puzzle_complete(self, autocommit=False):
+        """
+        Sets a puzzle as 'completed.'
+        """
+        self.completed = True
+        if autocommit:
+            db.session.commit()
+
+    def recreate_original_puzzle_as_array(self):
+        """
+        Recreates the original puzzle.
+        """
+        return self.get_piecies_as_arr(self.size, self.puzzle_pieces, static_only=True)
+
+    @staticmethod
+    def get_pieces_as_arr(size, puzzle_pieces, static_only=False):
+        """
+        Converts puzzle pieces into a 2D array representing the sudoku puzzle board.
+        """
+        dimensions = size * size
+        arr = [[None for x in range(dimensions)] for y in range(dimensions)]
+
+        for piece in puzzle_pieces:
+            if piece.static_piece or not static_only:
+                arr[piece.x_coordinate][piece.y_coordinate] = piece.value
+        return arr
 
     def __str__(self):
         return f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, completed={self.completed}), ' \

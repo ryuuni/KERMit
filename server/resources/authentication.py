@@ -51,11 +51,7 @@ class Login(Resource):
             return {'message': 'User {} does not exist'.format(data['username'])}, 404
 
         # is the password correct?
-        correct_password = User.check_password(
-            pt_password=data['password'],
-            hashed_password=user.hashed_password
-        )
-
+        correct_password = user.check_password(pt_password=data['password'])
         if correct_password:
 
             # create access/refresh tokens for the user

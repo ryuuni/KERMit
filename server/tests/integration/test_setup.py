@@ -1,6 +1,8 @@
 from server.server import app, db
 from server.config import TestingConfig
 from server.models.user import User
+from server.models.sudoku_puzzle import Puzzle
+from server.models.player import PuzzlePlayer
 import pytest
 import os
 
@@ -25,9 +27,19 @@ def init_db(test_client):
     db.create_all()
     db.session.commit()
 
-    # create a test user
-    user = User('integration_tester', 'test_test')
-    user.save()
+    # create a two test users
+    integration_tester = User('integration_tester', 'test_test')
+    integration_tester.save()
+
+    foobar = User('foobar', 'really_secure_password')
+    foobar.save()
+
+    # save a puzzle, associated with user foobar (user_id = 2)
+    sudoku = Puzzle(difficulty_level=0.6, size=4)
+    sudoku.save(autocommit=True)
+
+    puzzle_player = PuzzlePlayer(2, 1)
+    puzzle_player.save(autocommit=True)
 
     yield db  # run the actual tests
 

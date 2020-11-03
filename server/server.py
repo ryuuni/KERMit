@@ -34,7 +34,7 @@ expectation of Flask-SQLAlchemy. Hence why # nopep8 was used here.
 """
 from server.resources.authentication import Registration, Login, LogoutAccess, LogoutRefresh, \
     TokenRefresh, HealthCheck  # nopep8
-from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle  # nopep8
+from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece  # nopep8
 from server.resources.callbacks import invalid_token_callback, check_if_token_in_blacklist, \
     expired_token_callback, unauthorized_callback  # nopep8
 
@@ -46,5 +46,5 @@ api.add_resource(LogoutAccess, '/logout/access')
 api.add_resource(LogoutRefresh, '/logout/refresh')
 api.add_resource(TokenRefresh, '/refresh')
 api.add_resource(SudokuPuzzles, '/puzzles')
-# api.add_resource(SudokuPuzzle, '/puzzles/<int:puzzle_id>')
-# api.add_resource(SudokuPuzzlePiece, '/puzzles/<int:puzzle_id>/piece')
+api.add_resource(SudokuPuzzle, '/puzzles/<int:puzzle_id>')
+api.add_resource(SudokuPuzzlePiece, '/puzzles/<int:puzzle_id>/piece')
