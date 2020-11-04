@@ -40,6 +40,7 @@ ptyprocess==0.6.0
 py==1.9.0
 py-bcrypt==0.4
 py-buzz==1.0.3
+py-sudoku==1.0.1
 Pygments==2.7.0
 PyJWT==1.7.1
 pyparsing==2.4.7

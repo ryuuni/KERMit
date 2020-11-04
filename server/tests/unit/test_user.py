@@ -1,5 +1,8 @@
-from server.server import app, db     # this dependency is necessary to prevent a circular import
+from server.server import app      # this dependency is necessary to prevent a circular import
 from server.models.user import User
+from server.config import UnitTestingConfig
+
+app.config.from_object(UnitTestingConfig)
 
 
 def test_hash_password():
@@ -10,9 +13,9 @@ def test_hash_password():
 
 def test_check_password_true():
     user = User('megfrenkel', 'testpass')
-    assert User.check_password('testpass', user.hashed_password)
+    assert user.check_password('testpass')
 
 
 def test_check_password_false():
     user = User('megfrenkel', 'badpass')
-    assert not User.check_password('testpass', user.hashed_password)
+    assert not user.check_password('testpass')

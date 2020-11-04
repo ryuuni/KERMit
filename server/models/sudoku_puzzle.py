@@ -1,4 +1,3 @@
-import bcrypt
 from server.models.puzzle_pieces import PuzzlePiece
 from server.models.puzzle_exception import PuzzleException
 from server.server import db
@@ -144,10 +143,23 @@ class Puzzle(db.Model):
         if self.completed:  # do not accept any changes to completed puzzles
             raise PuzzleException('Updates cannot be made to previously completed puzzles.')
 
+        # make sure that the coordinate is in the puzzle
+        coord_range = self.size * self.size
+        if (x_coord >= coord_range or x_coord < 0) or (y_coord >= coord_range or y_coord < 0):
+            raise PuzzleException(f'Coordinates provided ({x_coord}, {y_coord}) are outside the range of '
+                                  f'the puzzle. Available coordinates are (0, 0) to ({coord_range}, {coord_range}).')
+
+        # make sure that the value is valid for the puzzle
+        value_range = coord_range
+        if value > value_range or value <= 0:
+            raise PuzzleException(f'Invalid value provided ({value}). the range of the puzzle. '
+                                  f'Available values are 1 to {value_range}.')
+
         # update the piece in order to test if the puzzle is now complete
-        for piece in self.puzzle_piecies:
+        for piece in self.puzzle_pieces:
             if piece.x_coordinate == x_coord and piece.y_coordinate == y_coord:
                 piece.update(value, autocommit=False)
+                break
 
         if self.check_for_completion():
             self.set_puzzle_complete()
@@ -191,7 +203,7 @@ class Puzzle(db.Model):
         Converts puzzle pieces into a 2D array representing the sudoku puzzle board.
         """
         dimensions = size * size
-        arr = [[None for x in range(dimensions)] for y in range(dimensions)]
+        arr = [[None for _ in range(dimensions)] for __ in range(dimensions)]
 
         for piece in puzzle_pieces:
             if piece.static_piece or not static_only:

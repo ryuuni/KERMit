@@ -46,7 +46,14 @@ class PuzzlePlayer(db.Model):
 
     @classmethod
     def add_player_to_puzzle(cls, puzzle_id, username):
-        if len(PuzzlePlayer.find_players_for_puzzle(puzzle_id)) > MAX_PLAYERS_PER_PUZZLE:
+
+        # check if puzzle exists; in order to exist, it must be associated with at least 1 player
+        existing_players = PuzzlePlayer.find_players_for_puzzle(puzzle_id)
+
+        if not existing_players:
+            raise PuzzleException(f"You cannot join a puzzle if the puzzle does not exist and "
+                                  f"have at least 1 player.")
+        elif len(existing_players) >= MAX_PLAYERS_PER_PUZZLE:
             raise PuzzleException(f"There are already {MAX_PLAYERS_PER_PUZZLE} "
                                   f"players affiliated with puzzle {puzzle_id}")
 
@@ -56,4 +63,3 @@ class PuzzlePlayer(db.Model):
 
     def __str__(self):
         return f"PuzzlePlayer(player_id={self.player_id}, puzzle_id={self.puzzle_id})"
-

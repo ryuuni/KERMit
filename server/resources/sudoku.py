@@ -3,12 +3,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from server.models.user import User
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
-from server.models.puzzle_pieces import PuzzlePiece
 from server.models.player import PuzzlePlayer
 from server.server import db
-
-
-# return leaderboard scores
 
 
 class SudokuPuzzles(Resource):
@@ -19,14 +15,12 @@ class SudokuPuzzles(Resource):
             'difficulty',
             type=float,
             help='The difficulty of the puzzle must be specified',
-            location='form',
             required=True
         )
         self.parser.add_argument(
             'size',
             type=int,
             help='The size of the puzzle must be specified',
-            location='form',
             required=True
         )
 
@@ -39,7 +33,10 @@ class SudokuPuzzles(Resource):
         player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(get_request_username())
 
         if not player_puzzles:
-            return {'message': 'No sudoku puzzles are associated with this account'}
+            return {
+                'message': 'No sudoku puzzles are associated with this account',
+                'puzzles': []
+            }
 
         # format all of the sudoku puzzles and return them
         return {
@@ -86,7 +83,7 @@ class SudokuPuzzles(Resource):
             return {
                 'message': 'Failed to create new Sudoku Puzzle',
                 'reason': pe.get_message()
-            }, 400
+            }, 400  # bad request
 
         except Exception as e:
             print(f"Exception occurred while creating new puzzle: {e}")
@@ -108,7 +105,7 @@ class SudokuPuzzle(Resource):
             return {
                 'message': f"Puzzle requested does not exist or is not "
                            f"associated with user '{get_request_username()}'."
-            }, 404
+            }, 404  # not found
 
         # get the puzzle and return it back
         return sudoku_to_dict(
@@ -120,7 +117,7 @@ class SudokuPuzzle(Resource):
     def post(self, puzzle_id):
         """
         Player may add themselves to the puzzle, if they are not already affiliated with
-        the puzzle
+        the puzzle.
         """
         # find all puzzles associated with the player making the request
         username = get_request_username()
@@ -129,8 +126,8 @@ class SudokuPuzzle(Resource):
         # if the requested puzzle doesn't exist for the user, then return error
         if any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
             return {
-                'message': f"Puzzle with id {puzzle_id} is already associated "
-                           f"with user '{get_request_username()}'."
+                'message': f"User '{get_request_username()}' already is associated "
+                           f"with puzzle {puzzle_id}."
             }
 
         # try to add the user to the puzzle
@@ -146,13 +143,13 @@ class SudokuPuzzle(Resource):
             return {
                 'message': f"Attempt to add user '{username}' to puzzle {puzzle_id} failed.",
                 'reason': pe.get_message()
-            }
+            }, 400
         except Exception as e:
             print(e)
             return {
                 'message': f"Attempt to add user '{username}' to puzzle {puzzle_id} failed.",
                 'reason': 'Unknown error occurred.'
-            }
+            }, 500
 
 
 class SudokuPuzzlePiece(Resource):
@@ -163,21 +160,18 @@ class SudokuPuzzlePiece(Resource):
             'x_coordinate',
             type=int,
             help='The x-coordinate of the puzzle piece must be specified',
-            location='form',
             required=True
         )
         self.parser.add_argument(
             'y_coordinate',
             type=int,
             help='The y-coordinate of the puzzle piece must be specified',
-            location='form',
             required=True
         )
         self.parser.add_argument(
             'value',
             type=int,
             help='The value of the puzzle piece must be specified',
-            location='form',
             required=True
         )
 
@@ -199,16 +193,16 @@ class SudokuPuzzlePiece(Resource):
         try:
             puzzle = Puzzle.get_puzzle(puzzle_id)
             puzzle.update(
-                puzzle_id=puzzle_id,
                 x_coord=args['x_coordinate'],
                 y_coord=args['y_coordinate'],
-                value=args['value']
+                value=args['value'],
+
             )
 
             return {
-                'message': f'Successfully saved the submission of {args["value"]} at '
-                           f'({args["x_coordinate"]}, {args["x_coordinate"]}) on puzzle_id {puzzle_id}'
-                           f' by user {get_request_username()}',
+                'message': f"Successfully saved the submission of {args['value']} at "
+                           f"({args['x_coordinate']}, {args['x_coordinate']}) on puzzle_id {puzzle_id}"
+                           f" by user '{get_request_username()}'"
             }
 
         except PuzzleException as pe:
@@ -260,4 +254,3 @@ def sudoku_to_dict(puzzle, puzzle_players):
         'pieces': [puzzle_piece_as_dict(piece) for piece in puzzle.puzzle_pieces],
         'players': [user_as_dict(player) for player in puzzle_players]
     }
-

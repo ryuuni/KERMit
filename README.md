@@ -44,6 +44,29 @@ Starting the server is as simple as:
 $ flask run
 ```
 
+### Tests
+
+#### Unit Tests
+
+To run unit tests:
+```
+$ (venv) python -m pytest ./tests/unit
+```
+
+#### Integration Tests
+
+To run the integration test suite for the api, make sure to set the following two
+environmental variables: `SQLALCHEMY_DATABASE_URI_TEST` and `JWT_SECRET_KEY`. Note that
+for the tests, the database and secret key can be whatever test information you'd like.
+
+If you forget to set these environmental variables correct, you'll see this error message: 
+`AttributeError: 'NoneType' object has no attribute 'drivername'`.
+
+To run the tests:
+```
+$ (venv) cd server
+$ (venv) python -m pytest ./tests/integration
+```
 
 ### Sources
 

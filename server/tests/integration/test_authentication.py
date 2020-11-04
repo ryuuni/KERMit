@@ -1,6 +1,5 @@
 from server.server import app, db
 from server.models.user import User
-from server.config import TestingConfig
 import pytest
 import os
 from server.tests.integration.test_setup import test_client, init_db
@@ -39,7 +38,7 @@ def test_registration_valid(test_client, init_db):
 
     # check data in db
     user = User.query.filter_by(username='tester').first()
-    assert user.id == 3
+    assert user.id == 6
     assert user.hashed_password is not None
     assert user.username == 'tester'
 

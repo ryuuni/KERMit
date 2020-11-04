@@ -38,8 +38,9 @@ class PuzzlePiece(db.Model):
         ).first()
 
         if not piece:  # this happens when the coordinates do not exist
-            raise PuzzleException(f"No puzzle piece was found at ({x_coordinate}, {y_coordinate}). "
+            raise PuzzleException(f"No puzzle piece exists at ({x_coordinate}, {y_coordinate}). "
                                   f"This position is off of the puzzle board.")
+        return piece
 
     def save(self, autocommit=False):
         """

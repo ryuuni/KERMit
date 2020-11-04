@@ -1,7 +1,10 @@
-from server.server import app, db     # this dependency is necessary to prevent a circular import
+from server.server import app     # this dependency is necessary to prevent a circular import
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
+from server.config import UnitTestingConfig
 import pytest
+
+app.config.from_object(UnitTestingConfig)
 
 
 def test_create_sudoku_puzzle_valid_defaults():
@@ -106,4 +109,3 @@ def test_set_point_value3():
     """
     sudoku = Puzzle(difficulty_level=0.98, size=5)
     assert sudoku.point_value == 180
-

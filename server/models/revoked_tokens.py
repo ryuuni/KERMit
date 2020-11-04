@@ -1,3 +1,8 @@
+"""
+Inspiration for this approach to handling revoked tokens from Oleg Agapov.
+Source: Agapov, O., "JWT authorization in Flask", codeburst.io, Medium.com,
+        accessed November 2, 2020 at https://codeburst.io/jwt-authorization-in-flask-c63c1acf4eeb
+"""
 from server.server import db  # db object from the file where db connection was initialized
 
 

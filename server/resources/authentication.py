@@ -1,3 +1,9 @@
+"""
+Inspiration and code for this approach to handling authentication tokens from Oleg Agapov.
+Source: Agapov, O., "JWT authorization in Flask", codeburst.io, Medium.com,
+        accessed November 2, 2020 at https://codeburst.io/jwt-authorization-in-flask-c63c1acf4eeb
+"""
+
 from flask_restful import Resource, reqparse
 from server.models.user import User
 from server.models.revoked_tokens import RevokedTokens
