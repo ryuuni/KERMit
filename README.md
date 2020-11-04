@@ -5,7 +5,7 @@
 ### Setup
 To start up the server, follow this sequence of steps
 
-##### 1. Activate the virtualenv and install dependencies for the project
+#### 1. Activate the virtualenv and install dependencies for the project
 
 All dependencies for the server can be found in `server/requirements.txt`. Create a new virtual python environment
 and install the dependencies by following the commands below:
@@ -18,7 +18,7 @@ This should complete without any errors. Nevertheless, some users have reported 
 `psycopg2` using pip in Mac OS (this package is the PostgreSQL database adapter for Python).
 In the case that this happens, this [page](https://stackoverflow.com/a/42264168)  provides a working solution: 
 
-##### 2. Set environmental variables
+#### 2. Set environmental variables
 
 Make sure to set all the required environmental variables for the project. The settings below are for development.
 ```
@@ -37,16 +37,16 @@ $ export FLASK_ENV="production"
 $ export SQLALCHEMY_DATABASE_URI_PROD=<<URI FOR PROD HEROKU DB>>
 ```
 
-##### 3. Start the server
+#### 3. Start the server
 
 Starting the server is as simple as:
 ```
 $ flask run
 ```
 
-#### Endpoints
+### Endpoints
 
-##### I. Registration
+#### I. Registration
 
 To register a new user with their username and password, make a `POST` request to `/register` with the following
 request body as json:
@@ -64,7 +64,7 @@ If successful endpoint will return an access token and a refresh token for the u
     "refresh_token": <token here>
 }
 ```
-##### Login
+#### Login
 
 To login with a username and password make a `POST` request to `/login`  with the following request 
 body as JSON:
@@ -80,7 +80,7 @@ will be in the same format as the response from the registration endpoint.
 For all other requests, access tokens will be required in the `Authorization` field of the request header. 
 Set the field to `Bearer <access token here>`.
 
-##### Puzzles
+#### Puzzles
 
 To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
 specified; it will be retrieved based on the submitted access token. Here is a sample response:
@@ -163,16 +163,16 @@ Here is a sample successful response:
 There are a number of possible requests that are invalid; responses to invalid requests
 will have a `message` and `reason` field explaining what happened.
 
-### Tests
+## Tests
 
-#### Unit Tests
+### Unit Tests
 
 To run unit tests:
 ```
 $ (venv) python -m pytest ./tests/unit
 ```
 
-#### Integration Tests
+### Integration Tests
 
 To run the integration test suite for the api, make sure to set the following two
 environmental variables: `SQLALCHEMY_DATABASE_URI_TEST` and `JWT_SECRET_KEY`. Note that
