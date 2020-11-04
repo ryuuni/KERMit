@@ -7,20 +7,22 @@ To start up the server, follow this sequence of steps
 
 #### 1. Activate the virtualenv and install dependencies for the project
 
-All dependencies for the server can be found in `server/requirements.txt`. Create a new virtual python environment
+All dependencies for the server can be found in `./server/requirements.txt`. Create a new virtual python environment
 and install the dependencies by following the commands below:
 ```
 $ cd server
 $ python3 -m virtualenv venv        # create the virtualenv
-$ pip install -r requirements.txt   # install dependencies
+$ pip install -r requirements.txt   # install all dependencies
 ```
 This should complete without any errors. Nevertheless, some users have reported issues installing
 `psycopg2` using pip in Mac OS (this package is the PostgreSQL database adapter for Python).
-In the case that this happens, this [page](https://stackoverflow.com/a/42264168)  provides a working solution: 
+In the case that this happens, this [page](https://stackoverflow.com/a/42264168)  provides a working solution.
 
 #### 2. Set environmental variables
 
-Make sure to set all the required environmental variables for the project. The settings below are for development.
+In order to run the server, you'll need to set a few environmental variables to tell Flask 
+ what app to run and which database to use. The following environmental variables can be used for
+ development.
 ```
 $ export SECRET_KEY="supersecretkey"      
 $ export JWT_SECRET_KEY="anothersecretkeyforjwt" 
@@ -30,7 +32,7 @@ $ export FLASK_ENV="development"                                # sets environme
 $ export SQLALCHEMY_DATABASE_URI_DEV=<<URI for DB>>             # uri for the db
 ```
 
-For production settings, add the environmental variables above, and change the following:
+For production settings, add the environmental variables above, but change the following:
 ```
 $ export APP_SETTINGS="server.config.ProductionConfig"
 $ export FLASK_ENV="production"
@@ -39,7 +41,8 @@ $ export SQLALCHEMY_DATABASE_URI_PROD=<<URI for DB>>
 
 #### 3. Start the server
 
-Starting the server is as simple as:
+Starting the Flask server is as simple as issuing the following command
+from the `./server` directory:
 ```
 $ flask run
 ```
@@ -146,8 +149,8 @@ the id of the puzzle in the database. Here is an example response:
 
 #### IV. Puzzle Pieces
 
-To add a number to the puzzle, make a `POST` request to `/puzzles/<puzzle_id>/piece` with the following
-request body as JSON:
+To add a number to the puzzle, make a `POST` request to `/puzzles/<puzzle_id>/piece` (specifying the value 
+for `puzzle_id`) with the following request body as JSON:
 ```
 {
     "x_coordinate": 0,
@@ -171,6 +174,7 @@ will have a `message` and `reason` field explaining what happened.
 
 To run unit tests:
 ```
+$ (venv) cd server
 $ (venv) python -m pytest ./tests/unit
 ```
 
