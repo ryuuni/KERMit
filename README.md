@@ -39,6 +39,10 @@ $ export FLASK_ENV="production"
 $ export SQLALCHEMY_DATABASE_URI_PROD=<<URI for DB>> 
 ```
 
+Two Heroku Postgres databases are setup for this project (one for dev and one for testing). Ask Meg for
+the URI for these databases if you'd like to use them. You can setup any postgres database locally that you'd 
+like though!
+ 
 #### 3. Start the server
 
 Starting the Flask server is as simple as issuing the following command
