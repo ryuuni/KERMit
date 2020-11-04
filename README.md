@@ -27,14 +27,14 @@ $ export JWT_SECRET_KEY="anothersecretkeyforjwt"
 $ export APP_SETTINGS="server.config.DevelopmentConfig"         # configuration file to use
 $ export FLASK_APP="server.py"                                  # where the flask app is launched
 $ export FLASK_ENV="development"                                # sets environment to development 
-$ export SQLALCHEMY_DATABASE_URI_DEV=<<URI FOR DEV HEROKU DB>>  # uri for the heroku db (see below)
+$ export SQLALCHEMY_DATABASE_URI_DEV=<<URI for DB>>             # uri for the db
 ```
 
-For production settings, change the following
+For production settings, add the environmental variables above, and change the following:
 ```
 $ export APP_SETTINGS="server.config.ProductionConfig"
 $ export FLASK_ENV="production"
-$ export SQLALCHEMY_DATABASE_URI_PROD=<<URI FOR PROD HEROKU DB>>
+$ export SQLALCHEMY_DATABASE_URI_PROD=<<URI for DB>> 
 ```
 
 #### 3. Start the server
@@ -64,7 +64,7 @@ If successful endpoint will return an access token and a refresh token for the u
     "refresh_token": <token here>
 }
 ```
-#### Login
+#### II. Login
 
 To login with a username and password make a `POST` request to `/login`  with the following request 
 body as JSON:
@@ -80,7 +80,7 @@ will be in the same format as the response from the registration endpoint.
 For all other requests, access tokens will be required in the `Authorization` field of the request header. 
 Set the field to `Bearer <access token here>`.
 
-#### Puzzles
+#### III. Puzzles
 
 To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
 specified; it will be retrieved based on the submitted access token. Here is a sample response:
@@ -143,6 +143,8 @@ the id of the puzzle in the database. Here is an example response:
     ]
 }
 ```
+
+#### IV. Puzzle Pieces
 
 To add a number to the puzzle, make a `POST` request to `/puzzles/<puzzle_id>/piece` with the following
 request body as JSON:
