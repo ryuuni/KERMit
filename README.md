@@ -151,7 +151,7 @@ for `puzzle_id`) with the following request body as JSON:
 Here is a sample successful response:
 ```
 {
-    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Megan Frenkel (id = 2)'"
+    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Megan Frenkel (id = 2)"
 }
 ```
 
@@ -185,5 +185,4 @@ $ (venv) python -m pytest ./tests/integration
 
 ### Sources
 
-(To be filled in more later)
-https://github.com/oleg-agapov/flask-jwt-auth
+(To be filled in more later) 

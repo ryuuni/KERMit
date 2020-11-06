@@ -293,7 +293,7 @@ def test_attempt_add_piece_valid_override_value(test_client, init_db, verificati
 
     assert response.status_code == 200
     assert response.json == {'message': "Successfully saved the submission of 2 at (0, 0) on "
-                                        "puzzle_id 3 by Joe Biden (id = 5)'"}
+                                        "puzzle_id 3 by Joe Biden (id = 5)"}
 
     # test that database is updated
     piece = PuzzlePiece.get_piece(3, 0, 0)

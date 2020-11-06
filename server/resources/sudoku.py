@@ -184,7 +184,7 @@ class SudokuPuzzlePiece(Resource):
             )
             return {'message': f"Successfully saved the submission of {args['value']} at "
                                f"({args['x_coordinate']}, {args['x_coordinate']}) on puzzle_id {puzzle_id} "
-                               f"by {g.user.as_str()}'"}
+                               f"by {g.user.as_str()}"}
 
         except PuzzleException as pe:
             return {'message': f'Attempt to save {args["value"]} at ({args["x_coordinate"]}, '
