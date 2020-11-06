@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
 
 # ------  Set Configuration Settings ---------
 
@@ -14,10 +13,9 @@ app_settings = os.getenv(
 )
 app.config.from_object(app_settings)
 
-# -------- Setup Database and JWT ------------
+# -------- Setup Database ------------
 
 db = SQLAlchemy(app)
-jwt = JWTManager(app)
 
 
 @app.before_first_request
@@ -32,19 +30,12 @@ NOTE: Usually imports are made at top of file; however these must be imported af
 order to register properly. Also note that these imports do not need to be used. This is sort of a weird
 expectation of Flask-SQLAlchemy. Hence why # nopep8 was used here.
 """
-from server.resources.authentication import Registration, Login, LogoutAccess, LogoutRefresh, \
-    TokenRefresh, HealthCheck  # nopep8
-from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece  # nopep8
-from server.resources.callbacks import invalid_token_callback, check_if_token_in_blacklist, \
-    expired_token_callback, unauthorized_callback  # nopep8
+from server.resources.authentication import Registration  # nopep8
+from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece,HealthCheck  # nopep8
 
 api = Api(app)
 api.add_resource(HealthCheck, '/hello')
 api.add_resource(Registration, '/register')
-api.add_resource(Login, '/login')
-api.add_resource(LogoutAccess, '/logout/access')
-api.add_resource(LogoutRefresh, '/logout/refresh')
-api.add_resource(TokenRefresh, '/refresh')
 api.add_resource(SudokuPuzzles, '/puzzles')
 api.add_resource(SudokuPuzzle, '/puzzles/<int:puzzle_id>')
 api.add_resource(SudokuPuzzlePiece, '/puzzles/<int:puzzle_id>/piece')

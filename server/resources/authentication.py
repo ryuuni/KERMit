@@ -1,126 +1,95 @@
-"""
-Inspiration and code for this approach to handling authentication tokens from Oleg Agapov.
-Source: Agapov, O., "JWT authorization in Flask", codeburst.io, Medium.com,
-        accessed November 2, 2020 at https://codeburst.io/jwt-authorization-in-flask-c63c1acf4eeb
-"""
-
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from server.models.user import User
-from server.models.revoked_tokens import RevokedTokens
-from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required,
-                                jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+from server.server import app
+from flask import request
+from server.resources.google_auth import GoogleAuth
+from flask import g
 
 
-# define parser to get username/password from request
-auth_parser = reqparse.RequestParser()
-auth_parser.add_argument('username', help='The username field must be provided', required=True)
-auth_parser.add_argument('password', help='The password field must be provided', required=True)
+@app.before_request
+def authorize_token():
+    """
+    Method to run before all requests; determines if a user has a valid
+    Google OAuth2 token and uses the token to discover who the user making the request is.
+    The user is then loaded in from the database and stored in a special flask object called 'g'.
+    While g is not appropriate for storing data across requests, it provides a global namespace
+    for holding any data you want during a single app context.
+    """
+    if 'Authorization' not in request.headers:
+        return {'message': 'Request denied access',
+                'reason': 'Authorization header missing. Please provide an '
+                           'OAuth2 Token with your request'}, 400
 
+    auth_header = request.headers.get('Authorization')
+    if 'Bearer ' not in auth_header:
+        return {'message': 'Request denied access',
+                'reason': "Malformed authorization header provided. Please make sure to "
+                           "specify the header prefix correctly as 'Bearer ' and try again."}, 400
 
-class HealthCheck(Resource):
-    def get(self):
-        return {'status': 'OK'}
+    # validate the token with Google
+    access_token = auth_header.split("Bearer ")[1]
+
+    google_auth = GoogleAuth()
+    validation = google_auth.validate_token(access_token)
+    if 'error' in validation.keys():
+        return {'message': 'Request denied access',
+                'reason': f'Google rejected oauth2 token: {validation["error_description"]}'}, 401
+
+    g.access_token = access_token
+
+    # unless this is a registration attempt, find the user associated with access token
+    if request.endpoint != 'registration':
+        user = User.find_by_g_id(validation['user_id'])
+        if not user:
+            return {'message': 'Request denied access',
+                    'reason': 'User is not yet registered with this application; please '
+                              'register before proceeding'}, 401
+
+        # save this user for the rest of the request processing
+        g.user = user
 
 
 class Registration(Resource):
+    """
+    Resource for registering a user with this puzzle API. Requires that an access_token
+    is set.
+    """
     def post(self):
-        data = auth_parser.parse_args()
+        google_auth = GoogleAuth()
 
-        # see if user already exists
-        if User.find_by_username(data['username']):
-            return {'message': 'Username {} is already taken'.format(data['username'])}, 403
-
-        new_user = User(username=data['username'], password=data['password'])
         try:
-            # save the new user to the database
+            user_info = google_auth.get_user_information(g.access_token)
+            if 'error' in user_info.keys():
+                return {'message': 'User could not be registered',
+                        'reason': 'User identity could not be found; valid OAuth2 access '
+                                  'token not received.'}, 401
+
+            elif any(field not in user_info.keys() for field in ['id', 'email']):
+                return {'message': 'User could not be registered',
+                        'reason': "Google id (unique user identifier) and email must be "
+                                  "retrievable attributes, but Google would not provide them."}, 401
+        except Exception as e:
+            print(f"Unexpected error occurred getting user info from Google: {e}")
+            return {'message': 'User could not be registered',
+                    'reason': "Could not determine user information from Google using Oath2 token"
+                              "for unknown reason"}, 500
+
+        try:
+            # does user with user id already exist?
+            if User.find_by_g_id(user_info['id']):
+                return {'message': f'User with Google ID {user_info["id"]} is already registered.'}
+
+            new_user = User(
+                g_id=user_info['id'],
+                first_name=user_info['given_name'] if 'given_name' in user_info.keys() else None,
+                last_name=user_info['family_name'] if 'family_name' in user_info.keys() else None,
+                email=user_info['email']
+            )
             new_user.save()
-
-            # create access/refresh tokens for the user
-            return {
-                'message': 'User {} was successfully created'.format(data['username']),
-                'access_token': create_access_token(identity=data['username']),
-                'refresh_token': create_refresh_token(identity=data['username'])
-            }
+            return {'message': 'User {} {} was successfully registered'.format(
+                                new_user.first_name, new_user.last_name)}
 
         except Exception as e:
-            print(f"Unexpected error occurred: {e}")
-            return {'message': f'An error occurred attempting to register new user {e}'}, 500
-
-
-class Login(Resource):
-    def post(self):
-        data = auth_parser.parse_args()
-
-        # does the username exist?
-        user = User.find_by_username(data['username'])
-        if not user:
-            return {'message': 'User {} does not exist'.format(data['username'])}, 404
-
-        # is the password correct?
-        correct_password = user.check_password(pt_password=data['password'])
-        if correct_password:
-
-            # create access/refresh tokens for the user
-            return {
-                'message': 'Logged in as {}'.format(user.username),
-                'access_token': create_access_token(identity=data['username']),
-                'refresh_token': create_refresh_token(identity=data['username'])
-            }
-
-        return {'message': 'Incorrect password'}, 401
-
-
-class LogoutAccess(Resource):
-    """
-    When a user logs out, we need to add old tokens to the 'blacklist'
-    """
-    @jwt_required
-    def post(self):
-        jti = get_raw_jwt()['jti']
-        try:
-            revoked_token = RevokedTokens(jti=jti, token_type='access')
-            revoked_token.add_to_blacklist()
-            return {'message': 'Access token has been revoked'}
-
-        except Exception as e:
-            print(f"Unexpected error occurred on revoking access token: {e}")
-            return {'message': 'Error occurred while revoking access token'}, 500
-
-
-class LogoutRefresh(Resource):
-    """
-    When a user logs out, we need to add old tokens to the 'blacklist'
-    """
-    @jwt_refresh_token_required
-    def post(self):
-        jti = get_raw_jwt()['jti']
-        try:
-            revoked_token = RevokedTokens(jti=jti, token_type='refresh')
-            revoked_token.add_to_blacklist()
-            return {'message': 'Refresh token has been revoked'}
-
-        except Exception as e:
-            print(f"Unexpected error occurred on revoking refresh token: {e}")
-            return {'message': 'Error occurred while revoking refresh token'}, 500
-
-
-class TokenRefresh(Resource):
-    """
-    By default, access tokens have 15 minute lifetime; refresh tokens have
-    a 30 day lifetime. To prevent users from having to login often you can reissue
-    new access tokens using the refresh token.
-    """
-
-    @jwt_refresh_token_required
-    def post(self):
-        """
-        Only accessible if you have a refresh token
-        """
-        # identify the user by extracting identity from refresh token
-        user = get_jwt_identity()
-
-        # generate a new access token and return it to users
-        access_token = create_access_token(identity=user)
-        return {
-            'access_token': access_token
-        }
+            print(f"Unexpected error occurred registering new user in db: {e}")
+            return {'message': 'User could not be registered.',
+                    'reason': f'An unknown error occurred {e}'}, 500

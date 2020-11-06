@@ -24,8 +24,7 @@ In order to run the server, you'll need to set a few environmental variables to 
  what app to run and which database to use. The following environmental variables can be used for
  development.
 ```
-$ export SECRET_KEY="supersecretkey"      
-$ export JWT_SECRET_KEY="anothersecretkeyforjwt" 
+$ export SECRET_KEY="supersecretkey"       
 $ export APP_SETTINGS="server.config.DevelopmentConfig"         # configuration file to use
 $ export FLASK_APP="server.py"                                  # where the flask app is launched
 $ export FLASK_ENV="development"                                # sets environment to development 
@@ -55,42 +54,29 @@ $ flask run
 
 #### I. Registration
 
-To register a new user with their username and password, make a `POST` request to `/register` with the following
-request body as json:
+This API relies on Google Oauth2 tokens for authentication and each request requires that the Oauth2 token be specified
+in the request header. For example, in a curl command:
+```
+--header 'Authorization: Bearer <TOKEN HERE>
+```
+
+To register a new user with their username and password, make a `POST` request to `/register`. For user registration,
+the API will ask Google for user information such as their first and last name and email address to store in the
+backend database for the user, alongside the unique Google identifier for the person and a custom identifier for
+this application. Subsequent requests match the requesting person with their application user based on the unique 
+Google identifer.
+
+If successful, the endpoint will return a message like the following:
 ```
 {
-    "username": <username>,
-    "password": <password>
+    "message": "User Megan Frenkel was successfully registered"
 }
 ```
-If successful endpoint will return an access token and a refresh token for the user. Here is a sample response:
-```
-{
-    "message": "User <username> was successfully created",
-    "access_token": <token here>
-    "refresh_token": <token here>
-}
-```
-#### II. Login
 
-To login with a username and password make a `POST` request to `/login`  with the following request 
-body as JSON:
-```
-{
-    "username": <username>,
-    "password": <password>
-}
-```
-If successful endpoint will return an access token and a refresh token for the user. The response
-will be in the same format as the response from the registration endpoint.
-
-For all other requests, access tokens will be required in the `Authorization` field of the request header. 
-Set the field to `Bearer <access token here>`.
-
-#### III. Puzzles
+#### II. Puzzles
 
 To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
-specified; it will be retrieved based on the submitted access token. Here is a sample response:
+specified; it will be retrieved based on the submitted access token in the header. Here is a sample response:
 
 ```
 {
@@ -105,8 +91,10 @@ specified; it will be retrieved based on the submitted access token. Here is a s
             ],
             "players": [
                 {
-                    "username": "tester",
-                    "id": 1
+                    "id": 2,
+                    "first_name": "Megan",
+                    "last_name": "Frenkel",
+                    "email": "mmf2171@columbia.edu"
                 }
             ]
         }
@@ -140,12 +128,10 @@ the id of the puzzle in the database. Here is an example response:
     ],
     "players": [
         {
-            "username": "tester",
-            "id": 1
-        },
-        {
-            "username": "anothertester",
-            "id": 2
+            "id": 2,
+            "first_name": "Megan",
+            "last_name": "Frenkel",
+            "email": "mmf2171@columbia.edu"
         }
     ]
 }
@@ -165,7 +151,7 @@ for `puzzle_id`) with the following request body as JSON:
 Here is a sample successful response:
 ```
 {
-    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by user 'testuser'"
+    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Megan Frenkel (id = 2)'"
 }
 ```
 

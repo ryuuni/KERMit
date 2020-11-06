@@ -1,10 +1,15 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from server.models.user import User
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
 from server.models.player import PuzzlePlayer
 from server.server import db
+from flask import g
+
+
+class HealthCheck(Resource):
+    def get(self):
+        return {'status': 'OK'}
 
 
 class SudokuPuzzles(Resource):
@@ -24,17 +29,16 @@ class SudokuPuzzles(Resource):
             required=True
         )
 
-    @jwt_required
     def get(self):
         """
         Returns all of the sudoku puzzles for the user making the request.
         """
         # based on the user, find all of their active puzzles
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(get_request_username())
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
 
         if not player_puzzles:
             return {
-                'message': 'No sudoku puzzles are associated with this account',
+                'message': f'No sudoku puzzles are associated with {g.user.as_str()}',
                 'puzzles': []
             }
 
@@ -49,15 +53,11 @@ class SudokuPuzzles(Resource):
             ]
         }
 
-    @jwt_required
     def post(self):
         """
         Creates a new sudoku puzzle, adding it to the database. The user making the request to
         create the new puzzle will be automatically added as the puzzle's first "player".
         """
-        # find the user making the request
-        user = User.find_by_username(get_request_username())
-
         # parse the request body for arguments specifying game board to create the puzzle
         args = self.parser.parse_args()
 
@@ -67,7 +67,7 @@ class SudokuPuzzles(Resource):
             puzzle_id = new_puzzle.save(autocommit=False)
 
             # create new entry for player
-            puzzle_player = PuzzlePlayer(player_id=user.id, puzzle_id=puzzle_id)
+            puzzle_player = PuzzlePlayer(player_id=g.user.id, puzzle_id=puzzle_id)
             puzzle_player.save(autocommit=False)
 
             # now commit all changes as a single transaction
@@ -80,10 +80,8 @@ class SudokuPuzzles(Resource):
             }
 
         except PuzzleException as pe:
-            return {
-                'message': 'Failed to create new Sudoku Puzzle',
-                'reason': pe.get_message()
-            }, 400  # bad request
+            return {'message': 'Failed to create new Sudoku Puzzle',
+                    'reason': pe.get_message()}, 400  # bad request
 
         except Exception as e:
             print(f"Exception occurred while creating new puzzle: {e}")
@@ -92,20 +90,17 @@ class SudokuPuzzles(Resource):
 
 class SudokuPuzzle(Resource):
 
-    @jwt_required
     def get(self, puzzle_id):
         """
         Finds a puzzle specified by puzzle_id.
         """
         # find all puzzles associated with the player making the request
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(get_request_username())
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
 
         # if the requested puzzle doesn't exist for the user, then return error
         if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {
-                'message': f"Puzzle requested does not exist or is not "
-                           f"associated with user '{get_request_username()}'."
-            }, 404  # not found
+            return {'message': f"Puzzle requested does not exist or is not associated "
+                               f"with user {g.user.as_str()}'"}, 404  # not found
 
         # get the puzzle and return it back
         return sudoku_to_dict(
@@ -113,43 +108,32 @@ class SudokuPuzzle(Resource):
             puzzle_players=PuzzlePlayer.find_players_for_puzzle(puzzle_id)
         )
 
-    @jwt_required
     def post(self, puzzle_id):
         """
         Player may add themselves to the puzzle, if they are not already affiliated with
         the puzzle.
         """
         # find all puzzles associated with the player making the request
-        username = get_request_username()
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(username)
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
 
         # if the requested puzzle doesn't exist for the user, then return error
         if any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {
-                'message': f"User '{get_request_username()}' already is associated "
-                           f"with puzzle {puzzle_id}."
-            }
+            return {'message': f"{g.user.as_str()} is already is associated with puzzle {puzzle_id}."}
 
         # try to add the user to the puzzle
         try:
-            PuzzlePlayer.add_player_to_puzzle(puzzle_id, username)
+            PuzzlePlayer.add_player_to_puzzle(puzzle_id, g.user)
 
             # send back successful message
-            return {
-                'message': f"Successfully added user '{get_request_username()}' "
-                           f"to puzzle with id {puzzle_id}."
-            }
+            return {'message': f"Successfully added {g.user.as_str()} to puzzle with id {puzzle_id}."}
+
         except PuzzleException as pe:
-            return {
-                'message': f"Attempt to add user '{username}' to puzzle {puzzle_id} failed.",
-                'reason': pe.get_message()
-            }, 400
+            return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
+                    'reason': pe.get_message()}, 400
         except Exception as e:
             print(e)
-            return {
-                'message': f"Attempt to add user '{username}' to puzzle {puzzle_id} failed.",
-                'reason': 'Unknown error occurred.'
-            }, 500
+            return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
+                    'reason': 'Unknown error occurred.'}, 500
 
 
 class SudokuPuzzlePiece(Resource):
@@ -175,17 +159,17 @@ class SudokuPuzzlePiece(Resource):
             required=True
         )
 
-    @jwt_required
     def post(self, puzzle_id):
         """
         Endpoint for making a move to a position on the puzzle.
         """
         # find all puzzles associated with the player making the request
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(get_request_username())
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
 
         # if the requested puzzle doesn't exist for the user, then return error
         if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {'message': 'Puzzle requested does not exist or is not associated with this Player.'}, 404
+            return {'message': f'Puzzle requested does not exist or '
+                               f'is not associated with {g.user.as_str()}.'}, 404
 
         # parse the request body for arguments to get about the puzzle
         args = self.parser.parse_args()
@@ -198,31 +182,19 @@ class SudokuPuzzlePiece(Resource):
                 value=args['value'],
 
             )
-
-            return {
-                'message': f"Successfully saved the submission of {args['value']} at "
-                           f"({args['x_coordinate']}, {args['x_coordinate']}) on puzzle_id {puzzle_id}"
-                           f" by user '{get_request_username()}'"
-            }
+            return {'message': f"Successfully saved the submission of {args['value']} at "
+                               f"({args['x_coordinate']}, {args['x_coordinate']}) on puzzle_id {puzzle_id} "
+                               f"by {g.user.as_str()}'"}
 
         except PuzzleException as pe:
-            return {
-                'message': f'Attempt to save {args["value"]} at ({args["x_coordinate"]}, '
-                           f'{args["x_coordinate"]}) on puzzle_id {puzzle_id}'
-                           f' by user {get_request_username()} was unsuccessful',
-                'reason': pe.get_message()
-            }, 400
+            return {'message': f'Attempt to save {args["value"]} at ({args["x_coordinate"]}, '
+                               f'{args["x_coordinate"]}) on puzzle_id {puzzle_id}'
+                               f' by user {g.user.as_str()} was unsuccessful',
+                    'reason': pe.get_message()}, 400
 
         except Exception as e:
             print(f"Unexpected error: {e}")
             return {'message': 'Unexpected error occurred while adding new value to puzzle'}, 500
-
-
-def get_request_username():
-    """
-    Helper function for getting username from request; this is isolated mostly for ease in testing.
-    """
-    return get_jwt_identity()
 
 
 def sudoku_to_dict(puzzle, puzzle_players):
@@ -242,8 +214,10 @@ def sudoku_to_dict(puzzle, puzzle_players):
     def user_as_dict(user):
         """Helper function for converting a user into a dictionary"""
         return {
-            'username': user.username,
-            'id': user.id
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email
         }
 
     return {

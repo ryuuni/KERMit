@@ -1,164 +1,190 @@
-from server.server import app, db
+from server.server import app    # prevent circular inports
 from server.models.user import User
+from server.resources.google_auth import GoogleAuth
 import pytest
 import os
 from server.tests.integration.test_setup import test_client, init_db
 
 
-def test_registration_missing_user(test_client, init_db):
+@pytest.fixture(scope="function", autouse=False)
+def user_info(monkeypatch):
+    """Monkeypatch the google auth that obtains user info"""
+    def mock_user_info(*args, **kwargs):
+        return {
+            "id": "103207744267402488580",
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "locale": "en",
+            "hd": "columbia.edu"
+        }
+
+    monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def user_info_error(monkeypatch):
+    """Monkeypatch the google auth that obtains user info"""
+    def mock_user_info(*args, **kwargs):
+        return {
+            "error": {
+                "code": 401,
+                "message": "Request is missing required authentication credential. "
+                           "Expected OAuth 2 access token, login cookie or other valid authentication credential. "
+                           "See https://developers.google.com/identity/sign-in/web/devconsole-project.",
+                "status": "UNAUTHENTICATED"
+            }
+        }
+
+    monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def verification_true(monkeypatch):
+    """Monkeypatch the google auth that verifies the token."""
+    def mock_verification(*args, **kwargs):
+        return {
+            "issued_to": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+            "audience": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+            "user_id": "103207744267402488580",
+            "scope": "https://www.googleapis.com/auth/userinfo.email",
+            "expires_in": 3588,
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "access_type": "offline"
+        }
+
+    monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def verification_error(monkeypatch):
+    """Monkeypatch the google auth that verifies the token."""
+    def mock_verification(*args, **kwargs):
+        return {
+            "error": "invalid_token",
+            "error_description": "Invalid Value"
+        }
+
+    monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
+
+
+def test_registration_missing_header(test_client, init_db):
     """
-    Test that when a request is made to /register that is missing the username, the request
-    fails with the appropriate reason.
+    Test when a request is made to /register that is missing the request header
+    that contains the Google Access token.
     """
-    response = test_client.post('/register', data=dict(password='testertester'))
+    response = test_client.post('/register')
     assert response.status_code == 400
-    assert response.json['message'] == {'username': 'The username field must be provided'}
+    assert response.json == {'message': 'Request denied access',
+                             'reason': 'Authorization header missing. Please provide an OAuth2 Token with your request'}
 
 
-def test_registration_missing_password(test_client, init_db):
+def test_registration_malformed_header(test_client, init_db):
     """
-    Test that when a request is made to /register that is missing the password, the request
-    fails with the appropriate reason.
+    Test when a request is made to /register that has mal-formatted request header
+    that contains the Google Access token.
     """
-    response = test_client.post('/register', data=dict(username='tester'))
+    response = test_client.post('/register', headers={'Authorization': '2342351231asdb'})
     assert response.status_code == 400
-    assert response.json['message'] == {'password': 'The password field must be provided'}
+    assert response.json == {'message': 'Request denied access',
+                             'reason': "Malformed authorization header provided. Please make sure to specify "
+                                       "the header prefix correctly as 'Bearer ' and try again."}
 
 
-def test_registration_valid(test_client, init_db):
+def test_registration_verification_token_invalid(test_client, init_db, verification_error):
     """
-    Test that when a request is made to /register that has the appropriate information, the
-    user is successfully created.
+    Test when a request is made to /register that has a bad token.
     """
-    # check response
-    response = test_client.post('/register', data=dict(username='tester', password='testertester'))
-    assert response.status_code == 200
-    assert response.json['message'] == 'User tester was successfully created'
-    assert all(key in response.json.keys() for key in ['message', 'access_token', 'refresh_token'])
-
-    # check data in db
-    user = User.query.filter_by(username='tester').first()
-    assert user.id == 6
-    assert user.hashed_password is not None
-    assert user.username == 'tester'
-
-
-def test_registration_duplicate_user(test_client, init_db):
-    """
-    Test that when a request is made to /register that has the appropriate information, but
-    a username that is already taken, the request fails.
-    """
-    response = test_client.post('/register', data=dict(username='tester', password='testertester'))
-    assert response.status_code == 403
-    assert "Username tester is already taken" in str(response.data)
-
-
-def test_login_correct(test_client, init_db):
-    """
-    Test that when a request is made to /login that has the appropriate information,
-    the user can successfully login and receive a set of tokens.
-    """
-
-    response = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    assert response.status_code == 200
-    assert response.json['message'] == 'Logged in as tester'
-    assert all(key in response.json.keys() for key in ['message', 'access_token', 'refresh_token'])
-
-
-def test_login_user_doesnt_exist(test_client, init_db):
-    """
-    Test that when a request is made to /login that has a username that doesn't exist,
-    a message is returned explaining the issue and user does not receive a token.
-    """
-    response = test_client.post('/login', data=dict(username='nonexistant_user', password='testertester'))
-    assert response.status_code == 404
-    assert response.json['message'] == 'User nonexistant_user does not exist'
-    assert not any(key in response.json.keys() for key in ['access_token', 'refresh_token'])
-
-
-def test_login_incorrect_pw(test_client, init_db):
-    """
-    Test that when a request is made to /login that has a bad password,
-    a message is returned explaining the issue and user does not receive a token.
-    """
-    response = test_client.post('/login', data=dict(username='tester', password='badpass'))
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json['message'] == 'Incorrect password'
-    assert not any(key in response.json.keys() for key in ['access_token', 'refresh_token'])
+    assert response.json == {'message': 'Request denied access',
+                             'reason': 'Google rejected oauth2 token: Invalid Value'}
 
 
-def test_refresh_token_valid(test_client, init_db):
+def test_registration_user_info_error(test_client, init_db, verification_true, user_info_error):
     """
-    Test that a user can refresh their token with a valid refresh token.
+    Test when a request is made to /register, but the user info Google endpoint returned an error.
     """
-    response = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    response = test_client.post('/refresh',
-                                headers={'Authorization': 'Bearer {}'.format(response.json['refresh_token'])})
-    assert response.status_code == 200
-    assert 'access_token' in response.json.keys()
-
-
-def test_refresh_token_invalid(test_client, init_db):
-    """
-    Test that a user cannot refresh their token without a valid refresh token (i.e., access tokens do not work)
-    """
-    response = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    response = test_client.post('/refresh',
-                                headers={'Authorization': 'Bearer {}'.format(response.json['access_token'])})
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json['message'] == 'Invalid token provided'
+    assert response.json == {'message': 'User could not be registered',
+                             'reason': 'User identity could not be found; valid OAuth2 access token not received.'}
 
 
-def test_log_out_access_valid(test_client, init_db):
+def test_registration_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
     """
-    Test that when a request is made to /logout, specifically to blacklist the access token, it is successfully
-    added to the blacklist
+    Test when verification of the token succeeds, but user information collection fails
     """
-    first_resp = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    response = test_client.post('/logout/access',
-                                headers={'Authorization': 'Bearer {}'.format(first_resp.json['access_token'])})
-    assert response.status_code == 200
+    def mock_user_info(*args, **kwargs):
+        return {
+            "id": "103207744267402488580",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "locale": "en",
+            "hd": "columbia.edu"
+        }
+    monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
 
-    second_resp = test_client.post('/logout/access',
-                                   headers={'Authorization': 'Bearer {}'.format(first_resp.json['access_token'])})
-    assert second_resp.status_code == 401
-    assert second_resp.json['message'] == 'Token has been revoked'
-
-
-def test_log_out_access_invalid(test_client, init_db):
-    """
-    Test that when a request is made to /logout, specifically to blacklist the access token, the token
-    will be not added unless it is a valid access token
-    """
-    first_resp = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    response = test_client.post('/logout/access',
-                                headers={'Authorization': 'Bearer {}'.format(first_resp.json['refresh_token'])})
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json['message'] == 'Invalid token provided'
+    assert response.json == {'message': 'User could not be registered',
+                             'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
+                                       'but Google would not provide them.'}
 
 
-def test_log_out_refresh_valid(test_client, init_db):
+def test_registration_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
     """
-    Test that when a request is made to /logout, specifically to blacklist the access token, it is successfully
-    added to the blacklist
+    Test when verification of the token succeeds, but user information collection fails
     """
-    first_resp = test_client.post('/login', data=dict(username='tester', password='testertester'))
-    response = test_client.post('/logout/refresh',
-                                headers={'Authorization': 'Bearer {}'.format(first_resp.json['refresh_token'])})
-    assert response.status_code == 200
-    second_resp = test_client.post('/logout/refresh',
-                                   headers={'Authorization': 'Bearer {}'.format(first_resp.json['refresh_token'])})
-    assert second_resp.status_code == 401
-    assert second_resp.json['message'] == 'Token has been revoked'
+    def mock_user_info(*args, **kwargs):
+        return {
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "locale": "en",
+            "hd": "columbia.edu"
+        }
 
+    monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
 
-def test_log_out_refresh_invalid(test_client, init_db):
-    """
-    Test that when a request is made to /logout, specifically to blacklist the access token, the token
-    will be not added unless it is a valid access token
-    """
-    fake_token = '12345'
-    response = test_client.post('/logout/refresh', headers={'Authorization': 'Bearer {}'.format(fake_token)})
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json['message'] == 'Invalid token provided'
+    assert response.json == {'message': 'User could not be registered',
+                             'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
+                                       'but Google would not provide them.'}
 
+
+def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):
+    """
+    Make sure that if the user id already exists, there is no need to re-register them.
+    """
+    def mock_user_info(*args, **kwargs):
+        return {
+            "id": "12345",  # this user already exists
+            "email": "janedoe@columbia.edu",
+        }
+
+    monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {'message': 'User with Google ID 12345 is already registered.'}
+
+
+def test_successful_user_registration(test_client, init_db, verification_true, user_info):
+    """
+    Make sure that a valid request to register a user is successful.
+    """
+    response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {'message': 'User Jane Doe was successfully registered'}

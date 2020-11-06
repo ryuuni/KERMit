@@ -26,11 +26,11 @@ class PuzzlePlayer(db.Model):
             db.session.commit()
 
     @classmethod
-    def find_all_puzzles_for_player(cls, username):
+    def find_all_puzzles_for_player(cls, g_id):
         """
         Find all puzzles for a specific player based on the player's username.
         """
-        user = User.find_by_username(username)
+        user = User.find_by_g_id(g_id)
         return cls.query.filter_by(player_id=user.id).all()
 
     @classmethod
@@ -45,8 +45,10 @@ class PuzzlePlayer(db.Model):
             .all()
 
     @classmethod
-    def add_player_to_puzzle(cls, puzzle_id, username):
-
+    def add_player_to_puzzle(cls, puzzle_id, user):
+        """
+        Adds a new player to the puzzle based on their Google identifier.
+        """
         # check if puzzle exists; in order to exist, it must be associated with at least 1 player
         existing_players = PuzzlePlayer.find_players_for_puzzle(puzzle_id)
 
@@ -57,7 +59,6 @@ class PuzzlePlayer(db.Model):
             raise PuzzleException(f"There are already {MAX_PLAYERS_PER_PUZZLE} "
                                   f"players affiliated with puzzle {puzzle_id}")
 
-        user = User.find_by_username(username)
         puzzle_player = PuzzlePlayer(user.id, puzzle_id)
         puzzle_player.save(autocommit=True)
 
