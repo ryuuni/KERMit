@@ -1,6 +1,6 @@
 # KERMit
 
-## Server
+## Server - Flask API
 
 ### Setup
 To start up the server, follow this sequence of steps
@@ -182,6 +182,20 @@ To run the tests:
 $ (venv) cd server
 $ (venv) python -m pytest ./tests/integration
 ```
+
+### Manual Tests
+
+The easiest way to manually the API is through Postman. You can easily generate an oauth2 token for testing
+by going to Google's Oauth 2.0 Playground [here](https://developers.google.com/oauthplayground/).
+
+Make sure that in the first step, you authorize the following two APIs found under `Google Oauth2 API v2`:
+```
+* https://www.googleapis.com/auth/userinfo.email
+* https://www.googleapis.com/auth/userinfo.profile
+```
+Once you clicked on "Authorize APIs" (you may also need to sign into Google) and have exchanged the authorization
+code for tokens, the access token field should automatically populate. You can use this access token for any requests 
+made in Postman until the token expires.
 
 ### Sources
 
