@@ -78,7 +78,7 @@ a message like:
 
 ```
 {
-    'message': f"Successfully added Megan Frenkel (id = 1) to puzzle with id 2."
+    'message': "Successfully added Megan Frenkel (id = 1) to puzzle with id 2."
 }
 ````
 
