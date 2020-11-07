@@ -218,14 +218,15 @@ class Puzzle(db.Model):
         pieces = []
         for idx_row in range(len(solved_arr)):
             for idx_column in range(len(solved_arr[idx_row])):
-                static = True if solved_arr[idx_row][idx_column] else False
+                static = True if original_arr[idx_row][idx_column] else False
                 pieces.append(
                     PuzzlePiece(
                         puzzle_id=self.id,
                         x_coordinate=idx_column,
                         y_coordinate=idx_row,
                         value=solved_arr[idx_row][idx_column],
-                        static_piece=static)
+                        static_piece=static
+                    )
                 )
 
         solved_board = Puzzle(self.difficulty, self.size, True)
