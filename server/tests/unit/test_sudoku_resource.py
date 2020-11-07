@@ -1,11 +1,10 @@
-from server.server import app, db
+from server.server import app
 from server.models.sudoku_puzzle import Puzzle
 from server.models.user import User
 from server.resources.sudoku import sudoku_to_dict
 from server.config import UnitTestingConfig
 
 app.config.from_object(UnitTestingConfig)
-db = None
 
 
 def test_sudoku_to_json():

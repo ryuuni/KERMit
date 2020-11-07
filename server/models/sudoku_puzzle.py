@@ -71,7 +71,7 @@ class Puzzle(db.Model):
             puzzle_piece.puzzle_id = self.id
             puzzle_piece.save(autocommit=False)
 
-        if autocommit:  # commit the changes, if requested
+        if autocommit:  # commit all the changes, if requested
             db.session.commit()
 
         # return the id of the newly generated puzzle
@@ -114,7 +114,7 @@ class Puzzle(db.Model):
         for i in range(len(pieces)):
             for j in range(len(pieces[i])):
                 static_piece = True if pieces[i][j] else False
-                new_piece = PuzzlePiece(self.id, i, j, pieces[i][j], static_piece)
+                new_piece = PuzzlePiece(self.id, j, i, pieces[i][j], static_piece)
                 self.puzzle_pieces.append(new_piece)
 
     def set_point_value(self):
@@ -161,13 +161,13 @@ class Puzzle(db.Model):
                 piece.update(value, autocommit=False)
                 break
 
-        if self.check_for_completion():
+        if self.is_complete_puzzle():
             self.set_puzzle_complete()
 
         # save all changes (change to the puzzle piece and the status of the
         db.session.commit()
 
-    def check_for_completion(self):
+    def is_complete_puzzle(self):
         """
         Check if a puzzle is complete (i.e., has a winning configuration)
         """
@@ -176,12 +176,8 @@ class Puzzle(db.Model):
             return False
 
         # rebuild original sudoku puzzle form static pieces
-        original_board = self.get_piecies_as_arr(self.size, self.puzzle_pieces, static_only=True)
-        current_board = self.get_piecies_as_arr(self.size, self.puzzle_pieces)
-
-        # check against python sudoku
-        solved_board = Sudoku(self.size, self.size, board=original_board).solve().board
-        return solved_board == current_board
+        discrepancies = self.compare_with_solved_board()
+        return True if not discrepancies else False
 
     def set_puzzle_complete(self, autocommit=False):
         """
@@ -191,23 +187,61 @@ class Puzzle(db.Model):
         if autocommit:
             db.session.commit()
 
+    def compare_with_solved_board(self):
+        """
+        Compares the current Sudoku puzzle with the solved board and gets a list
+        of indices that do not match.
+        """
+        solved_board = self.get_solved_puzzle()
+        current_board_arr = self.get_pieces_as_arr()
+        solved_board_arr = solved_board.get_pieces_as_arr()
+
+        discrepancies = []
+        for y_coord in range(len(solved_board_arr)):
+            for x_coord in range(len(solved_board_arr[y_coord])):
+                if current_board_arr[y_coord][x_coord] != solved_board_arr[y_coord][x_coord]:
+                    discrepancies.append({'x_coordinate': x_coord, 'y_coordinate': y_coord})
+
+        return discrepancies
+
     def recreate_original_puzzle_as_array(self):
         """
-        Recreates the original puzzle.
+        Recreates the original empty puzzle based on the static only pieces.
         """
-        return self.get_piecies_as_arr(self.size, self.puzzle_pieces, static_only=True)
+        return self.get_pieces_as_arr(static_only=True)
 
-    @staticmethod
-    def get_pieces_as_arr(size, puzzle_pieces, static_only=False):
+    def get_solved_puzzle(self):
+        original_arr = self.recreate_original_puzzle_as_array()
+        solved_arr = Sudoku(self.size, self.size, board=original_arr).solve().board
+
+        # create the winning puzzle board
+        pieces = []
+        for idx_row in range(len(solved_arr)):
+            for idx_column in range(len(solved_arr[idx_row])):
+                static = True if solved_arr[idx_row][idx_column] else False
+                pieces.append(
+                    PuzzlePiece(
+                        puzzle_id=self.id,
+                        x_coordinate=idx_column,
+                        y_coordinate=idx_row,
+                        value=solved_arr[idx_row][idx_column],
+                        static_piece=static)
+                )
+
+        solved_board = Puzzle(self.difficulty, self.size, True)
+        solved_board.puzzle_pieces = pieces
+        return solved_board
+
+    def get_pieces_as_arr(self, static_only=False):
         """
         Converts puzzle pieces into a 2D array representing the sudoku puzzle board.
         """
-        dimensions = size * size
+        dimensions = self.size * self.size
         arr = [[None for _ in range(dimensions)] for __ in range(dimensions)]
 
-        for piece in puzzle_pieces:
+        for piece in self.puzzle_pieces:
             if piece.static_piece or not static_only:
-                arr[piece.x_coordinate][piece.y_coordinate] = piece.value
+                arr[piece.y_coordinate][piece.x_coordinate] = piece.value
         return arr
 
     def __str__(self):

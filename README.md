@@ -73,6 +73,15 @@ If successful, the endpoint will return a message like the following:
 }
 ```
 
+To join a puzzle, make a `POST` request to the `/puzzles/<puzzle_id>` endpoint. Upon success, you will see
+a message like:
+
+```
+{
+    'message': f"Successfully added Megan Frenkel (id = 1) to puzzle with id 2."
+}
+````
+
 #### II. Puzzles
 
 To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
@@ -135,6 +144,37 @@ the id of the puzzle in the database. Here is an example response:
         }
     ]
 }
+```
+
+To get the solution to a puzzle and see any discrepancies between the player puzzle and the solution,
+make a `GET` request to the `/puzzles/<puzzle_id>/solution` endpoint. If successful, you should see
+a response that looks like:
+
+```
+{
+    "solved_puzzle": {
+        "puzzle_id": null,
+        "completed": true,
+        "difficulty": 0.5,
+        "point_value": 90,
+        "pieces": [
+            {
+                "x_coordinate": 0,
+                "y_coordinate": 0,
+                "static_piece": true,
+                "value": 1
+            },
+            ... other pieces go here....  
+        ],
+    "discrepancy": [
+        {
+            "x_coordinate": 0,
+            "y_coordinate": 0
+        },
+            ... all other discrepancies...
+.       ]
+    }
+
 ```
 
 #### IV. Puzzle Pieces
