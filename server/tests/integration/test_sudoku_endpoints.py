@@ -265,8 +265,8 @@ def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification
         ), headers={'Authorization': 'Bearer 2342351231asdb'}
     )
     assert response.status_code == 200
-    assert response.json == {'message': "Successfully saved the submission of 2 at (0, 0) "
-                                        "on puzzle_id 3 by Joe Biden (id = 5)'"}
+    assert response.json == {'message': 'Successfully saved the submission of 2 at (0, 0) '
+                                        'on puzzle_id 3 by Joe Biden (id = 5)'}
 
     # test that database is updated
     piece = PuzzlePiece.get_piece(3, 0, 0)
@@ -397,3 +397,16 @@ def test_attempt_add_piece_invalid_position_low(test_client, init_db, verificati
         'reason': 'Coordinates provided (-1, -1) are outside the range of the puzzle. '
                   'Available coordinates are (0, 0) to (9, 9).'
     }
+
+
+def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true):
+    """
+    Assert that it is possible to obtain the puzzle solution via the solution endpoint.
+    ## TEST IN PROGRESS  -- THIS PROBABLY SHOULD BE BETTER ##
+    """
+    response = test_client.get('/puzzles/3/solution',
+                               headers={'Authorization': 'Bearer 2342351231asdb'})
+
+    assert response.status_code == 200
+    assert len(response.json['solved_puzzle']['pieces']) == 81
+    assert 'discrepancy' in response.json.keys()

@@ -1,5 +1,4 @@
 from flask_restful import Resource, reqparse
-from server.models.user import User
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
 from server.models.player import PuzzlePlayer
@@ -197,7 +196,30 @@ class SudokuPuzzlePiece(Resource):
             return {'message': 'Unexpected error occurred while adding new value to puzzle'}, 500
 
 
-def sudoku_to_dict(puzzle, puzzle_players):
+class SudokuPuzzleSolution(Resource):
+
+    def get(self, puzzle_id):
+        """
+        Returns the solved puzzle for a given puzzle id, as well as a list
+        of the discrepancies in the current puzzle relative to the solved version.
+        """
+        # find all puzzles associated with the player making the request
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+
+        # if the requested puzzle doesn't exist for the user, then return error
+        if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
+            return {'message': f"Puzzle requested does not exist or is not associated "
+                               f"with user {g.user.as_str()}'"}, 404  # not found
+
+        # get the puzzle and return it back
+        puzzle = Puzzle.get_puzzle(puzzle_id)
+        return {
+            'solved_puzzle': sudoku_to_dict(puzzle.get_solved_puzzle()),
+            'discrepancy': puzzle.compare_with_solved_board()
+        }
+
+
+def sudoku_to_dict(puzzle, puzzle_players=None):
     """
     Converts information about a Sudoku board into a dictionary.
     """
@@ -220,11 +242,16 @@ def sudoku_to_dict(puzzle, puzzle_players):
             'email': user.email
         }
 
-    return {
+    puzzle = {
         'puzzle_id': puzzle.id,
         'completed': puzzle.completed,
         'difficulty': puzzle.difficulty,
         'point_value': puzzle.point_value,
-        'pieces': [puzzle_piece_as_dict(piece) for piece in puzzle.puzzle_pieces],
-        'players': [user_as_dict(player) for player in puzzle_players]
+        'pieces': [puzzle_piece_as_dict(piece) for piece in puzzle.puzzle_pieces]
     }
+
+    # puzzle players do not have to be specified
+    if puzzle_players:
+        puzzle['players'] = [user_as_dict(player) for player in puzzle_players]
+
+    return puzzle
