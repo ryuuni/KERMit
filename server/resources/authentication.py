@@ -54,11 +54,12 @@ class Registration(Resource):
     Resource for registering a user with this puzzle API. Requires that an access_token
     is set.
     """
+    google_auth = GoogleAuth()
+
     def post(self):
-        google_auth = GoogleAuth()
 
         try:
-            user_info = google_auth.get_user_information(g.access_token)
+            user_info = self.google_auth.get_user_information(g.access_token)
             if 'error' in user_info.keys():
                 return {'message': 'User could not be registered',
                         'reason': 'User identity could not be found; valid OAuth2 access '

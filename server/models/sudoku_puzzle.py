@@ -74,7 +74,7 @@ class Puzzle(db.Model):
         if autocommit:  # commit all the changes, if requested
             db.session.commit()
 
-        # return the id of the newly generated puzzle
+        # return the id of the newly generated puzzle set via flush() operation
         return self.id
 
     def set_difficulty(self, difficulty):
@@ -152,8 +152,7 @@ class Puzzle(db.Model):
         # make sure that the value is valid for the puzzle
         value_range = coord_range
         if value > value_range or value <= 0:
-            raise PuzzleException(f'Invalid value provided ({value}). the range of the puzzle. '
-                                  f'Available values are 1 to {value_range}.')
+            raise PuzzleException(f'Invalid value provided ({value}). Available values are 1 to {value_range}.')
 
         # update the piece in order to test if the puzzle is now complete
         for piece in self.puzzle_pieces:
@@ -246,5 +245,5 @@ class Puzzle(db.Model):
         return arr
 
     def __str__(self):
-        return f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, completed={self.completed}), ' \
+        return f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, completed={self.completed}, ' \
                f'point_value={self.point_value}, size={self.size})'

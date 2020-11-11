@@ -38,7 +38,6 @@ class PuzzlePlayer(db.Model):
         """
         Returns a list of all users associated with a specific puzzle.
         """
-        print("hello")
         return User.query\
             .join(PuzzlePlayer, PuzzlePlayer.player_id == User.id)\
             .filter_by(puzzle_id=puzzle_id)\

@@ -334,7 +334,7 @@ def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_
     assert response.status_code == 400
     assert response.json == {
         'message': 'Attempt to save 50 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
-        'reason': 'Invalid value provided (50). the range of the puzzle. Available values are 1 to 9.'
+        'reason': 'Invalid value provided (50). Available values are 1 to 9.'
     }
 
 
@@ -357,7 +357,7 @@ def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification
     assert response.status_code == 400
     assert response.json == {
         'message': 'Attempt to save 0 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
-        'reason': 'Invalid value provided (0). the range of the puzzle. Available values are 1 to 9.'
+        'reason': 'Invalid value provided (0). Available values are 1 to 9.'
     }
 
 
