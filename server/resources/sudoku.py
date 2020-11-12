@@ -6,11 +6,6 @@ from server.server import db
 from flask import g
 
 
-class HealthCheck(Resource):
-    def get(self):
-        return {'status': 'OK'}
-
-
 class SudokuPuzzles(Resource):
 
     def __init__(self):
@@ -209,7 +204,7 @@ class SudokuPuzzleSolution(Resource):
         # if the requested puzzle doesn't exist for the user, then return error
         if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
             return {'message': f"Puzzle requested does not exist or is not associated "
-                               f"with user {g.user.as_str()}'"}, 404  # not found
+                               f"with user {g.user.as_str()}"}, 404  # not found
 
         # get the puzzle and return it back
         puzzle = Puzzle.get_puzzle(puzzle_id)

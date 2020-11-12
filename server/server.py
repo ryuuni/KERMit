@@ -31,11 +31,9 @@ order to register properly. Also note that these imports do not need to be used.
 expectation of Flask-SQLAlchemy. Hence why # nopep8 was used here.
 """
 from server.resources.authentication import Registration  # nopep8
-from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece, \
-    HealthCheck, SudokuPuzzleSolution  # nopep8
+from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece, SudokuPuzzleSolution  # nopep8
 
 api = Api(app)
-api.add_resource(HealthCheck, '/hello')
 api.add_resource(Registration, '/register')
 api.add_resource(SudokuPuzzles, '/puzzles')
 api.add_resource(SudokuPuzzle, '/puzzles/<int:puzzle_id>')

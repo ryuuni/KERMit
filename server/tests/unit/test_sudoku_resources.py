@@ -5,7 +5,7 @@ from server.models.puzzle_exception import PuzzleException
 from flask import g
 from server.models.sudoku_puzzle import Puzzle
 from server.models.user import User
-from server.resources.sudoku import sudoku_to_dict, SudokuPuzzles, SudokuPuzzle
+from server.resources.sudoku import sudoku_to_dict, SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece, SudokuPuzzleSolution
 from server.config import UnitTestingConfig
 from server.tests.unit.mock_session import MockSession
 
@@ -28,6 +28,14 @@ def mock_no_puzzles_for_player(monkeypatch):
 
 
 @pytest.fixture
+def mock_single_puzzles_for_player(monkeypatch):
+    def mock_get_puzzles_for_player(*args, **kwargs):
+        return [PuzzlePlayer(1, 1)]
+
+    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
+
+
+@pytest.fixture
 def mock_get_puzzle(monkeypatch):
     def mock_get_puzzle(*args, **kwargs):
         puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
@@ -38,6 +46,9 @@ def mock_get_puzzle(monkeypatch):
 
 
 def test_sudoku_to_json():
+    """
+    Conversion of sudoku puzzle to json should be successful.
+    """
     foobar = User('54321', 'foo', 'bar', 'foobar@comsci.com')
     foobar.id = 1
 
@@ -62,7 +73,10 @@ def test_sudoku_to_json():
 
 
 def test_get_sudoku_puzzles_none(monkeypatch, mock_no_puzzles_for_player, user):
-
+    """
+    If there are no puzzles associated with the player, an attempt to get all puzzles should
+    return nothing.
+    """
     with app.app_context():
         puzzles_resource = SudokuPuzzles()
         g.user = user
@@ -76,7 +90,10 @@ def test_get_sudoku_puzzles_none(monkeypatch, mock_no_puzzles_for_player, user):
 
 
 def test_get_sudoku_puzzles_all(monkeypatch, user, mock_get_puzzle):
-
+    """
+    If there are puzzles associated with the player, an attempt to get all puzzles should
+    return all associated puzzles.
+    """
     def mock_get_puzzles_for_player(*args, **kwargs):
         return [PuzzlePlayer(player_id=5, puzzle_id=3)]
 
@@ -106,6 +123,10 @@ def test_get_sudoku_puzzles_all(monkeypatch, user, mock_get_puzzle):
 
 
 def test_get_sudoku_puzzles_create_one_known_exception(monkeypatch, user):
+    """
+    If a known exception (Puzzle Exception) is raised during the processing of the request, the response
+    should follow an expected format.
+    """
     class MockParser:
         def add_argument(self, *args, **kwargs):
             pass
@@ -138,6 +159,10 @@ def test_get_sudoku_puzzles_create_one_known_exception(monkeypatch, user):
 
 
 def test_get_sudoku_puzzles_create_one_unknown_exception(monkeypatch, user):
+    """
+    If an unknown exception (Puzzle Exception) is raised during the processing of the request, the response
+    should follow an expected format.
+    """
     class MockParser:
         def add_argument(self, *args, **kwargs):
             pass
@@ -169,7 +194,9 @@ def test_get_sudoku_puzzles_create_one_unknown_exception(monkeypatch, user):
 
 
 def test_get_sudoku_puzzles_create_one(monkeypatch, user):
-
+    """
+    A valid request to create a puzzle should be successful.
+    """
     class MockParser:
         def add_argument(self, *args, **kwargs):
             pass
@@ -207,7 +234,10 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
 
 
 def test_get_sudoku_puzzle_none_retrieved(monkeypatch, mock_no_puzzles_for_player, user):
-
+    """
+    If an attempt is made to a get a puzzle that doesn't exist, the response should
+    provide an alert that the puzzle doesn't exist.
+    """
     with app.app_context():
         puzzles_resource = SudokuPuzzle()
         g.user = user
@@ -219,7 +249,10 @@ def test_get_sudoku_puzzle_none_retrieved(monkeypatch, mock_no_puzzles_for_playe
 
 
 def test_get_sudoku_puzzle_none_associated(monkeypatch, user):
-
+    """
+    If an attempt is made to a get a puzzle that is not associated with the user, the response should
+    provide an alert that the puzzle is not accessible to them.
+    """
     def mock_get_puzzles_for_player(*args, **kwargs):
         return [PuzzlePlayer(3, 2)]
 
@@ -235,18 +268,17 @@ def test_get_sudoku_puzzle_none_associated(monkeypatch, user):
     assert result == expected
 
 
-def test_get_sudoku_puzzle_found(monkeypatch, mock_get_puzzle, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return [PuzzlePlayer(1, 1)]
-
+def test_get_sudoku_puzzle_found(monkeypatch, mock_get_puzzle, mock_single_puzzles_for_player, user):
+    """
+    If an attempt is made to a get a puzzle that is associated with a user, the response should
+    successfully return that puzzle.
+    """
     def mock_get_players(*args, **kwargs):
         user = User(first_name='Sally', last_name='Sue', email='sallysue@emails.com', g_id='123445')
         user.id = 1
         return [user]
 
     monkeypatch.setattr(PuzzlePlayer, 'find_players_for_puzzle', mock_get_players)
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
 
     with app.app_context():
         puzzles_resource = SudokuPuzzle()
@@ -264,13 +296,10 @@ def test_get_sudoku_puzzle_found(monkeypatch, mock_get_puzzle, user):
     assert result == expected
 
 
-def test_join_sudoku_puzzle_already_joined(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return [PuzzlePlayer(1, 1)]
-
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
-
+def test_join_sudoku_puzzle_already_joined(monkeypatch, user, mock_single_puzzles_for_player):
+    """
+    If an attempt is made to join a puzzle that a player already exists in, they cannot be added twice.
+    """
     with app.app_context():
         puzzles_resource = SudokuPuzzle()
         g.user = user
@@ -280,15 +309,14 @@ def test_join_sudoku_puzzle_already_joined(monkeypatch, user):
     assert result == expected
 
 
-def test_join_sudoku_puzzle(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return []
-
+def test_join_sudoku_puzzle(monkeypatch, user, mock_no_puzzles_for_player):
+    """
+    If an attempt is made to join a puzzle that they do not currently exist in, then the attempt
+    should be successful.
+    """
     def mock_add_player(*args, **kwargs):
         return None
 
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
     monkeypatch.setattr(PuzzlePlayer, 'add_player_to_puzzle', mock_add_player)
 
     with app.app_context():
@@ -300,15 +328,14 @@ def test_join_sudoku_puzzle(monkeypatch, user):
     assert result == expected
 
 
-def test_join_sudoku_puzzle_known_exception(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return []
-
+def test_join_sudoku_puzzle_known_exception(monkeypatch, user, mock_no_puzzles_for_player):
+    """
+    If an attempt is made to join a puzzle, but an Puzzle Exception is thrown, the response should
+    follow a known format.
+    """
     def mock_add_player(*args, **kwargs):
         raise PuzzleException("A bad but known exception!")
 
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
     monkeypatch.setattr(PuzzlePlayer, 'add_player_to_puzzle', mock_add_player)
 
     with app.app_context():
@@ -321,15 +348,14 @@ def test_join_sudoku_puzzle_known_exception(monkeypatch, user):
     assert result == expected
 
 
-def test_join_sudoku_puzzle_unknown_exception(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return []
-
+def test_join_sudoku_puzzle_unknown_exception(monkeypatch, user, mock_no_puzzles_for_player):
+    """
+    If an attempt is made to join a puzzle, but an unkonwn Exception is thrown, the response should
+    follow a known format.
+    """
     def mock_add_player(*args, **kwargs):
         raise Exception("A very bad exception!")
 
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
     monkeypatch.setattr(PuzzlePlayer, 'add_player_to_puzzle', mock_add_player)
 
     with app.app_context():
@@ -339,4 +365,285 @@ def test_join_sudoku_puzzle_unknown_exception(monkeypatch, user):
 
     expected = ({'message': 'Attempt to add Jane Doe (id = 1) to puzzle 1 failed.',
                  'reason': 'Unknown error occurred.'}, 500)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_add_move_not_associated(monkeypatch, user, mock_single_puzzles_for_player):
+    """
+    If a player attempts to make a move on a puzzle that they are not associated with, the attempt should fail.
+    """
+    class MockParser:
+        def add_argument(self, *args, **kwargs):
+            pass
+
+        def parse_args(self):
+            return {
+                'x_coordinate': 0,
+                'y_coordinate': 1,
+                'value': 1
+            }
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.post(2)
+
+    expected = ({'message': 'Puzzle requested does not exist or is not associated with Jane Doe (id = 1).'}, 404)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_add_move(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+    """
+    If a player attempts to make a move on a puzzle that they are associated with, the attempt should be
+    successful.
+    """
+    class MockParser:
+        def add_argument(self, *args, **kwargs):
+            pass
+
+        def parse_args(self):
+            return {
+                'x_coordinate': 0,
+                'y_coordinate': 1,
+                'value': 1
+            }
+
+    monkeypatch.setattr(db, "session", MockSession)
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.post(1)
+
+    expected = {'message': 'Successfully saved the submission of 1 at (0, 0) on puzzle_id 1 by Jane Doe (id = 1)'}
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_add_move_invalid(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+    """
+    If a player attempts to make an invalid move on a puzzle that they are associated with, the request
+    should not be successful.
+    """
+    class MockParser:
+        def add_argument(self, *args, **kwargs):
+            pass
+
+        def parse_args(self):
+            return {
+                'x_coordinate': 0,
+                'y_coordinate': 100,
+                'value': 1
+            }
+
+    monkeypatch.setattr(db, "session", MockSession)
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.post(1)
+
+    expected = ({'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful',
+                 'reason': 'Coordinates provided (0, 100) are outside the range of the puzzle. '
+                           'Available coordinates are (0, 0) to (9, 9).'}, 400)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_add_move_exception(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+    """
+    If a player attempts to make a move on the puzzle, but an exception is raised, the response should
+    follow a predictable format.
+    """
+    class MockParser:
+        def add_argument(self, *args, **kwargs):
+            pass
+
+        def parse_args(self):
+            return {
+                'x_coordinate': 0,
+                'y_coordinate': 100,
+                'value': 1
+            }
+
+    def raise_exception(*args, **kwargs):
+        raise Exception("A very bad and unknown exception!")
+
+    monkeypatch.setattr(Puzzle, 'update', raise_exception)
+    monkeypatch.setattr(db, "session", MockSession)
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.post(1)
+
+    expected = ({'message': 'Unexpected error occurred while adding new value to puzzle'}, 500)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_get_solution_not_associated(monkeypatch, user, mock_no_puzzles_for_player):
+    """
+    If a player attempts to get the solution for a puzzle that they are not associated with, the request
+    should fail.
+    """
+    with app.app_context():
+        g.user = user
+        puzzle_solution_resource = SudokuPuzzleSolution()
+        result = puzzle_solution_resource.get(2)
+
+    expected = ({'message': "Puzzle requested does not exist or is not associated with user Jane Doe (id = 1)"}, 404)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_get_solution_not_associated_2(monkeypatch, user, mock_single_puzzles_for_player):
+    """
+    If a player attempts to get the solution for a puzzle that they are not associated with, the request
+    should fail.
+    """
+    with app.app_context():
+        g.user = user
+        puzzle_solution_resource = SudokuPuzzleSolution()
+        result = puzzle_solution_resource.get(2)
+
+    expected = ({'message': "Puzzle requested does not exist or is not associated with user Jane Doe (id = 1)"}, 404)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_get_solution(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+    """
+    If a player attempts to get the solution for a puzzle that they are associated with, the request
+    should succeed.
+    """
+    with app.app_context():
+        g.user = user
+        puzzle_solution_resource = SudokuPuzzleSolution()
+        result = puzzle_solution_resource.get(1)
+
+    # this is just basically a deterministic board; a board with 0 static pieces
+    expected = {'solved_puzzle': {'puzzle_id': None, 'completed': True, 'difficulty': 0.5, 'point_value': 90,
+                                  'pieces': [{'x_coordinate': 0, 'y_coordinate': 0, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 1, 'y_coordinate': 0, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 2, 'y_coordinate': 0, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 3, 'y_coordinate': 0, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 4, 'y_coordinate': 0, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 5, 'y_coordinate': 0, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 6, 'y_coordinate': 0, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 7, 'y_coordinate': 0, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 8, 'y_coordinate': 0, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 0, 'y_coordinate': 1, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 1, 'y_coordinate': 1, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 2, 'y_coordinate': 1, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 3, 'y_coordinate': 1, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 4, 'y_coordinate': 1, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 5, 'y_coordinate': 1, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 6, 'y_coordinate': 1, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 7, 'y_coordinate': 1, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 8, 'y_coordinate': 1, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 0, 'y_coordinate': 2, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 1, 'y_coordinate': 2, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 2, 'y_coordinate': 2, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 3, 'y_coordinate': 2, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 4, 'y_coordinate': 2, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 5, 'y_coordinate': 2, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 6, 'y_coordinate': 2, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 7, 'y_coordinate': 2, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 8, 'y_coordinate': 2, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 0, 'y_coordinate': 3, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 1, 'y_coordinate': 3, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 2, 'y_coordinate': 3, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 3, 'y_coordinate': 3, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 4, 'y_coordinate': 3, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 5, 'y_coordinate': 3, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 6, 'y_coordinate': 3, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 7, 'y_coordinate': 3, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 8, 'y_coordinate': 3, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 0, 'y_coordinate': 4, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 1, 'y_coordinate': 4, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 2, 'y_coordinate': 4, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 3, 'y_coordinate': 4, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 4, 'y_coordinate': 4, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 5, 'y_coordinate': 4, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 6, 'y_coordinate': 4, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 7, 'y_coordinate': 4, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 8, 'y_coordinate': 4, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 0, 'y_coordinate': 5, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 1, 'y_coordinate': 5, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 2, 'y_coordinate': 5, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 3, 'y_coordinate': 5, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 4, 'y_coordinate': 5, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 5, 'y_coordinate': 5, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 6, 'y_coordinate': 5, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 7, 'y_coordinate': 5, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 8, 'y_coordinate': 5, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 0, 'y_coordinate': 6, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 1, 'y_coordinate': 6, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 2, 'y_coordinate': 6, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 3, 'y_coordinate': 6, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 4, 'y_coordinate': 6, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 5, 'y_coordinate': 6, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 6, 'y_coordinate': 6, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 7, 'y_coordinate': 6, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 8, 'y_coordinate': 6, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 0, 'y_coordinate': 7, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 1, 'y_coordinate': 7, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 2, 'y_coordinate': 7, 'static_piece': False, 'value': 2},
+                                             {'x_coordinate': 3, 'y_coordinate': 7, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 4, 'y_coordinate': 7, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 5, 'y_coordinate': 7, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 6, 'y_coordinate': 7, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 7, 'y_coordinate': 7, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 8, 'y_coordinate': 7, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 0, 'y_coordinate': 8, 'static_piece': False, 'value': 9},
+                                             {'x_coordinate': 1, 'y_coordinate': 8, 'static_piece': False, 'value': 6},
+                                             {'x_coordinate': 2, 'y_coordinate': 8, 'static_piece': False, 'value': 8},
+                                             {'x_coordinate': 3, 'y_coordinate': 8, 'static_piece': False, 'value': 3},
+                                             {'x_coordinate': 4, 'y_coordinate': 8, 'static_piece': False, 'value': 4},
+                                             {'x_coordinate': 5, 'y_coordinate': 8, 'static_piece': False, 'value': 1},
+                                             {'x_coordinate': 6, 'y_coordinate': 8, 'static_piece': False, 'value': 5},
+                                             {'x_coordinate': 7, 'y_coordinate': 8, 'static_piece': False, 'value': 7},
+                                             {'x_coordinate': 8, 'y_coordinate': 8, 'static_piece': False,
+                                              'value': 2}]},
+                'discrepancy': [{'x_coordinate': 0, 'y_coordinate': 0}, {'x_coordinate': 1, 'y_coordinate': 0},
+                                {'x_coordinate': 2, 'y_coordinate': 0}, {'x_coordinate': 3, 'y_coordinate': 0},
+                                {'x_coordinate': 4, 'y_coordinate': 0}, {'x_coordinate': 5, 'y_coordinate': 0},
+                                {'x_coordinate': 6, 'y_coordinate': 0}, {'x_coordinate': 7, 'y_coordinate': 0},
+                                {'x_coordinate': 8, 'y_coordinate': 0}, {'x_coordinate': 0, 'y_coordinate': 1},
+                                {'x_coordinate': 1, 'y_coordinate': 1}, {'x_coordinate': 2, 'y_coordinate': 1},
+                                {'x_coordinate': 3, 'y_coordinate': 1}, {'x_coordinate': 4, 'y_coordinate': 1},
+                                {'x_coordinate': 5, 'y_coordinate': 1}, {'x_coordinate': 6, 'y_coordinate': 1},
+                                {'x_coordinate': 7, 'y_coordinate': 1}, {'x_coordinate': 8, 'y_coordinate': 1},
+                                {'x_coordinate': 0, 'y_coordinate': 2}, {'x_coordinate': 1, 'y_coordinate': 2},
+                                {'x_coordinate': 2, 'y_coordinate': 2}, {'x_coordinate': 3, 'y_coordinate': 2},
+                                {'x_coordinate': 4, 'y_coordinate': 2}, {'x_coordinate': 5, 'y_coordinate': 2},
+                                {'x_coordinate': 6, 'y_coordinate': 2}, {'x_coordinate': 7, 'y_coordinate': 2},
+                                {'x_coordinate': 8, 'y_coordinate': 2}, {'x_coordinate': 0, 'y_coordinate': 3},
+                                {'x_coordinate': 1, 'y_coordinate': 3}, {'x_coordinate': 2, 'y_coordinate': 3},
+                                {'x_coordinate': 3, 'y_coordinate': 3}, {'x_coordinate': 4, 'y_coordinate': 3},
+                                {'x_coordinate': 5, 'y_coordinate': 3}, {'x_coordinate': 6, 'y_coordinate': 3},
+                                {'x_coordinate': 7, 'y_coordinate': 3}, {'x_coordinate': 8, 'y_coordinate': 3},
+                                {'x_coordinate': 0, 'y_coordinate': 4}, {'x_coordinate': 1, 'y_coordinate': 4},
+                                {'x_coordinate': 2, 'y_coordinate': 4}, {'x_coordinate': 3, 'y_coordinate': 4},
+                                {'x_coordinate': 4, 'y_coordinate': 4}, {'x_coordinate': 5, 'y_coordinate': 4},
+                                {'x_coordinate': 6, 'y_coordinate': 4}, {'x_coordinate': 7, 'y_coordinate': 4},
+                                {'x_coordinate': 8, 'y_coordinate': 4}, {'x_coordinate': 0, 'y_coordinate': 5},
+                                {'x_coordinate': 1, 'y_coordinate': 5}, {'x_coordinate': 2, 'y_coordinate': 5},
+                                {'x_coordinate': 3, 'y_coordinate': 5}, {'x_coordinate': 4, 'y_coordinate': 5},
+                                {'x_coordinate': 5, 'y_coordinate': 5}, {'x_coordinate': 6, 'y_coordinate': 5},
+                                {'x_coordinate': 7, 'y_coordinate': 5}, {'x_coordinate': 8, 'y_coordinate': 5},
+                                {'x_coordinate': 0, 'y_coordinate': 6}, {'x_coordinate': 1, 'y_coordinate': 6},
+                                {'x_coordinate': 2, 'y_coordinate': 6}, {'x_coordinate': 3, 'y_coordinate': 6},
+                                {'x_coordinate': 4, 'y_coordinate': 6}, {'x_coordinate': 5, 'y_coordinate': 6},
+                                {'x_coordinate': 6, 'y_coordinate': 6}, {'x_coordinate': 7, 'y_coordinate': 6},
+                                {'x_coordinate': 8, 'y_coordinate': 6}, {'x_coordinate': 0, 'y_coordinate': 7},
+                                {'x_coordinate': 1, 'y_coordinate': 7}, {'x_coordinate': 2, 'y_coordinate': 7},
+                                {'x_coordinate': 3, 'y_coordinate': 7}, {'x_coordinate': 4, 'y_coordinate': 7},
+                                {'x_coordinate': 5, 'y_coordinate': 7}, {'x_coordinate': 6, 'y_coordinate': 7},
+                                {'x_coordinate': 7, 'y_coordinate': 7}, {'x_coordinate': 8, 'y_coordinate': 7},
+                                {'x_coordinate': 0, 'y_coordinate': 8}, {'x_coordinate': 1, 'y_coordinate': 8},
+                                {'x_coordinate': 2, 'y_coordinate': 8}, {'x_coordinate': 3, 'y_coordinate': 8},
+                                {'x_coordinate': 4, 'y_coordinate': 8}, {'x_coordinate': 5, 'y_coordinate': 8},
+                                {'x_coordinate': 6, 'y_coordinate': 8}, {'x_coordinate': 7, 'y_coordinate': 8},
+                                {'x_coordinate': 8, 'y_coordinate': 8}]}
     assert result == expected

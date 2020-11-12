@@ -65,7 +65,7 @@ def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
     response = test_client.get('/puzzles/10', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 404
     assert response.json == {'message': "Puzzle requested does not exist or is not associated "
-                                        "with user Joe Biden (id = 5)'"}
+                                        "with user Joe Biden (id = 5)"}
 
 
 def test_save_new_puzzle_valid(test_client, init_db, verification_true):
@@ -197,7 +197,7 @@ def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db, verification_t
     response = test_client.get('/puzzles/1', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 404
     assert response.json == {'message': "Puzzle requested does not exist or is not associated "
-                                        "with user Joe Biden (id = 5)'"}
+                                        "with user Joe Biden (id = 5)"}
 
 
 def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):

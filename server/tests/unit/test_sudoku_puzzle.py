@@ -286,6 +286,9 @@ def test_check_discrepancies_incomplete_puzzle(incomplete_puzzle):
 
 
 def test_get_puzzle_none(monkeypatch):
+    """
+    Test the result when no puzzle with the specified id exists.
+    """
     class MockBaseQuery:
 
         def __init__(self, *args, **kwargs):
@@ -306,7 +309,9 @@ def test_get_puzzle_none(monkeypatch):
 
 
 def test_get_puzzle_found(monkeypatch, pieces):
-
+    """
+    If the puzzle exists, it should be successfully returned by the get_puzzle() function.
+    """
     class MockBaseQuery:
 
         def __init__(self, *args, **kwargs):
@@ -349,48 +354,72 @@ def test_save_autocommit(monkeypatch, complete_puzzle):
 
 
 def test_attempt_update_complete_puzzle(monkeypatch, complete_puzzle):
+    """
+    Users should not be able to make updates to a completed puzzle. It's complete.
+    """
     with pytest.raises(PuzzleException) as pe:
         complete_puzzle.update(0, 0, 1)
         assert 'Updates cannot be made to previously completed puzzles.' in str(pe.value)
 
 
 def test_update_invalid_coordinate1(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(1, 6, 1)
         assert 'Coordinates provided (1, 6) are outside the range of the puzzle.' in str(pe.value)
 
 
 def test_update_invalid_coordinate2(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(1, -1, 1)
         assert 'Coordinates provided (1, -1) are outside the range of the puzzle.' in str(pe.value)
 
 
 def test_update_invalid_coordinate3(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(6, 1, 1)
         assert 'Coordinates provided (6, 1) are outside the range of the puzzle.' in str(pe.value)
 
 
 def test_update_invalid_coordinate4(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(-1, 1, 1)
         assert 'Coordinates provided (-1, 1) are outside the range of the puzzle.' in str(pe.value)
 
 
 def test_update_invalid_value1(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to provide invalid values to the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(1, 1, 0)
         assert 'Invalid value provided (0)' in str(pe.value)
 
 
 def test_update_invalid_value2(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to provide invalid values to the puzzle.
+    """
     with pytest.raises(PuzzleException) as pe:
         incomplete_puzzle.update(1, 1, 5)
         assert 'Invalid value provided (5)' in str(pe.value)
 
 
 def test_update_valid(monkeypatch, incomplete_puzzle):
+    """
+    If user supplies valid piece to valid coordinates on puzzle, update should be successful.
+    """
     monkeypatch.setattr(db, "session", MockSession)
     incomplete_puzzle.update(1, 1, 3)
 
@@ -400,6 +429,9 @@ def test_update_valid(monkeypatch, incomplete_puzzle):
 
 
 def test_update_valid_complete_puzzle(monkeypatch, incomplete_puzzle):
+    """
+    Adding the last piece to the puzzle should result in the puzzle being marked as completed.
+    """
     monkeypatch.setattr(db, "session", MockSession)
     incomplete_puzzle.update(2, 3, 2)
     incomplete_puzzle.update(0, 2, 4)   # this should result in a winning puzzle
@@ -414,6 +446,9 @@ def test_update_valid_complete_puzzle(monkeypatch, incomplete_puzzle):
 
 
 def test_set_puzzle_complete(monkeypatch, incomplete_puzzle):
+    """
+    Calling the set_puzzle_complete() method should mark the puzzle as completed.
+    """
     monkeypatch.setattr(db, "session", MockSession)
     incomplete_puzzle.set_puzzle_complete(autocommit=True)
     assert incomplete_puzzle.completed

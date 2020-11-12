@@ -13,7 +13,9 @@ class MockResponse:
 
 
 def test_validate_token(monkeypatch):
-
+    """
+    Validation of token should return json containing token information.
+    """
     json = {
         "issued_to": "407408718192.apps.googleusercontent.com",
         "audience": "407408718192.apps.googleusercontent.com",
@@ -36,6 +38,9 @@ def test_validate_token(monkeypatch):
 
 
 def test_get_user_information(monkeypatch):
+    """
+    Retrieval of user information should return json containing token information.
+    """
     json = {
         "email": "janedoe@columbia.edu",
         "verified_email": True,
