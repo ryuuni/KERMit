@@ -223,6 +223,8 @@ $ (venv) cd server
 $ (venv) python -m pytest ./tests/integration
 ```
 
+### Test Coverage
+
 This project uses python's coverage tool to check test coverage. To run coverage:
 ```
 $ (venv) coverage run -m --omit "venv/*" --branch  pytest ./tests
