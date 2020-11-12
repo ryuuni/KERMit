@@ -99,7 +99,7 @@ class SudokuPuzzle(Resource):
         # if the requested puzzle doesn't exist for the user, then return error
         if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
             return {'message': f"Puzzle requested does not exist or is not associated "
-                               f"with user {g.user.as_str()}'"}, 404  # not found
+                               f"with user {g.user.as_str()}"}, 404  # not found
 
         # get the puzzle and return it back
         return sudoku_to_dict(
@@ -129,8 +129,8 @@ class SudokuPuzzle(Resource):
         except PuzzleException as pe:
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
                     'reason': pe.get_message()}, 400
+
         except Exception as e:
-            print(e)
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
                     'reason': 'Unknown error occurred.'}, 500
 
