@@ -19,6 +19,24 @@ def user():
     return test_user
 
 
+@pytest.fixture
+def mock_no_puzzles_for_player(monkeypatch):
+    def mock_get_puzzles_for_player(*args, **kwargs):
+        return []
+
+    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
+
+
+@pytest.fixture
+def mock_get_puzzle(monkeypatch):
+    def mock_get_puzzle(*args, **kwargs):
+        puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
+        puzzle.puzzle_pieces = []
+        return puzzle
+
+    monkeypatch.setattr(Puzzle, 'get_puzzle', mock_get_puzzle)
+
+
 def test_sudoku_to_json():
     foobar = User('54321', 'foo', 'bar', 'foobar@comsci.com')
     foobar.id = 1
@@ -43,11 +61,7 @@ def test_sudoku_to_json():
     ]
 
 
-def test_get_sudoku_puzzles_none(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return []
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
+def test_get_sudoku_puzzles_none(monkeypatch, mock_no_puzzles_for_player, user):
 
     with app.app_context():
         puzzles_resource = SudokuPuzzles()
@@ -61,20 +75,14 @@ def test_get_sudoku_puzzles_none(monkeypatch, user):
     assert result == expected
 
 
-def test_get_sudoku_puzzles_all(monkeypatch, user):
+def test_get_sudoku_puzzles_all(monkeypatch, user, mock_get_puzzle):
 
     def mock_get_puzzles_for_player(*args, **kwargs):
         return [PuzzlePlayer(player_id=5, puzzle_id=3)]
 
-    def mock_get_puzzle(*args, **kwargs):
-        puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
-        puzzle.puzzle_pieces = []
-        return puzzle
-
     def mock_get_players(*args, **kwargs):
         return [User(first_name='Sally', last_name='Sue', email='sallysue@emails.com', g_id='123445')]
 
-    monkeypatch.setattr(Puzzle, 'get_puzzle', mock_get_puzzle)
     monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
     monkeypatch.setattr(PuzzlePlayer, 'find_players_for_puzzle', mock_get_players)
 
@@ -198,11 +206,7 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
     assert result == expected
 
 
-def test_get_sudoku_puzzle_none_retrieved(monkeypatch, user):
-
-    def mock_get_puzzles_for_player(*args, **kwargs):
-        return []
-    monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
+def test_get_sudoku_puzzle_none_retrieved(monkeypatch, mock_no_puzzles_for_player, user):
 
     with app.app_context():
         puzzles_resource = SudokuPuzzle()
@@ -217,8 +221,7 @@ def test_get_sudoku_puzzle_none_retrieved(monkeypatch, user):
 def test_get_sudoku_puzzle_none_associated(monkeypatch, user):
 
     def mock_get_puzzles_for_player(*args, **kwargs):
-        puzzle_player = PuzzlePlayer(3, 2)
-        return [puzzle_player]
+        return [PuzzlePlayer(3, 2)]
 
     monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
 
@@ -232,15 +235,10 @@ def test_get_sudoku_puzzle_none_associated(monkeypatch, user):
     assert result == expected
 
 
-def test_get_sudoku_puzzle_found(monkeypatch, user):
+def test_get_sudoku_puzzle_found(monkeypatch, mock_get_puzzle, user):
 
     def mock_get_puzzles_for_player(*args, **kwargs):
         return [PuzzlePlayer(1, 1)]
-
-    def mock_get_puzzle(*args, **kwargs):
-        puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
-        puzzle.puzzle_pieces = []
-        return puzzle
 
     def mock_get_players(*args, **kwargs):
         user = User(first_name='Sally', last_name='Sue', email='sallysue@emails.com', g_id='123445')
@@ -248,7 +246,6 @@ def test_get_sudoku_puzzle_found(monkeypatch, user):
         return [user]
 
     monkeypatch.setattr(PuzzlePlayer, 'find_players_for_puzzle', mock_get_players)
-    monkeypatch.setattr(Puzzle, 'get_puzzle', mock_get_puzzle)
     monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
 
     with app.app_context():
