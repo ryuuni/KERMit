@@ -7,7 +7,7 @@ from flask import g
 
 
 @app.before_request
-def authorize_token():
+def verify_token():
     """
     Method to run before all requests; determines if a user has a valid
     Google OAuth2 token and uses the token to discover who the user making the request is.
@@ -15,12 +15,21 @@ def authorize_token():
     While g is not appropriate for storing data across requests, it provides a global namespace
     for holding any data you want during a single app context.
     """
-    if 'Authorization' not in request.headers:
+    result = _verify_token(request)
+    if result:
+        return result
+
+
+def _verify_token(incoming_request):
+    """
+    The implementation of verification of token; separated from the method above for ease in testing.
+    """
+    if 'Authorization' not in incoming_request.headers:
         return {'message': 'Request denied access',
                 'reason': 'Authorization header missing. Please provide an '
                            'OAuth2 Token with your request'}, 400
 
-    auth_header = request.headers.get('Authorization')
+    auth_header = incoming_request.headers.get('Authorization')
     if 'Bearer ' not in auth_header:
         return {'message': 'Request denied access',
                 'reason': "Malformed authorization header provided. Please make sure to "
@@ -38,7 +47,7 @@ def authorize_token():
     g.access_token = access_token
 
     # unless this is a registration attempt, find the user associated with access token
-    if request.endpoint != 'registration':
+    if incoming_request.endpoint != 'registration':
         user = User.find_by_g_id(validation['user_id'])
         if not user:
             return {'message': 'Request denied access',
@@ -54,11 +63,12 @@ class Registration(Resource):
     Resource for registering a user with this puzzle API. Requires that an access_token
     is set.
     """
+    google_auth = GoogleAuth()
+
     def post(self):
-        google_auth = GoogleAuth()
 
         try:
-            user_info = google_auth.get_user_information(g.access_token)
+            user_info = self.google_auth.get_user_information(g.access_token)
             if 'error' in user_info.keys():
                 return {'message': 'User could not be registered',
                         'reason': 'User identity could not be found; valid OAuth2 access '

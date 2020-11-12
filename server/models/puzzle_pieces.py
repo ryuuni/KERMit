@@ -64,5 +64,5 @@ class PuzzlePiece(db.Model):
             db.session.commit()
 
     def __str__(self):
-        return f'PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}), x_coordinate={self.x_coordinate}, ' \
+        return f'PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}, x_coordinate={self.x_coordinate}, ' \
                f'y_coordinate={self.y_coordinate}, value={self.value}, static_piece={self.static_piece})'

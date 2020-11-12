@@ -32,7 +32,7 @@ class User(db.Model):
         db.session.commit()
 
     def __str__(self):
-        return f'User(first_name={self.first_name}, last_name={self.last_name})'
+        return f'User(first_name={self.first_name}, last_name={self.last_name}, id={self.id})'
 
     def as_str(self):
         return f"{self.first_name} {self.last_name} (id = {self.id})"

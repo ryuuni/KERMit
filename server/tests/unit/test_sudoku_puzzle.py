@@ -1,8 +1,9 @@
-from server.server import app                    # this dependency is necessary to prevent a circular import
+from server.server import app, db                  # this dependency is necessary to prevent a circular import
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_pieces import PuzzlePiece
 from server.models.puzzle_exception import PuzzleException
 from server.config import UnitTestingConfig
+from server.tests.unit.mock_session import MockSession
 import pytest
 
 app.config.from_object(UnitTestingConfig)
@@ -58,6 +59,7 @@ def complete_puzzle():
         PuzzlePiece(1, 2, 3, value=2, static_piece=False),
         PuzzlePiece(1, 3, 3, value=4, static_piece=True)
     ]
+    puzzle.completed = True
     return puzzle
 
 
@@ -85,6 +87,27 @@ def incorrect_puzzle():
     ]
     return puzzle
 
+
+@pytest.fixture(autouse=False)
+def pieces():
+    return [
+        PuzzlePiece(1, 0, 0, value=2, static_piece=True),
+        PuzzlePiece(1, 1, 0, value=4, static_piece=True),
+        PuzzlePiece(1, 2, 0, value=3, static_piece=True),
+        PuzzlePiece(1, 3, 0, value=1, static_piece=True),
+        PuzzlePiece(1, 0, 1, value=1, static_piece=True),
+        PuzzlePiece(1, 1, 1, value=1, static_piece=False),
+        PuzzlePiece(1, 2, 1, value=4, static_piece=True),
+        PuzzlePiece(1, 3, 1, value=2, static_piece=True),
+        PuzzlePiece(1, 0, 2, value=2, static_piece=False),
+        PuzzlePiece(1, 1, 2, value=2, static_piece=True),
+        PuzzlePiece(1, 2, 2, value=1, static_piece=True),
+        PuzzlePiece(1, 3, 2, value=3, static_piece=True),
+        PuzzlePiece(1, 0, 3, value=3, static_piece=True),
+        PuzzlePiece(1, 1, 3, value=1, static_piece=True),
+        PuzzlePiece(1, 2, 3, value=4, static_piece=False),
+        PuzzlePiece(1, 3, 3, value=4, static_piece=True)
+    ]
 
 def test_create_sudoku_puzzle_valid_defaults():
     """
@@ -142,7 +165,7 @@ def test_create_sudoku_puzzle_invalid_size_str():
     that is not of type int.
     """
     with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level='bad size', size=4)
+        sudoku = Puzzle(difficulty_level=0.3, size='invalid size')
         assert "Sudoku puzzle sizes specified must be valid integers" in str(pe.value)
 
 
@@ -261,3 +284,175 @@ def test_check_discrepancies_incomplete_puzzle(incomplete_puzzle):
     ]
     assert expected == incomplete_puzzle.compare_with_solved_board()
 
+
+def test_get_puzzle_none(monkeypatch):
+    """
+    Test the result when no puzzle with the specified id exists.
+    """
+    class MockBaseQuery:
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            class Results():
+                def first(self):
+                    return None
+
+            return Results()
+
+        def join(self, *args, **kwargs):
+            return
+
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+    assert Puzzle.get_puzzle(1) is None
+
+
+def test_get_puzzle_found(monkeypatch, pieces):
+    """
+    If the puzzle exists, it should be successfully returned by the get_puzzle() function.
+    """
+    class MockBaseQuery:
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            class Results():
+                def first(self):
+                    return Puzzle(difficulty_level=0.2, size=2)
+
+            return Results()
+
+        def join(self, *args, **kwargs):
+            return
+
+    def mock_find_pieces(*args, **kwargs):
+        return pieces
+
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+    monkeypatch.setattr(PuzzlePiece, "find_all_pieces", mock_find_pieces)
+
+    result = Puzzle.get_puzzle(1)
+    assert result.difficulty == 0.2
+    assert result.size == 2
+    assert result.puzzle_pieces == pieces
+
+
+def test_save(monkeypatch, complete_puzzle):
+    monkeypatch.setattr(db, "session", MockSession)
+
+    result = complete_puzzle.save(autocommit=False)
+    assert result == 1
+
+
+def test_save_autocommit(monkeypatch, complete_puzzle):
+    monkeypatch.setattr(db, "session", MockSession)
+
+    result = complete_puzzle.save(autocommit=True)
+    assert result == 1
+
+
+def test_attempt_update_complete_puzzle(monkeypatch, complete_puzzle):
+    """
+    Users should not be able to make updates to a completed puzzle. It's complete.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        complete_puzzle.update(0, 0, 1)
+        assert 'Updates cannot be made to previously completed puzzles.' in str(pe.value)
+
+
+def test_update_invalid_coordinate1(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(1, 6, 1)
+        assert 'Coordinates provided (1, 6) are outside the range of the puzzle.' in str(pe.value)
+
+
+def test_update_invalid_coordinate2(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(1, -1, 1)
+        assert 'Coordinates provided (1, -1) are outside the range of the puzzle.' in str(pe.value)
+
+
+def test_update_invalid_coordinate3(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(6, 1, 1)
+        assert 'Coordinates provided (6, 1) are outside the range of the puzzle.' in str(pe.value)
+
+
+def test_update_invalid_coordinate4(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to make moves to coordinates outside the range of the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(-1, 1, 1)
+        assert 'Coordinates provided (-1, 1) are outside the range of the puzzle.' in str(pe.value)
+
+
+def test_update_invalid_value1(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to provide invalid values to the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(1, 1, 0)
+        assert 'Invalid value provided (0)' in str(pe.value)
+
+
+def test_update_invalid_value2(monkeypatch, incomplete_puzzle):
+    """
+    Users should not be able to provide invalid values to the puzzle.
+    """
+    with pytest.raises(PuzzleException) as pe:
+        incomplete_puzzle.update(1, 1, 5)
+        assert 'Invalid value provided (5)' in str(pe.value)
+
+
+def test_update_valid(monkeypatch, incomplete_puzzle):
+    """
+    If user supplies valid piece to valid coordinates on puzzle, update should be successful.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    incomplete_puzzle.update(1, 1, 3)
+
+    for piece in incomplete_puzzle.puzzle_pieces:
+        if piece.x_coordinate == 1 and piece.y_coordinate == 1:
+            assert piece.value == 3
+
+
+def test_update_valid_complete_puzzle(monkeypatch, incomplete_puzzle):
+    """
+    Adding the last piece to the puzzle should result in the puzzle being marked as completed.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    incomplete_puzzle.update(2, 3, 2)
+    incomplete_puzzle.update(0, 2, 4)   # this should result in a winning puzzle
+
+    for piece in incomplete_puzzle.puzzle_pieces:
+        if piece.x_coordinate == 2 and piece.y_coordinate == 3:
+            assert piece.value == 2
+        if piece.x_coordinate == 0 and piece.y_coordinate == 2:
+            assert piece.value == 4
+
+    assert incomplete_puzzle.completed
+
+
+def test_set_puzzle_complete(monkeypatch, incomplete_puzzle):
+    """
+    Calling the set_puzzle_complete() method should mark the puzzle as completed.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    incomplete_puzzle.set_puzzle_complete(autocommit=True)
+    assert incomplete_puzzle.completed
+
+
+def test_as_str(incomplete_puzzle):
+    assert str(incomplete_puzzle) == 'SudokuPuzzle(id=1, difficulty=0.2, completed=False, point_value=30, size=2)'

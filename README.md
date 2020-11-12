@@ -223,6 +223,20 @@ $ (venv) cd server
 $ (venv) python -m pytest ./tests/integration
 ```
 
+### Test Coverage
+
+This project uses python's coverage tool to check test coverage. To run coverage:
+```
+$ (venv) coverage run -m --omit "venv/*" --branch  pytest ./tests
+```
+Note that you may specify `./tests/unit` or `./tests/integration` to see the coverage for 
+individual test types.
+
+To see the coverage report:
+```
+$ (venv) coverage report -m
+```
+
 ### Manual Tests
 
 The easiest way to manually the API is through Postman. You can easily generate an oauth2 token for testing

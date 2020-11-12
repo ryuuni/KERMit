@@ -65,7 +65,7 @@ def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
     response = test_client.get('/puzzles/10', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 404
     assert response.json == {'message': "Puzzle requested does not exist or is not associated "
-                                        "with user Joe Biden (id = 5)'"}
+                                        "with user Joe Biden (id = 5)"}
 
 
 def test_save_new_puzzle_valid(test_client, init_db, verification_true):
@@ -197,7 +197,7 @@ def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db, verification_t
     response = test_client.get('/puzzles/1', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 404
     assert response.json == {'message': "Puzzle requested does not exist or is not associated "
-                                        "with user Joe Biden (id = 5)'"}
+                                        "with user Joe Biden (id = 5)"}
 
 
 def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):
@@ -334,7 +334,7 @@ def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_
     assert response.status_code == 400
     assert response.json == {
         'message': 'Attempt to save 50 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
-        'reason': 'Invalid value provided (50). the range of the puzzle. Available values are 1 to 9.'
+        'reason': 'Invalid value provided (50). Available values are 1 to 9.'
     }
 
 
@@ -357,7 +357,7 @@ def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification
     assert response.status_code == 400
     assert response.json == {
         'message': 'Attempt to save 0 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
-        'reason': 'Invalid value provided (0). the range of the puzzle. Available values are 1 to 9.'
+        'reason': 'Invalid value provided (0). Available values are 1 to 9.'
     }
 
 
