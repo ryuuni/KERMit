@@ -209,7 +209,8 @@ will have a `message` and `reason` field explaining what happened.
 
 ## III. Tests/Checks
 
-When running the scripts outlined below, all test/coverage/style check results will be written to a file in `./reports/backend` under the corresponding folder.
+When running the scripts outlined below, all test/coverage/style check results will be written to a file in 
+`./reports/backend` under the corresponding folder.
 
 ### i. Unit Tests
 
