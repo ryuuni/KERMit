@@ -1,0 +1,1932 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 92 items
+
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header PASSED [  1%]
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header2 PASSED [  2%]
+server/tests/unit/test_authentication.py::test_authorize_token_malformed_header PASSED [  3%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_error PASSED [  4%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register FAILED [  5%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success PASSED [  6%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_not_registered PASSED [  7%]
+server/tests/unit/test_authentication.py::test_register PASSED           [  8%]
+server/tests/unit/test_authentication.py::test_register_missing_info_email PASSED [  9%]
+server/tests/unit/test_authentication.py::test_register_missing_info_id PASSED [ 10%]
+server/tests/unit/test_authentication.py::test_register_error_googleauth PASSED [ 11%]
+server/tests/unit/test_authentication.py::test_register_exception PASSED [ 13%]
+server/tests/unit/test_authentication.py::test_register_no_user_yet PASSED [ 14%]
+server/tests/unit/test_authentication.py::test_register_exception_db PASSED [ 15%]
+server/tests/unit/test_google_auth.py::test_validate_token PASSED        [ 16%]
+server/tests/unit/test_google_auth.py::test_get_user_information PASSED  [ 17%]
+server/tests/unit/test_player.py::test_save_commit PASSED                [ 18%]
+server/tests/unit/test_player.py::test_save PASSED                       [ 19%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player PASSED [ 20%]
+server/tests/unit/test_player.py::test_find_players_for_puzzle PASSED    [ 21%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_already_too_many_players PASSED [ 22%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_player_doesnt_exist PASSED [ 23%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_ok PASSED    [ 25%]
+server/tests/unit/test_player.py::test_to_player_to_str FAILED           [ 26%]
+server/tests/unit/test_puzzle_exception.py::test_get_message PASSED      [ 27%]
+server/tests/unit/test_puzzle_pieces.py::test_find_all_pieces PASSED     [ 28%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece PASSED           [ 29%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece_none PASSED      [ 30%]
+server/tests/unit/test_puzzle_pieces.py::test_save_autocommit PASSED     [ 31%]
+server/tests/unit/test_puzzle_pieces.py::test_save PASSED                [ 32%]
+server/tests/unit/test_puzzle_pieces.py::test_update_success PASSED      [ 33%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_static PASSED  [ 34%]
+server/tests/unit/test_puzzle_pieces.py::test_get_as_str PASSED          [ 35%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_defaults FAILED [ 36%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_specification FAILED [ 38%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_str PASSED [ 39%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_low PASSED [ 40%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_high FAILED [ 41%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_str PASSED [ 42%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_low PASSED [ 43%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_high PASSED [ 44%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value1 FAILED    [ 45%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value2 FAILED    [ 46%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_all ERROR [ 47%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_static_only ERROR [ 48%]
+server/tests/unit/test_sudoku_puzzle.py::test_recreate_original_puzzle ERROR [ 50%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_null_values ERROR [ 51%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_complete ERROR [ 52%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_incorrect_values ERROR [ 53%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_none ERROR [ 54%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_many_incorrect ERROR [ 55%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_incomplete_puzzle ERROR [ 56%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_none PASSED     [ 57%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_found FAILED    [ 58%]
+server/tests/unit/test_sudoku_puzzle.py::test_save ERROR                 [ 59%]
+server/tests/unit/test_sudoku_puzzle.py::test_save_autocommit ERROR      [ 60%]
+server/tests/unit/test_sudoku_puzzle.py::test_attempt_update_complete_puzzle ERROR [ 61%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate1 ERROR [ 63%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate2 ERROR [ 64%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate3 ERROR [ 65%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate4 ERROR [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value1 ERROR [ 67%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value2 ERROR [ 68%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid ERROR         [ 69%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_complete_puzzle ERROR [ 70%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete ERROR  [ 71%]
+server/tests/unit/test_sudoku_puzzle.py::test_as_str ERROR               [ 72%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_to_json FAILED   [ 73%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_none PASSED [ 75%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_all FAILED [ 76%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_known_exception FAILED [ 77%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_unknown_exception FAILED [ 78%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one FAILED [ 79%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_retrieved PASSED [ 80%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_associated PASSED [ 81%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_found FAILED [ 82%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_already_joined PASSED [ 83%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle PASSED [ 84%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_known_exception PASSED [ 85%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_unknown_exception PASSED [ 86%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_not_associated PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move FAILED [ 89%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_invalid FAILED [ 90%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_exception FAILED [ 91%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated PASSED [ 92%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated_2 PASSED [ 93%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution FAILED [ 94%]
+server/tests/unit/test_user.py::test_create_user PASSED                  [ 95%]
+server/tests/unit/test_user.py::test_user_as_str PASSED                  [ 96%]
+server/tests/unit/test_user.py::test_user_print PASSED                   [ 97%]
+server/tests/unit/test_user.py::test_user_save PASSED                    [ 98%]
+server/tests/unit/test_user.py::test_find_by_g_id PASSED                 [100%]
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_get_pieces_as_arr_all _________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791329792)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_____________ ERROR at setup of test_get_pieces_as_arr_static_only _____________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792358896)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_______________ ERROR at setup of test_recreate_original_puzzle ________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792423328)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+___________ ERROR at setup of test_check_for_completion_null_values ____________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788607776)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_____________ ERROR at setup of test_check_for_completion_complete _____________
+
+    @pytest.fixture(autouse=False)
+    def complete_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788438016)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________ ERROR at setup of test_check_for_completion_incorrect_values _________
+
+    @pytest.fixture(autouse=False)
+    def incorrect_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548787331856)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_______________ ERROR at setup of test_check_discrepancies_none ________________
+
+    @pytest.fixture(autouse=False)
+    def complete_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788663488)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+__________ ERROR at setup of test_check_discrepancies_many_incorrect ___________
+
+    @pytest.fixture(autouse=False)
+    def incorrect_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792594736)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________ ERROR at setup of test_check_discrepancies_incomplete_puzzle _________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788524032)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________________________ ERROR at setup of test_save __________________________
+
+    @pytest.fixture(autouse=False)
+    def complete_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548793172752)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+____________________ ERROR at setup of test_save_autocommit ____________________
+
+    @pytest.fixture(autouse=False)
+    def complete_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791939712)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+____________ ERROR at setup of test_attempt_update_complete_puzzle _____________
+
+    @pytest.fixture(autouse=False)
+    def complete_puzzle():
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792638384)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+______________ ERROR at setup of test_update_invalid_coordinate1 _______________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792211440)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+______________ ERROR at setup of test_update_invalid_coordinate2 _______________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791044128)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+______________ ERROR at setup of test_update_invalid_coordinate3 _______________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548787383456)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+______________ ERROR at setup of test_update_invalid_coordinate4 _______________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791388384)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________________ ERROR at setup of test_update_invalid_value1 _________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788660736)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________________ ERROR at setup of test_update_invalid_value2 _________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548787366208)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_____________________ ERROR at setup of test_update_valid ______________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548793380144)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_____________ ERROR at setup of test_update_valid_complete_puzzle ______________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791957824)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+__________________ ERROR at setup of test_set_puzzle_complete __________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791081472)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+________________________ ERROR at setup of test_as_str _________________________
+
+    @pytest.fixture(autouse=False)
+    def incomplete_puzzle():
+        """
+        Have an incomplete puzzle that can be used for testing
+        """
+>       puzzle = Puzzle(difficulty_level=0.2, size=2)
+
+server/tests/unit/test_sudoku_puzzle.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548790966976)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+=================================== FAILURES ===================================
+_______________ test_authorize_token_validation_success_register _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd4107e3460>
+verification_token = None
+
+    def test_authorize_token_validation_success_register(monkeypatch, verification_token):
+        """
+        Verification of token should fail if header is Authentication info is malformed
+        """
+        class MockRequest:
+            def __init__(self):
+                self.headers = {'Authorization': 'Bearer Token-Here'}
+                self.endpoint = 'registration'
+    
+        with app.app_context():
+            result = _verify_token(MockRequest())
+>           assert result
+E           assert None
+
+server/tests/unit/test_authentication.py:130: AssertionError
+____________________________ test_to_player_to_str _____________________________
+
+    def test_to_player_to_str():
+        player = PuzzlePlayer(1, 1)
+>       assert str(player) == 'PuzzlePlayer(player_id=1, puzzle_id=1) '
+E       AssertionError: assert 'PuzzlePlayer... puzzle_id=1)' == 'PuzzlePlayer...puzzle_id=1) '
+E         - PuzzlePlayer(player_id=1, puzzle_id=1) 
+E         ?                                       -
+E         + PuzzlePlayer(player_id=1, puzzle_id=1)
+
+server/tests/unit/test_player.py:134: AssertionError
+___________________ test_create_sudoku_puzzle_valid_defaults ___________________
+
+    def test_create_sudoku_puzzle_valid_defaults():
+        """
+        Make sure that it is possible to create a sudoku puzzle using defaults.
+        """
+>       sudoku = Puzzle()
+
+server/tests/unit/test_sudoku_puzzle.py:116: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548787544944)>, difficulty = 0.5
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.5.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+________________ test_create_sudoku_puzzle_valid_specification _________________
+
+    def test_create_sudoku_puzzle_valid_specification():
+        """
+        Make sure that it is possible to create a sudoku puzzle by specifying difficulty and size.
+        """
+>       sudoku = Puzzle(difficulty_level=0.6, size=4)
+
+server/tests/unit/test_sudoku_puzzle.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791243200)>, difficulty = 0.6
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.6.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+____________ test_create_sudoku_puzzle_invalid_difficulty_too_high _____________
+
+    def test_create_sudoku_puzzle_invalid_difficulty_too_high():
+        """
+        Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid difficulty level
+        that is out of range (too high).
+        """
+        with pytest.raises(PuzzleException) as pe:
+>           sudoku = Puzzle(difficulty_level=1.1, size=4)
+
+server/tests/unit/test_sudoku_puzzle.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:44: in __init__
+    self.set_point_value()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548791798272)>
+
+    def set_point_value(self):
+        """
+        Based on the difficulty submitted, determines the point value associated with the puzzle.
+        Harder puzzles receive higher point values.
+        """
+        # find points for difficulty
+        difficulty_intervals = list(self.POINT_VALUES_DIFFICULTY.keys())
+        i = 0
+        while i < len(difficulty_intervals) and not \
+                (difficulty_intervals[i][0] <= self.difficulty <= difficulty_intervals[i][1]):
+            i += 1
+>       difficulty_points = self.POINT_VALUES_DIFFICULTY[difficulty_intervals[i]]
+E       IndexError: list index out of range
+
+server/models/sudoku_puzzle.py:131: IndexError
+____________________________ test_set_point_value1 _____________________________
+
+    def test_set_point_value1():
+        """
+        Make sure that point values are calculated correctly based on difficulty and size.
+        """
+>       sudoku = Puzzle(difficulty_level=0.6, size=4)
+
+server/tests/unit/test_sudoku_puzzle.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788756736)>, difficulty = 0.6
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.6.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+____________________________ test_set_point_value2 _____________________________
+
+    def test_set_point_value2():
+        """
+        Make sure that point values are calculated correctly based on difficulty and size.
+        """
+>       sudoku = Puzzle(difficulty_level=0.2, size=3)
+
+server/tests/unit/test_sudoku_puzzle.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548789031744)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+____________________________ test_get_puzzle_found _____________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410a257f0>
+pieces = [<PuzzlePiece (transient 140548788869536)>, <PuzzlePiece (transient 140548788869584)>, <PuzzlePiece (transient 1405487...transient 140548788869152)>, <PuzzlePiece (transient 140548788869056)>, <PuzzlePiece (transient 140548788869824)>, ...]
+
+    def test_get_puzzle_found(monkeypatch, pieces):
+        """
+        If the puzzle exists, it should be successfully returned by the get_puzzle() function.
+        """
+        class MockBaseQuery:
+    
+            def __init__(self, *args, **kwargs):
+                pass
+    
+            def filter_by(self, *args, **kwargs):
+                class Results():
+                    def first(self):
+                        return Puzzle(difficulty_level=0.2, size=2)
+    
+                return Results()
+    
+            def join(self, *args, **kwargs):
+                return
+    
+        def mock_find_pieces(*args, **kwargs):
+            return pieces
+    
+        monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+        monkeypatch.setattr(PuzzlePiece, "find_all_pieces", mock_find_pieces)
+    
+>       result = Puzzle.get_puzzle(1)
+
+server/tests/unit/test_sudoku_puzzle.py:336: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/models/sudoku_puzzle.py:52: in get_puzzle
+    puzzle = cls.query.filter_by(id=puzzle_id).first()  # returns None if no results matched
+server/tests/unit/test_sudoku_puzzle.py:323: in first
+    return Puzzle(difficulty_level=0.2, size=2)
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788870880)>, difficulty = 0.2
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.2.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_____________________________ test_sudoku_to_json ______________________________
+
+    def test_sudoku_to_json():
+        """
+        Conversion of sudoku puzzle to json should be successful.
+        """
+        foobar = User('54321', 'foo', 'bar', 'foobar@comsci.com')
+        foobar.id = 1
+    
+        princess = User('98734', 'Princess', 'Bride', 'princess@princessbride.com')
+        princess.id = 2
+    
+>       sudoku = Puzzle(difficulty_level=0.6, size=4)
+
+server/tests/unit/test_sudoku_resources.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788939648)>, difficulty = 0.6
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.6.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_________________________ test_get_sudoku_puzzles_all __________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410aca8b0>
+user = <User (transient 140548789546432)>, mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_all(monkeypatch, user, mock_get_puzzle):
+        """
+        If there are puzzles associated with the player, an attempt to get all puzzles should
+        return all associated puzzles.
+        """
+        def mock_get_puzzles_for_player(*args, **kwargs):
+            return [PuzzlePlayer(player_id=5, puzzle_id=3)]
+    
+        def mock_get_players(*args, **kwargs):
+            return [User(first_name='Sally', last_name='Sue', email='sallysue@emails.com', g_id='123445')]
+    
+        monkeypatch.setattr(PuzzlePlayer, 'find_all_puzzles_for_player', mock_get_puzzles_for_player)
+        monkeypatch.setattr(PuzzlePlayer, 'find_players_for_puzzle', mock_get_players)
+    
+        with app.app_context():
+            g.user = user
+            puzzles_resource = SudokuPuzzles()
+>           result = puzzles_resource.get()
+
+server/tests/unit/test_sudoku_resources.py:109: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/resources/sudoku.py:41: in get
+    'puzzles': [
+server/resources/sudoku.py:43: in <listcomp>
+    puzzle=Puzzle.get_puzzle(puzzle.puzzle_id),
+server/tests/unit/test_sudoku_resources.py:41: in mock_get_puzzle
+    puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548789546864)>, difficulty = 0.5
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.5.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+______________ test_get_sudoku_puzzles_create_one_known_exception ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410d79700>
+user = <User (transient 140548792358080)>
+
+    def test_get_sudoku_puzzles_create_one_known_exception(monkeypatch, user):
+        """
+        If a known exception (Puzzle Exception) is raised during the processing of the request, the response
+        should follow an expected format.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'difficulty': 0.5,
+                    'size': 5
+                }
+    
+        def mock_save(*args, **kwargs):
+            return None
+    
+        def raise_exception(*args, **kwargs):
+            raise PuzzleException("A bad exception!")
+    
+        monkeypatch.setattr(Puzzle, 'save', mock_save)
+        monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)   # to speed up tests
+        monkeypatch.setattr(PuzzlePlayer, 'save', raise_exception)
+    
+        with app.app_context():
+            g.user = user
+            puzzles_resource = SudokuPuzzles()
+            puzzles_resource.parser = MockParser()
+            result = puzzles_resource.post()
+    
+        expected = ({'message': 'Failed to create new Sudoku Puzzle',
+                     'reason': "A bad exception!"}, 400)
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == ({'message': ...ption!'}, 400)
+E         At index 0 diff: {'message': 'Failed to create new Sudoku Puzzle', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'} != {'message': 'Failed to create new Sudoku Puzzle', 'reason': 'A bad exception!'}
+E         Full diff:
+E           (
+E            {'message': 'Failed to create new Sudoku Puzzle',
+E         -   'reason': 'A bad exception!'},
+E         +   'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'},
+E            400,...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:158: AssertionError
+_____________ test_get_sudoku_puzzles_create_one_unknown_exception _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410c05370>
+user = <User (transient 140548790834848)>
+
+    def test_get_sudoku_puzzles_create_one_unknown_exception(monkeypatch, user):
+        """
+        If an unknown exception (Puzzle Exception) is raised during the processing of the request, the response
+        should follow an expected format.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'difficulty': 0.5,
+                    'size': 5
+                }
+    
+        def mock_save(*args, **kwargs):
+            return None
+    
+        def raise_exception(*args, **kwargs):
+            raise Exception("A generic bad exception!")
+    
+        monkeypatch.setattr(Puzzle, 'save', mock_save)
+        monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)   # to speed up tests
+        monkeypatch.setattr(PuzzlePlayer, 'save', raise_exception)
+    
+        with app.app_context():
+            g.user = user
+            puzzles_resource = SudokuPuzzles()
+            puzzles_resource.parser = MockParser()
+            result = puzzles_resource.post()
+    
+        expected = ({'message': 'Failed to create new Sudoku Puzzle'}, 500)
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == ({'message': ...Puzzle'}, 500)
+E         At index 0 diff: {'message': 'Failed to create new Sudoku Puzzle', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'} != {'message': 'Failed to create new Sudoku Puzzle'}
+E         Full diff:
+E           (
+E         -  {'message': 'Failed to create new Sudoku Puzzle'},
+E         ?                                                  -
+E         +  {'message': 'Failed to create new Sudoku Puzzle',
+E         +   'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'},...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:193: AssertionError
+______________________ test_get_sudoku_puzzles_create_one ______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410911e80>
+user = <User (transient 140548787740144)>
+
+    def test_get_sudoku_puzzles_create_one(monkeypatch, user):
+        """
+        A valid request to create a puzzle should be successful.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'difficulty': 0.5,
+                    'size': 5
+                }
+    
+        def mock_save(*args, **kwargs):
+            return None
+    
+        def mock_return_id(*args, **kwargs):
+            return 1
+    
+        monkeypatch.setattr(Puzzle, 'save', mock_return_id)
+        monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
+        monkeypatch.setattr(PuzzlePlayer, 'save', mock_save)
+        monkeypatch.setattr(db, "session", MockSession)
+    
+        with app.app_context():
+            g.user = user
+            puzzles_resource = SudokuPuzzles()
+            puzzles_resource.parser = MockParser()
+            result = puzzles_resource.post()
+    
+        expected = {
+            'message': 'New Sudoku puzzle successfully created',
+            'difficulty': 0.5,
+            'size': 5,
+            'puzzle_id': 1
+        }
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == {'difficulty'... 1, 'size': 5}
+E         +({'message': 'Failed to create new Sudoku Puzzle', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'}, 400)
+E         -{'message': 'New Sudoku puzzle successfully created', 'difficulty': 0.5, 'size': 5, 'puzzle_id': 1}
+E         Full diff:
+E         + (
+E         +  {'message': 'Failed to create new Sudoku Puzzle',
+E         +   'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'},
+E         +  400,...
+E         
+E         ...Full output truncated (8 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:233: AssertionError
+_________________________ test_get_sudoku_puzzle_found _________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410d3bdc0>
+mock_get_puzzle = None, mock_single_puzzles_for_player = None
+user = <User (transient 140548792106816)>
+
+    def test_get_sudoku_puzzle_found(monkeypatch, mock_get_puzzle, mock_single_puzzles_for_player, user):
+        """
+        If an attempt is made to a get a puzzle that is associated with a user, the response should
+        successfully return that puzzle.
+        """
+        def mock_get_players(*args, **kwargs):
+            user = User(first_name='Sally', last_name='Sue', email='sallysue@emails.com', g_id='123445')
+            user.id = 1
+            return [user]
+    
+        monkeypatch.setattr(PuzzlePlayer, 'find_players_for_puzzle', mock_get_players)
+    
+        with app.app_context():
+            puzzles_resource = SudokuPuzzle()
+            g.user = user
+>           result = puzzles_resource.get(1)
+
+server/tests/unit/test_sudoku_resources.py:286: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/resources/sudoku.py:101: in get
+    puzzle=Puzzle.get_puzzle(puzzle_id),
+server/tests/unit/test_sudoku_resources.py:41: in mock_get_puzzle
+    puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548792103792)>, difficulty = 0.5
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.5.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+_______________________ test_get_sudoku_puzzles_add_move _______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410f7b3d0>
+user = <User (transient 140548794462800)>, mock_single_puzzles_for_player = None
+mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_add_move(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+        """
+        If a player attempts to make a move on a puzzle that they are associated with, the attempt should be
+        successful.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'x_coordinate': 0,
+                    'y_coordinate': 1,
+                    'value': 1
+                }
+    
+        monkeypatch.setattr(db, "session", MockSession)
+    
+        with app.app_context():
+            g.user = user
+            puzzle_piece_resource = SudokuPuzzlePiece()
+            puzzle_piece_resource.parser = MockParser()
+            result = puzzle_piece_resource.post(1)
+    
+        expected = {'message': 'Successfully saved the submission of 1 at (0, 0) on puzzle_id 1 by Jane Doe (id = 1)'}
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == {'message': '...Doe (id = 1)'}
+E         +({'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'}, 400)
+E         -{'message': 'Successfully saved the submission of 1 at (0, 0) on puzzle_id 1 by Jane Doe (id = 1)'}
+E         Full diff:
+E         - {
+E         -  'message': 'Successfully saved the submission of 1 at (0, 0) on puzzle_id 1 '
+E         -             'by Jane Doe (id = 1)',
+E         - }...
+E         
+E         ...Full output truncated (7 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:421: AssertionError
+___________________ test_get_sudoku_puzzles_add_move_invalid ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410d1e400>
+user = <User (transient 140548791987888)>, mock_single_puzzles_for_player = None
+mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_add_move_invalid(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+        """
+        If a player attempts to make an invalid move on a puzzle that they are associated with, the request
+        should not be successful.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'x_coordinate': 0,
+                    'y_coordinate': 100,
+                    'value': 1
+                }
+    
+        monkeypatch.setattr(db, "session", MockSession)
+    
+        with app.app_context():
+            g.user = user
+            puzzle_piece_resource = SudokuPuzzlePiece()
+            puzzle_piece_resource.parser = MockParser()
+            result = puzzle_piece_resource.post(1)
+    
+        expected = ({'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful',
+                     'reason': 'Coordinates provided (0, 100) are outside the range of the puzzle. '
+                               'Available coordinates are (0, 0) to (9, 9).'}, 400)
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == ({'message': ...9, 9).'}, 400)
+E         At index 0 diff: {'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'} != {'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful', 'reason': 'Coordinates provided (0, 100) are outside the range of the puzzle. Available coordinates are (0, 0) to (9, 9).'}
+E         Full diff:
+E           (
+E            {'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id '
+E                        '= 1) was unsuccessful',
+E         +   'reason': 'Difficult...
+E         
+E         ...Full output truncated (5 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:451: AssertionError
+__________________ test_get_sudoku_puzzles_add_move_exception __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410c8c130>
+user = <User (transient 140548791388432)>, mock_single_puzzles_for_player = None
+mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_add_move_exception(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+        """
+        If a player attempts to make a move on the puzzle, but an exception is raised, the response should
+        follow a predictable format.
+        """
+        class MockParser:
+            def add_argument(self, *args, **kwargs):
+                pass
+    
+            def parse_args(self):
+                return {
+                    'x_coordinate': 0,
+                    'y_coordinate': 100,
+                    'value': 1
+                }
+    
+        def raise_exception(*args, **kwargs):
+            raise Exception("A very bad and unknown exception!")
+    
+        monkeypatch.setattr(Puzzle, 'update', raise_exception)
+        monkeypatch.setattr(db, "session", MockSession)
+    
+        with app.app_context():
+            g.user = user
+            puzzle_piece_resource = SudokuPuzzlePiece()
+            puzzle_piece_resource.parser = MockParser()
+            result = puzzle_piece_resource.post(1)
+    
+        expected = ({'message': 'Unexpected error occurred while adding new value to puzzle'}, 500)
+>       assert result == expected
+E       AssertionError: assert ({'message': ...t 0.5.'}, 400) == ({'message': ...puzzle'}, 500)
+E         At index 0 diff: {'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful', 'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'} != {'message': 'Unexpected error occurred while adding new value to puzzle'}
+E         Full diff:
+E           (
+E         -  {'message': 'Unexpected error occurred while adding new value to puzzle'},
+E         +  {'message': 'Attempt to save 1 at (0, 0) on puzzle_id 1 by user Jane Doe (id '
+E         +              '= 1) was unsuccessful',
+E         +   'reason': 'Difficulty levels must range between 0.01 and 0.99. Got 0.5.'},...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:483: AssertionError
+_____________________ test_get_sudoku_puzzles_get_solution _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd410a38cd0>
+user = <User (transient 140548788947744)>, mock_single_puzzles_for_player = None
+mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_get_solution(monkeypatch, user, mock_single_puzzles_for_player, mock_get_puzzle):
+        """
+        If a player attempts to get the solution for a puzzle that they are associated with, the request
+        should succeed.
+        """
+        with app.app_context():
+            g.user = user
+            puzzle_solution_resource = SudokuPuzzleSolution()
+>           result = puzzle_solution_resource.get(1)
+
+server/tests/unit/test_sudoku_resources.py:522: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/resources/sudoku.py:210: in get
+    puzzle = Puzzle.get_puzzle(puzzle_id)
+server/tests/unit/test_sudoku_resources.py:41: in mock_get_puzzle
+    puzzle = Puzzle(difficulty_level=0.5, completed=False, size=3)
+<string>:4: in __init__
+    ???
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:433: in _initialize_instance
+    manager.dispatch.init_failure(self, args, kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: in __exit__
+    compat.raise_(
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: in raise_
+    raise exception
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:430: in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+server/models/sudoku_puzzle.py:42: in __init__
+    self.set_difficulty(difficulty_level)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Puzzle (transient 140548788947456)>, difficulty = 0.5
+
+    def set_difficulty(self, difficulty):
+        """
+        Checks to make sure that the difficulty level of the requested Sudoku board is supported.
+        """
+        if not isinstance(difficulty, float):
+            raise PuzzleException(f"Sudoku puzzle difficulty specified must be a float value. "
+                                  f"Got {difficulty} ({type(difficulty)}).")
+    
+        min_difficulty = self.DIFFICULTY_RANGE[0]
+        max_difficulty = self.DIFFICULTY_RANGE[1]
+    
+        if difficulty < min_difficulty or difficulty < max_difficulty:
+>           raise PuzzleException(f"Difficulty levels must range between "
+                                  f"{min_difficulty} and {max_difficulty}. Got {difficulty}.")
+E           server.models.puzzle_exception.PuzzleException: Difficulty levels must range between 0.01 and 0.99. Got 0.5.
+
+server/models/sudoku_puzzle.py:92: PuzzleException
+=========================== short test summary info ============================
+FAILED server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register
+FAILED server/tests/unit/test_player.py::test_to_player_to_str - AssertionErr...
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_defaults
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_specification
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_high
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_set_point_value1 - serve...
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_set_point_value2 - serve...
+FAILED server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_found - serve...
+FAILED server/tests/unit/test_sudoku_resources.py::test_sudoku_to_json - serv...
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_all
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_known_exception
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_unknown_exception
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_found
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_invalid
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_exception
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_all - s...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_static_only
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_recreate_original_puzzle
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_null_values
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_complete
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_incorrect_values
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_none
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_many_incorrect
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_incomplete_puzzle
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_save - server.models.puzz...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_save_autocommit - server....
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_attempt_update_complete_puzzle
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate1
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate2
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate3
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate4
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value1 - s...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value2 - s...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_valid - server.mod...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_update_valid_complete_puzzle
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete - ser...
+ERROR server/tests/unit/test_sudoku_puzzle.py::test_as_str - server.models.pu...
+=================== 18 failed, 52 passed, 22 errors in 2.86s ===================

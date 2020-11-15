@@ -43,4 +43,4 @@ server/tests/integration/test_authentication.py::test_registration_missing_heade
     loader = self.auto_fn(name)
 
 -- Docs: https://docs.pytest.org/en/stable/warnings.html
-======================== 31 passed, 1 warning in 28.59s ========================
+======================== 31 passed, 1 warning in 28.58s ========================
