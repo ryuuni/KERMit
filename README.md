@@ -9,7 +9,7 @@ Group Members:
 ## Server - Flask API
 
 ### Setup
-To start up the server, follow this sequence of steps
+To start up the server, follow this sequence of steps:
 
 #### 1. Activate the virtualenv and install dependencies for the project
 
@@ -205,7 +205,9 @@ Here is a sample successful response:
 There are a number of possible requests that are invalid; responses to invalid requests
 will have a `message` and `reason` field explaining what happened.
 
-## Tests
+## Tests/Checks
+
+When running the scripts outlined below, all test/coverage/style check results will be written to a file in `./reports/backend` under the corresponding folder.
 
 ### Unit Tests
 
@@ -240,6 +242,14 @@ $ (venv) ./bin/run_backend_coverage.sh <TEST-TYPE>
 ```
 Where `<TEST-TYPE>` can be `unit`, `integration` or not specified (in this case it will run both test types) and 
 determine coverage based on both.
+
+### Bug/Style Checker
+
+This project uses pylint for style checking and bug finding. To run pylint:
+
+```
+$ (venv) ./bin/run_backend_bugs_style_check.sh 
+```
 
 ### Manual Tests
 
