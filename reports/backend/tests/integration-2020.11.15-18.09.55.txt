@@ -1,0 +1,92 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 31 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header PASSED [  3%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header PASSED [  6%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid PASSED [  9%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error FAILED [ 12%]
+server/tests/integration/test_authentication.py::test_registration_token_valid_missing_info1 PASSED [ 16%]
+server/tests/integration/test_authentication.py::test_registration_token_valid_missing_info2 PASSED [ 19%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists FAILED [ 22%]
+server/tests/integration/test_authentication.py::test_successful_user_registration PASSED [ 25%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration PASSED [ 29%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles PASSED [ 32%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle PASSED [ 35%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid PASSED [ 38%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small PASSED [ 41%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large PASSED [ 45%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large PASSED [ 48%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small PASSED [ 51%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user PASSED [ 54%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid PASSED [ 58%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle PASSED [ 61%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle PASSED [ 64%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist PASSED [ 67%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid PASSED [ 70%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached PASSED [ 74%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet PASSED [ 77%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value PASSED [ 80%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_puzzle_player_is_not_affiliated_with PASSED [ 83%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low PASSED [ 87%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high PASSED [ 90%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high PASSED [ 93%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low PASSED [ 96%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete PASSED [100%]
+
+=================================== FAILURES ===================================
+______________________ test_registration_user_info_error _______________________
+
+test_client = <FlaskClient <Flask 'server.server'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None, user_info_error = None
+
+    def test_registration_user_info_error(test_client, init_db, verification_true, user_info_error):
+        """
+        Test when a request is made to /register, but the user info Google endpoint returned an error.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 400
+E       assert 401 == 400
+E         +401
+E         -400
+
+server/tests/integration/test_authentication.py:113: AssertionError
+___________________ test_registration_user_id_already_exists ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ffd65419af0>
+test_client = <FlaskClient <Flask 'server.server'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):
+        """
+        Make sure that if the user id already exists, there is no need to re-register them.
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "id": "12345",  # this user already exists
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 401 == 200
+E         +401
+E         -200
+
+server/tests/integration/test_authentication.py:179: AssertionError
+=============================== warnings summary ===============================
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_authentication.py::test_registration_user_info_error
+FAILED server/tests/integration/test_authentication.py::test_registration_user_id_already_exists
+=================== 2 failed, 29 passed, 1 warning in 28.41s ===================

@@ -98,4 +98,4 @@ server/tests/unit/test_user.py::test_user_print PASSED                   [ 97%]
 server/tests/unit/test_user.py::test_user_save PASSED                    [ 98%]
 server/tests/unit/test_user.py::test_find_by_g_id PASSED                 [100%]
 
-============================== 92 passed in 1.44s ==============================
+============================== 92 passed in 1.07s ==============================
