@@ -20,7 +20,6 @@ def test_client():
 def init_db(test_client):
 
     # setup -- create the database tables
-    db.drop_all()
     db.create_all()
     db.session.commit()
 

@@ -1,5 +1,11 @@
 # KERMit
 
+Group Members:
+* Megan Frenkel (mmf2171)
+* Riddhima Reddy Narravula (rrn2119
+* Emily Jin (ej2332)
+* Kundan Guha (kg2632)
+
 ## Server - Flask API
 
 ### Setup
@@ -12,6 +18,7 @@ and install the dependencies by following the commands below:
 ```
 $ cd server
 $ python3 -m virtualenv venv        # create the virtualenv
+$ source venv/bin/activate          # activate virtualenv
 $ pip install -r requirements.txt   # install all dependencies
 ```
 This should complete without any errors. Nevertheless, some users have reported issues installing
@@ -69,7 +76,7 @@ Google identifer.
 If successful, the endpoint will return a message like the following:
 ```
 {
-    "message": "User Megan Frenkel was successfully registered"
+    "message": "User Sally Sue was successfully registered"
 }
 ```
 
@@ -78,7 +85,7 @@ a message like:
 
 ```
 {
-    'message': "Successfully added Megan Frenkel (id = 1) to puzzle with id 2."
+    'message': "Successfully added Sally Sue (id = 1) to puzzle with id 2."
 }
 ````
 
@@ -101,9 +108,9 @@ specified; it will be retrieved based on the submitted access token in the heade
             "players": [
                 {
                     "id": 2,
-                    "first_name": "Megan",
-                    "last_name": "Frenkel",
-                    "email": "mmf2171@columbia.edu"
+                    "first_name": "Sally",
+                    "last_name": "Sue",
+                    "email": "ss201@columbia.edu"
                 }
             ]
         }
@@ -138,9 +145,9 @@ the id of the puzzle in the database. Here is an example response:
     "players": [
         {
             "id": 2,
-            "first_name": "Megan",
-            "last_name": "Frenkel",
-            "email": "mmf2171@columbia.edu"
+            "first_name": "Sally",
+            "last_name": "Sue",
+            "email": "ss201@columbia.edu"
         }
     ]
 }
@@ -191,7 +198,7 @@ for `puzzle_id`) with the following request body as JSON:
 Here is a sample successful response:
 ```
 {
-    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Megan Frenkel (id = 2)"
+    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Sally Sue (id = 2)"
 }
 ```
 
@@ -204,38 +211,35 @@ will have a `message` and `reason` field explaining what happened.
 
 To run unit tests:
 ```
-$ (venv) cd server
-$ (venv) python -m pytest ./tests/unit
+$ (venv) ./bin/run_backend_tests.sh unit
 ```
 
 ### Integration Tests
 
-To run the integration test suite for the api, make sure to set the following two
-environmental variables: `SQLALCHEMY_DATABASE_URI_TEST` and `JWT_SECRET_KEY`. Note that
-for the tests, the database and secret key can be whatever test information you'd like.
+To run the integration test suite for the api, make sure to set the following
+environmental variables: `SQLALCHEMY_DATABASE_URI_TEST`, `FLASK_APP`, `FLASK_ENV`. 
 
-If you forget to set these environmental variables correct, you'll see this error message: 
+If you forget to set the `SQLALCHEMY_DATABASE_URI_TEST` correctly, you'll see this error message: 
 `AttributeError: 'NoneType' object has no attribute 'drivername'`.
 
 To run the tests:
 ```
-$ (venv) cd server
-$ (venv) python -m pytest ./tests/integration
+$ (venv) ./bin/run_backend_tests.sh integration
+```
+
+To run both integration and unit tests at the same type, simply omit the specification of integration and unit:
+```
+$ (venv) ./bin/run_backend_tests.sh
 ```
 
 ### Test Coverage
 
 This project uses python's coverage tool to check test coverage. To run coverage:
 ```
-$ (venv) coverage run -m --omit "venv/*" --branch  pytest ./tests
+$ (venv) ./bin/run_backend_coverage.sh <TEST-TYPE>
 ```
-Note that you may specify `./tests/unit` or `./tests/integration` to see the coverage for 
-individual test types.
-
-To see the coverage report:
-```
-$ (venv) coverage report -m
-```
+Where `<TEST-TYPE>` can be `unit`, `integration` or not specified (in this case it will run both test types) and 
+determine coverage based on both.
 
 ### Manual Tests
 
@@ -250,7 +254,3 @@ Make sure that in the first step, you authorize the following two APIs found und
 Once you clicked on "Authorize APIs" (you may also need to sign into Google) and have exchanged the authorization
 code for tokens, the access token field should automatically populate. You can use this access token for any requests 
 made in Postman until the token expires.
-
-### Sources
-
-(To be filled in more later) 

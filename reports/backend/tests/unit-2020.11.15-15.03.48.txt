@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 92 items
+
+server/tests/unit/test_authentication.py ..............                  [ 15%]
+server/tests/unit/test_google_auth.py ..                                 [ 17%]
+server/tests/unit/test_player.py ........                                [ 26%]
+server/tests/unit/test_puzzle_exception.py .                             [ 27%]
+server/tests/unit/test_puzzle_pieces.py ........                         [ 35%]
+server/tests/unit/test_sudoku_puzzle.py ................................ [ 70%]
+..                                                                       [ 72%]
+server/tests/unit/test_sudoku_resources.py ....................          [ 94%]
+server/tests/unit/test_user.py .....                                     [100%]
+
+============================== 92 passed in 1.59s ==============================
