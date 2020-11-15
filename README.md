@@ -1,4 +1,6 @@
-# KERMit
+#  Isshoni Sudoku
+
+By KERMit
 
 Group Members:
 * Megan Frenkel (mmf2171)
@@ -8,10 +10,10 @@ Group Members:
 
 ## Server - Flask API
 
-### Setup
+## I. Setup
 To start up the server, follow this sequence of steps:
 
-#### 1. Activate the virtualenv and install dependencies for the project
+#### i. Activate the virtualenv and install dependencies for the project
 
 All dependencies for the server can be found in `./server/requirements.txt`. Create a new virtual python environment
 and install the dependencies by following the commands below:
@@ -25,7 +27,7 @@ This should complete without any errors. Nevertheless, some users have reported 
 `psycopg2` using pip in Mac OS (this package is the PostgreSQL database adapter for Python).
 In the case that this happens, this [page](https://stackoverflow.com/a/42264168)  provides a working solution.
 
-#### 2. Set environmental variables
+#### ii. Set environmental variables
 
 In order to run the server, you'll need to set a few environmental variables to tell Flask 
  what app to run and which database to use. The following environmental variables can be used for
@@ -49,7 +51,7 @@ Two Heroku Postgres databases are setup for this project (one for dev and one fo
 the URI for these databases if you'd like to use them. You can setup any postgres database locally that you'd 
 like though!
  
-#### 3. Start the server
+#### iii. Start the server
 
 Starting the Flask server is as simple as issuing the following command
 from the `./server` directory:
@@ -57,9 +59,9 @@ from the `./server` directory:
 $ flask run
 ```
 
-### Endpoints
+## II. Endpoints
 
-#### I. Registration
+#### i. Registration
 
 This API relies on Google Oauth2 tokens for authentication and each request requires that the Oauth2 token be specified
 in the request header. For example, in a curl command:
@@ -89,7 +91,7 @@ a message like:
 }
 ````
 
-#### II. Puzzles
+#### ii. Puzzles
 
 To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
 specified; it will be retrieved based on the submitted access token in the header. Here is a sample response:
@@ -184,7 +186,7 @@ a response that looks like:
 
 ```
 
-#### IV. Puzzle Pieces
+#### iii. Puzzle Pieces
 
 To add a number to the puzzle, make a `POST` request to `/puzzles/<puzzle_id>/piece` (specifying the value 
 for `puzzle_id`) with the following request body as JSON:
@@ -205,18 +207,18 @@ Here is a sample successful response:
 There are a number of possible requests that are invalid; responses to invalid requests
 will have a `message` and `reason` field explaining what happened.
 
-## Tests/Checks
+## III. Tests/Checks
 
 When running the scripts outlined below, all test/coverage/style check results will be written to a file in `./reports/backend` under the corresponding folder.
 
-### Unit Tests
+### i. Unit Tests
 
 To run unit tests:
 ```
 $ (venv) ./bin/run_backend_tests.sh unit
 ```
 
-### Integration Tests
+### ii. Integration Tests
 
 To run the integration test suite for the api, make sure to set the following
 environmental variables: `SQLALCHEMY_DATABASE_URI_TEST`, `FLASK_APP`, `FLASK_ENV`. 
@@ -234,7 +236,7 @@ To run both integration and unit tests at the same type, simply omit the specifi
 $ (venv) ./bin/run_backend_tests.sh
 ```
 
-### Test Coverage
+### iii. Test Coverage
 
 This project uses python's coverage tool to check test coverage. To run coverage:
 ```
@@ -243,7 +245,7 @@ $ (venv) ./bin/run_backend_coverage.sh <TEST-TYPE>
 Where `<TEST-TYPE>` can be `unit`, `integration` or not specified (in this case it will run both test types) and 
 determine coverage based on both.
 
-### Bug/Style Checker
+### iv. Bug/Style Checker
 
 This project uses pylint for style checking and bug finding. To run pylint:
 
@@ -251,7 +253,7 @@ This project uses pylint for style checking and bug finding. To run pylint:
 $ (venv) ./bin/run_backend_bugs_style_check.sh 
 ```
 
-### Manual Tests
+### v. Manual Tests
 
 The easiest way to manually the API is through Postman. You can easily generate an oauth2 token for testing
 by going to Google's Oauth 2.0 Playground [here](https://developers.google.com/oauthplayground/).
