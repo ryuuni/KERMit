@@ -26,8 +26,12 @@ class App extends Component {
           <div className="header">
             <div className="title">Isshoni Sudoku</div>
             {loggedIn && (
-              <div>
+              <div className="nav-item">
                 <Link to="/mypuzzles">My Puzzles</Link>
+              </div>
+            )}
+            {loggedIn && (
+              <div className="nav-item">
                 <Link to="/leaderboard">Leaderboard</Link>
               </div>
             )}

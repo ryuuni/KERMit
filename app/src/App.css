@@ -1,17 +1,39 @@
 .App {
   text-align: center;
+  justify-items: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.login-btn {
-  margin-left: auto;
-}
-
 .header {
+  background-color: rgb(80, 146, 233);
+  color: white;
   display: flex; 
   flex-direction: row;
+  font-size: 25px;
+  font-weight: bold;
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 20px;
+  padding: 10px;
   text-align: center;
-  background-color: aquamarine;
+}
+
+.login-btn {
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.nav-item {
+  border-color: white;
+  border-width: 0px thick;
+  font-size: 18px;
+  margin-left: 30px;
+  min-height: 50px;
+  padding: 0px 10px;
+}
+
+.nav-item:hover {
+  background-color: rgb(105, 160, 233);
 }
