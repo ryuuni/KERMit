@@ -1,0 +1,39 @@
+.puzzle-card {
+    background-color: white;
+    border: 2px solid rgb(177, 175, 175);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height: 75px;
+    margin: 20px;
+    padding: 30px;
+    width: 300px; 
+}
+
+.puzzle-card:hover {
+    background-color: #b8b3b3;
+    cursor: pointer;
+}
+
+.main-info {
+    display: flex; 
+    flex-direction: row; 
+    line-height: 20px;
+    height: 20px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.status {
+    font-weight: normal;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.details {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: left;
+}
