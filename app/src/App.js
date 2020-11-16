@@ -50,6 +50,7 @@ class App extends Component {
                   <Leaderboard accessToken={this.state.accessToken}/>
                 </Route>
                 <Route path="/puzzle/:puzzleId">
+                  {/* TODO(Emily): change this line here to map to your component! */}
                   <Puzzle accessToken={this.state.accessToken} />
                 </Route>
               </Switch>

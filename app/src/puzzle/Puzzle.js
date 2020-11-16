@@ -1,5 +1,9 @@
+import {
+    useParams
+  } from "react-router-dom";
 function Puzzle(props) {
-    return <h3>Puzzle page</h3>;
+    let { puzzleId } = useParams();
+    return <h3>Puzzle with id: {puzzleId}</h3>;
 }
 
 export default Puzzle;
