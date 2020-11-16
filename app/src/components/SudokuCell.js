@@ -3,23 +3,30 @@ import PropTypes from 'prop-types';
 import './SudokuCell.css'
 
 export default function SudokuCell(props) {
-  // const {value, prefilled} = props;
-  const [value, setValue] = useState('');
-
-  return (
-    <td>
+  const [value, setValue] = useState(props.number);
+  if (props.prefilled == true) {
+    return (
       <input 
         type="text"
-        pattern="[1-9]"
-        className="basicCell" 
+        className="fixedCell" 
         value={value}
-        onInput={event => {
-          const userInput = (event.target.validity.valid) ? 
-          event.target.value : value;
-          setValue(userInput)
-          }}
+        readOnly
       />
-    </td>
+    );
+  }
+
+  return (
+    <input 
+      type="text"
+      pattern="[1-9]"
+      className="inputCell" 
+      value={(value) ? value : ''}
+      onInput={event => {
+        const userInput = (event.target.validity.valid) ? 
+        event.target.value : value;
+        setValue(userInput)
+        }}
+    />
   );
 };
 
@@ -29,7 +36,7 @@ SudokuCell.defaultProps = {
 };
 
 SudokuCell.propTypes = {
-  number: PropTypes.number.isRequired,
+  number: PropTypes.number,
   prefilled: PropTypes.bool.isRequired,
 };
 

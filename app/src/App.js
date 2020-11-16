@@ -1,8 +1,10 @@
 import './App.css';
 import GoogleBtn from './GoogleBtn';
-import React, { Component } from 'react'
-import Leaderboard from './leaderboard/Leaderboard'
-import Puzzles from './puzzle/Puzzles'
+import React, { Component } from 'react';
+import Leaderboard from './leaderboard/Leaderboard';
+import Puzzles from './puzzle/Puzzles';
+// import Puzzle from './puzzle/Puzzle';
+import SudokuBoard from './components/SudokuBoard'
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,8 +28,12 @@ class App extends Component {
           <div className="header">
             <div className="title">Isshoni Sudoku</div>
             {loggedIn && (
-              <div>
+              <div className="nav-item">
                 <Link to="/mypuzzles">My Puzzles</Link>
+              </div>
+            )}
+            {loggedIn && (
+              <div className="nav-item">
                 <Link to="/leaderboard">Leaderboard</Link>
               </div>
             )}
@@ -44,9 +50,13 @@ class App extends Component {
                 <Route path="/leaderboard">
                   <Leaderboard accessToken={this.state.accessToken}/>
                 </Route>
+                <Route path="/puzzle/:puzzleId">
+                  {/* TODO(Emily): change this line here to map to your component! */}
+                  <SudokuBoard accessToken={this.state.accessToken} />
+                </Route>
               </Switch>
             ):(
-              <div>Please log in!</div>
+              <div>Please log in to play!</div>
             )}
           </div>
         </div>
