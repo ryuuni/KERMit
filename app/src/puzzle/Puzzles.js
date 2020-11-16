@@ -1,5 +1,7 @@
+import SudokuBoard from '../components/SudokuBoard'
+
 function Puzzles(props) {
-    return <h2>My puzzles go here.</h2>;
+    return <SudokuBoard/>;
 }
 
 export default Puzzles;
