@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-
 const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleusercontent.com';
-
 
 class GoogleBtn extends Component {
    constructor(props) {
@@ -27,6 +25,15 @@ class GoogleBtn extends Component {
         accessToken: response.accessToken
       }));
     }
+    this.props.onAccessTokenChanged(response.accessToken)
+    console.log('response: ')
+    const requestOptions = {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${this.state.accessToken}` },
+    };
+    fetch('/register', requestOptions).then(res => res.json()).then(data => {
+      console.log(data)
+    });
   }
 
   logout (response) {
@@ -34,6 +41,7 @@ class GoogleBtn extends Component {
       isLogined: false,
       accessToken: ''
     }));
+    this.props.onAccessTokenChanged(this.state.accessToken)
   }
 
   handleLoginFailure (response) {
@@ -63,8 +71,6 @@ class GoogleBtn extends Component {
           responseType='code,token'
         />
       }
-      { this.state.accessToken ? <h5>Your Access Token: <br/><br/> { this.state.accessToken }</h5> : null }
-
     </div>
     )
   }
