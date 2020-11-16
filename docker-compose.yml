@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  backend:
+    build: ./server
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - SQLALCHEMY_DATABASE_URI_DEV=postgres://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+  web:
+    build: ./app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
