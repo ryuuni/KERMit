@@ -37,7 +37,7 @@ class Puzzles extends Component {
             headers: { Authorization: `Bearer ${this.props.accessToken}` },
         };
         console.log(this.props.accessToken);
-        fetch('/puzzles?difficulty=0.5&size=3', requestOptions).then(res => res.json()).then(data => {
+        fetch('/puzzles?difficulty=0.9&size=2', requestOptions).then(res => res.json()).then(data => {
             console.log(data);
             console.log(data.pieces);
             console.log(data.puzzle_id);

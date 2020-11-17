@@ -34,7 +34,7 @@ class App extends Component {
             )}
             {loggedIn && (
               <div className="nav-item">
-                <Link to="/leaderboard">Leaderboard</Link>
+                <Link to="/leaderboard-view">Leaderboard</Link>
               </div>
             )}
             <div className="login-btn" data-testid="login-btn">
@@ -47,7 +47,7 @@ class App extends Component {
                 <Route path="/mypuzzles">
                   <Puzzles accessToken={this.state.accessToken}/>
                 </Route>
-                <Route path="/leaderboard">
+                <Route path="/leaderboard-view">
                   <Leaderboard accessToken={this.state.accessToken}/>
                 </Route>
                 <Route path="/puzzle/:puzzleId">
