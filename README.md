@@ -207,6 +207,22 @@ Here is a sample successful response:
 There are a number of possible requests that are invalid; responses to invalid requests
 will have a `message` and `reason` field explaining what happened.
 
+To delete a submitted value from the puzzle, make a DELETE request to `/puzzles/<puzzle_id>/piece` (specifying the value 
+for `puzzle_id`) with the following request body as JSON:
+
+```
+{
+    "x_coordinate": 0,
+    "y_coordinate": 1
+}
+```
+Here is a sample successful response:
+```
+{
+    "message": "Successfully deleted piece at position (0, 1) on puzzle_id 1."
+}
+```
+
 ## III. Tests/Checks
 
 When running the scripts outlined below, all test/coverage/style check results will be written to a file in 
