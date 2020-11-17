@@ -5,24 +5,7 @@ from server.models.player import PuzzlePlayer
 from server.models.puzzle_pieces import PuzzlePiece
 from server.tests.integration.test_setup import test_client, init_db  # required for mocking/test setup
 from server.models.user import User
-
-
-@pytest.fixture(scope="function", autouse=False)
-def verification_true(monkeypatch):
-    """Monkeypatch the google auth that verifies the token."""
-    def mock_verification(*args, **kwargs):
-        return {
-            "issued_to": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
-            "audience": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
-            "user_id": "987234",
-            "scope": "https://www.googleapis.com/auth/userinfo.email",
-            "expires_in": 3588,
-            "email": "jb@biden2020.com",
-            "verified_email": True,
-            "access_type": "offline"
-        }
-
-    monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
+from server.tests.integration.integration_mocks import verification_true
 
 
 def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):
@@ -399,6 +382,58 @@ def test_attempt_add_piece_invalid_position_low(test_client, init_db, verificati
     }
 
 
+def test_attempt_remove_piece(test_client, init_db, verification_true):
+    """
+    Attempt to delete a non-static value from a position on the puzzle should be OK.
+    """
+    # make sure that we know what the status is of the piece that we are attempting to change
+    piece = PuzzlePiece.get_piece(3, 0, 0)
+    piece.static_piece = False
+    piece.value = 8
+    piece.save(autocommit=True)
+
+    response = test_client.delete(
+        '/puzzles/3/piece', data=dict(
+            x_coordinate=0,
+            y_coordinate=0
+        ), headers={'Authorization': 'Bearer 2342351231asdb'}
+    )
+
+    assert response.status_code == 200
+    assert response.json == {'message': 'Successfully deleted piece at position (0, 0) on puzzle_id 3.'}
+
+    # test that database is updated
+    piece = PuzzlePiece.get_piece(3, 0, 0)
+    assert not piece.value
+
+
+def test_attempt_remove_static_piece(test_client, init_db, verification_true):
+    """
+    Attempt to delete a static value from a position on the puzzle should fail.
+    """
+    # make sure that we know what the status is of the piece that we are attempting to change
+    piece = PuzzlePiece.get_piece(3, 0, 0)
+    piece.static_piece = True
+    piece.value = 12
+    piece.save(autocommit=True)
+
+    response = test_client.delete(
+        '/puzzles/3/piece', data=dict(
+            x_coordinate=0,
+            y_coordinate=0
+        ), headers={'Authorization': 'Bearer 2342351231asdb'}
+    )
+
+    assert response.status_code == 400
+    assert response.json == {
+        'message': 'Attempt to delete piece at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'reason': 'Changes can only be made to non-static puzzle pieces.'
+    }
+    # test that database is not updated
+    piece = PuzzlePiece.get_piece(3, 0, 0)
+    assert piece.value == 12
+
+
 def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true):
     """
     Assert that it is possible to obtain the puzzle solution via the solution endpoint.
@@ -409,4 +444,3 @@ def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true)
 
     assert response.status_code == 200
     assert len(response.json['solved_puzzle']['pieces']) == 81
-    assert 'discrepancy' in response.json.keys()

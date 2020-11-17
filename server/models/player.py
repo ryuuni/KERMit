@@ -46,14 +46,18 @@ class PuzzlePlayer(db.Model):
             .all()
 
     @classmethod 
-    def get_top_players(cls):
-        return User.query.with_entities(User.first_name, User.last_name, func.sum(Puzzle.point_value).label('score'))\
+    def get_top_players(cls, n_results):
+        """
+        Get the top players by cumulative score.
+        """
+        return User.query\
+            .with_entities(User.first_name, User.last_name, func.sum(Puzzle.point_value).label('score'))\
             .join(PuzzlePlayer, PuzzlePlayer.player_id == User.id)\
             .join(Puzzle, Puzzle.id == PuzzlePlayer.puzzle_id)\
             .filter_by(completed=True)\
             .group_by(User.id)\
             .order_by(func.sum(Puzzle.point_value).desc())\
-            .limit(10)
+            .limit(n_results)
 
     @classmethod
     def add_player_to_puzzle(cls, puzzle_id, user):

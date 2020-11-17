@@ -13,7 +13,7 @@ class PuzzlePiece(db.Model):
     x_coordinate = db.Column(db.Integer, nullable=False)
     y_coordinate = db.Column(db.Integer, nullable=False)
     static_piece = db.Column(db.Boolean, nullable=False)
-    value = db.Column(db.Integer)
+    value = db.Column(db.Integer, nullable=True)
 
     def __init__(self, puzzle_id, x_coordinate, y_coordinate, value=None, static_piece=False):
         self.puzzle_id = puzzle_id
