@@ -207,8 +207,8 @@ Here is a sample successful response:
 There are a number of possible requests that are invalid; responses to invalid requests
 will have a `message` and `reason` field explaining what happened.
 
-To delete a submitted value from the puzzle, make a DELETE request to `/puzzles/<puzzle_id>/piece` (specifying the value 
-for `puzzle_id`) with the following request body as JSON:
+To delete a submitted value from the puzzle, make a `DELETE` request to `/puzzles/<puzzle_id>/piece` 
+(specifying the value for `puzzle_id`) with the following request body as JSON:
 
 ```
 {
