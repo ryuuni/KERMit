@@ -32,6 +32,7 @@ expectation of Flask-SQLAlchemy. Hence why # nopep8 was used here.
 """
 from server.resources.authentication import Registration  # nopep8
 from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, SudokuPuzzlePiece, SudokuPuzzleSolution  # nopep8
+from server.resources.leaderboard import Leaderboard  # nopep8
 
 api = Api(app)
 api.add_resource(Registration, '/register')
@@ -39,3 +40,5 @@ api.add_resource(SudokuPuzzles, '/puzzles')
 api.add_resource(SudokuPuzzle, '/puzzles/<int:puzzle_id>')
 api.add_resource(SudokuPuzzleSolution, '/puzzles/<int:puzzle_id>/solution')
 api.add_resource(SudokuPuzzlePiece, '/puzzles/<int:puzzle_id>/piece')
+api.add_resource(Leaderboard, '/leaderboard')
+
