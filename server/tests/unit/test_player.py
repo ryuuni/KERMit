@@ -9,7 +9,7 @@ from server.tests.unit.mock_session import MockSession
 app.config.from_object(UnitTestingConfig)
 
 
-class MockResults():
+class MockResults:
     """Class to mock query results; has same methods but just stubs that don't do anything"""
     def all(self):
         return []

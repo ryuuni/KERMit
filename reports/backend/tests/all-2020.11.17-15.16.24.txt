@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 132 items
+
+server/tests/integration/test_authentication.py ........                 [  6%]
+server/tests/integration/test_leaderboard.py ...                         [  8%]
+server/tests/integration/test_sudoku_endpoints.py ...................... [ 25%]
+...                                                                      [ 27%]
+server/tests/unit/test_authentication.py ..............                  [ 37%]
+server/tests/unit/test_google_auth.py ..                                 [ 39%]
+server/tests/unit/test_leaderboard.py ..                                 [ 40%]
+server/tests/unit/test_player.py ........                                [ 46%]
+server/tests/unit/test_puzzle_exception.py .                             [ 47%]
+server/tests/unit/test_puzzle_pieces.py ........                         [ 53%]
+server/tests/unit/test_sudoku_puzzle.py ................................ [ 78%]
+..                                                                       [ 79%]
+server/tests/unit/test_sudoku_resources.py ......................        [ 96%]
+server/tests/unit/test_user.py .....                                     [100%]
+
+=============================== warnings summary ===============================
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+================== 132 passed, 1 warning in 62.90s (0:01:02) ===================

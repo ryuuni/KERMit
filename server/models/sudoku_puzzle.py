@@ -151,7 +151,7 @@ class Puzzle(db.Model):
 
         # make sure that the value is valid for the puzzle
         value_range = coord_range
-        if value > value_range or value <= 0:
+        if value is not None and (value > value_range or value <= 0):
             raise PuzzleException(f'Invalid value provided ({value}). Available values are 1 to {value_range}.')
 
         # update the piece in order to test if the puzzle is now complete

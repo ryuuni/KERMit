@@ -146,28 +146,23 @@ class SudokuPuzzlePiece(Resource):
             help='The y-coordinate of the puzzle piece must be specified',
             required=True
         )
+
+    def post(self, puzzle_id):
+        """
+        Endpoint for making a move to a position on the puzzle.
+        """
+        if not self.player_associated_with_puzzle(puzzle_id):
+            return {'message': f'Puzzle requested does not exist or '
+                               f'is not associated with {g.user.as_str()}.'}, 404
+
+        # add parser for value
         self.parser.add_argument(
             'value',
             type=int,
             help='The value of the puzzle piece must be specified',
             required=True
         )
-
-    def post(self, puzzle_id):
-        """
-        Endpoint for making a move to a position on the puzzle.
-        """
-        # find all puzzles associated with the player making the request
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
-
-        # if the requested puzzle doesn't exist for the user, then return error
-        if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {'message': f'Puzzle requested does not exist or '
-                               f'is not associated with {g.user.as_str()}.'}, 404
-
-        # parse the request body for arguments to get about the puzzle
         args = self.parser.parse_args()
-
         try:
             puzzle = Puzzle.get_puzzle(puzzle_id)
             puzzle.update(
@@ -177,18 +172,58 @@ class SudokuPuzzlePiece(Resource):
 
             )
             return {'message': f"Successfully saved the submission of {args['value']} at "
-                               f"({args['x_coordinate']}, {args['x_coordinate']}) on puzzle_id {puzzle_id} "
+                               f"({args['x_coordinate']}, {args['y_coordinate']}) on puzzle_id {puzzle_id} "
                                f"by {g.user.as_str()}"}
 
         except PuzzleException as pe:
             return {'message': f'Attempt to save {args["value"]} at ({args["x_coordinate"]}, '
-                               f'{args["x_coordinate"]}) on puzzle_id {puzzle_id}'
+                               f'{args["y_coordinate"]}) on puzzle_id {puzzle_id}'
                                f' by user {g.user.as_str()} was unsuccessful',
                     'reason': pe.get_message()}, 400
 
         except Exception as e:
             print(f"Unexpected error: {e}")
             return {'message': 'Unexpected error occurred while adding new value to puzzle'}, 500
+
+    def delete(self, puzzle_id):
+        """
+        Deletes the current value currently stored in the puzzle
+        """
+
+        if not self.player_associated_with_puzzle(puzzle_id):
+            return {'message': f'Puzzle requested does not exist or '
+                               f'is not associated with {g.user.as_str()}.'}, 404
+
+        args = self.parser.parse_args()
+        try:
+            puzzle = Puzzle.get_puzzle(puzzle_id)
+            puzzle.update(
+                x_coord=args['x_coordinate'],
+                y_coord=args['y_coordinate'],
+                value=None
+            )
+            return {'message': f"Successfully deleted piece at position ({args['x_coordinate']}, "
+                               f"{args['y_coordinate']}) on puzzle_id {puzzle_id}."}
+
+        except PuzzleException as pe:
+            return {'message': f'Attempt to delete piece at ({args["x_coordinate"]}, '
+                               f'{args["y_coordinate"]}) on puzzle_id {puzzle_id}'
+                               f' by user {g.user.as_str()} was unsuccessful',
+                    'reason': pe.get_message()}, 400
+
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return {'message': 'Unexpected error occurred while deleting value from puzzle'}, 500
+
+    @staticmethod
+    def player_associated_with_puzzle(puzzle_id):
+        """
+        Determine if the player making the request is associated with the puzzle
+        they are submitting a change for.
+        """
+        # find all puzzles associated with the player making the request
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+        return False if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles) else True
 
 
 class SudokuPuzzleSolution(Resource):
