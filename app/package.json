@@ -19,7 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . >> ../reports/frontend/frontend_style_report.txt"
+    "lint": "eslint . > ../reports/frontend/recent_frontend_style_report.txt"
   },
   "eslintConfig": {
     "extends": [

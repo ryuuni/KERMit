@@ -1,0 +1,12 @@
+
+/Users/riddhiman/Desktop/SoftwareEngineering/KERMit/app/src/App.js
+  24:9  warning  'loggedVar' is assigned a value but never used  no-unused-vars
+
+/Users/riddhiman/Desktop/SoftwareEngineering/KERMit/app/src/leaderboard/Leaderboard.js
+  2:8  warning  'Puzzle' is defined but never used  no-unused-vars
+
+/Users/riddhiman/Desktop/SoftwareEngineering/KERMit/app/src/puzzle/Puzzles.js
+  53:9  warning  Unreachable code  no-unreachable
+
+✖ 3 problems (0 errors, 3 warnings)
+
