@@ -39,6 +39,7 @@ class Puzzles extends Component {
         console.log(this.props.accessToken);
         fetch('/puzzles?difficulty=0.5&size=3', requestOptions).then(res => res.json()).then(data => {
             console.log(data);
+            console.log(data.pieces);
             console.log(data.puzzle_id);
             this.redirectToPath('/puzzle/'+data.puzzle_id);
         });

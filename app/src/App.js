@@ -3,7 +3,7 @@ import GoogleBtn from './GoogleBtn';
 import React, { Component } from 'react';
 import Leaderboard from './leaderboard/Leaderboard';
 import Puzzles from './puzzle/Puzzles';
-// import Puzzle from './puzzle/Puzzle';
+import Puzzle from './puzzle/Puzzle';
 import SudokuBoard from './components/SudokuBoard'
 import {
   BrowserRouter as Router,
@@ -51,8 +51,7 @@ class App extends Component {
                   <Leaderboard accessToken={this.state.accessToken}/>
                 </Route>
                 <Route path="/puzzle/:puzzleId">
-                  {/* TODO(Emily): change this line here to map to your component! */}
-                  <SudokuBoard accessToken={this.state.accessToken} />
+                  <Puzzle accessToken={this.state.accessToken} />
                 </Route>
               </Switch>
             ):(

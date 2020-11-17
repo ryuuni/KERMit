@@ -1,524 +1,48 @@
-import React, { Component } from 'react'
-import range from 'lodash.range'
+import React, { Component, useCallback } from 'react'
+import PropTypes from 'prop-types';
 import './SudokuBoard.css'
 import SudokuCell from './SudokuCell'
 
-const PIECES = [
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 7
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 9
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 0,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 4
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 3
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 1
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 0,
-    "static_piece": true,
-    "value": 5
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 0,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 1,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 1
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 1,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 7
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 6
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 9
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 1,
-    "static_piece": true,
-    "value": 4
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 1,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 2,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 2,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 2,
-    "static_piece": true,
-    "value": 6
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 2,
-    "static_piece": true,
-    "value": 9
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 2,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 2,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 2,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 2,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 2,
-    "static_piece": true,
-    "value": 1
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 3,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 3,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 3,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 3,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 3,
-    "static_piece": true,
-    "value": 4
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 3,
-    "static_piece": true,
-    "value": 9
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 3,
-    "static_piece": true,
-    "value": 6
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 3,
-    "static_piece": true,
-    "value": 2
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 3,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 4,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 4,
-    "static_piece": true,
-    "value": 4
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 4,
-    "static_piece": true,
-    "value": 1
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 4,
-    "static_piece": true,
-    "value": 5
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 5,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 5,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 5,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 5,
-    "static_piece": true,
-    "value": 6
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 5,
-    "static_piece": true,
-    "value": 1
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 5,
-    "static_piece": true,
-    "value": 5
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 5,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 5,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 5,
-    "static_piece": true,
-    "value": 3
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 6,
-    "static_piece": true,
-    "value": 5
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 6,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 6,
-    "static_piece": true,
-    "value": 4
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 6,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 6,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 6,
-    "static_piece": true,
-    "value": 3
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 6,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 6,
-    "static_piece": true,
-    "value": 6
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 6,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 7,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 7,
-    "static_piece": true,
-    "value": 7
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 7,
-    "static_piece": true,
-    "value": 2
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 7,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 0,
-    "y_coordinate": 8,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 1,
-    "y_coordinate": 8,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 2,
-    "y_coordinate": 8,
-    "static_piece": true,
-    "value": 9
-  },
-  {
-    "x_coordinate": 3,
-    "y_coordinate": 8,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 4,
-    "y_coordinate": 8,
-    "static_piece": true,
-    "value": 2
-  },
-  {
-    "x_coordinate": 5,
-    "y_coordinate": 8,
-    "static_piece": true,
-    "value": 7
-  },
-  {
-    "x_coordinate": 6,
-    "y_coordinate": 8,
-    "static_piece": false,
-    "value": null
-  },
-  {
-    "x_coordinate": 7,
-    "y_coordinate": 8,
-    "static_piece": true,
-    "value": 8
-  },
-  {
-    "x_coordinate": 8,
-    "y_coordinate": 8,
-    "static_piece": false,
-    "value": null
-  }
-];
-
-
 export default function SudokuBoard(props) {
-  // const cells = 
-  //   <tr>
-  //     <SudokuCell number={9} prefilled={true}/>
-  //     <SudokuCell number={0} prefilled={false}/>
-  //   </tr>
-  // const cells = range(9).map(rowNum => 
-  //   <tr>{
-  //   range(9).map(colNum => 
-  //     <SudokuCell
-  //       key={rowNum*10+colNum}
-  //       number={0}
-  //       prefilled={false}
-  //     />
-  //     )
-  //   }</tr>
-  // )
+  const movePiece = useCallback(async ({puzzleId, x, y, value, accessToken, onSuccess}) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'x_coordinate': x,
+        'y_coordinate': y,
+        'value': value ? Number(value) : null,
+      }),
+    };
+    await fetch(`/puzzles/${puzzleId}/piece`, requestOptions)
+  }, []);
+
+  if (!props.gridState) {
+    return <h3>Loading puzzle {props.puzzleId}...</h3>;
+  }
 
   return (
     <div className="gridContainer">
       {
-        PIECES.map(cell =>
+        props.gridState.map(cell =>
           <SudokuCell 
-            key={cell.x_coordinate*10 + cell.y_coordinate} 
+            key={Number(cell.value) * 100 + cell.y_coordinate * 10 + cell.x_coordinate}
+            x={cell.x_coordinate}
+            y={cell.y_coordinate}
             number={cell.value}
-            prefilled={cell.static_piece}
+            onNumberChanged={number => {
+              movePiece({
+                accessToken: props.accessToken,
+                x: cell.x_coordinate,
+                y: cell.y_coordinate,
+                value: number,
+                puzzleId: props.puzzleId, 
+              });
+            }}
+            prefilled={cell.static_piece || props.solved}
           />
         )
       }
@@ -526,3 +50,16 @@ export default function SudokuBoard(props) {
   );
 }
 
+SudokuBoard.defaultProps = {
+  gridState: null,
+  puzzleId: '',
+  solved: false,
+  accessToken: '',
+};
+
+SudokuBoard.propTypes = {
+  accessToken: PropTypes.string.isRequired,
+  gridState: PropTypes.array,
+  puzzleId: PropTypes.string.isRequired,
+  solved: PropTypes.bool.isRequired,
+};
