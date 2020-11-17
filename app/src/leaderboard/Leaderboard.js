@@ -1,5 +1,6 @@
 import './Leaderboard.css';
 import React, { Component } from 'react';
+import { DataGrid } from '@material-ui/data-grid';
 
 class Leaderboard extends Component {  
     constructor(props) {
@@ -26,33 +27,28 @@ class Leaderboard extends Component {
   
     render() {
         const { isLoaded, topPlayers} = this.state;
+        const columns = [
+            { field: 'id', headerName: 'Rank', width: 70 },
+            { field: 'firstName', headerName: 'First name', width: 130 },
+            { field: 'lastName', headerName: 'Last name', width: 130 },
+            { field: 'score', headerName: 'Score', width: 90},
+        ];
+        var rows = [];
+        topPlayers.forEach((player, index) => {
+            var rowEntry = {id: index+1, firstName: player.first_name, lastName: player.last_name, score: player.score};
+            rows.push(rowEntry);
+        });
         return (
             <div className="leaderboard">
-                {isLoaded && (<div>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Ranking</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {topPlayers.map((player, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{player.first_name}</td>
-                                    <td>{player.last_name}</td>
-                                    <td>{player.score}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>)}
+                {topPlayers.length === 0 && isLoaded && (<div>No players have finished a game.</div>)}
+                {isLoaded && topPlayers.length !== 0 && (
+                    <div className="table">
+                        <DataGrid rows={rows} columns={columns} pageSize={10} />
+                    </div>
+                 )}
             </div>
         );
     }
   }
   
-  export default Leaderboard;
+export default Leaderboard;
