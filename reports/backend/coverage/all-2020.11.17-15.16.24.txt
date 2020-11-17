@@ -1,0 +1,36 @@
+Name                                                Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------------------
+server/__init__.py                                      0      0   100%
+server/config.py                                       18      0   100%
+server/models/__init__.py                               0      0   100%
+server/models/player.py                                38      0   100%
+server/models/puzzle_exception.py                       5      0   100%
+server/models/puzzle_pieces.py                         38      0   100%
+server/models/sudoku_puzzle.py                        127      0   100%
+server/models/user.py                                  23      0   100%
+server/resources/__init__.py                            0      0   100%
+server/resources/authentication.py                     49      0   100%
+server/resources/google_auth.py                        11      0   100%
+server/resources/leaderboard.py                        15      0   100%
+server/resources/sudoku.py                             99      4    96%   194, 214-216
+server/server.py                                       21      0   100%
+server/tests/__init__.py                                0      0   100%
+server/tests/integration/__init__.py                    0      0   100%
+server/tests/integration/integration_mocks.py          12      0   100%
+server/tests/integration/test_authentication.py        58      0   100%
+server/tests/integration/test_leaderboard.py           24      0   100%
+server/tests/integration/test_setup.py                 37      0   100%
+server/tests/integration/test_sudoku_endpoints.py     155      0   100%
+server/tests/unit/__init__.py                           0      0   100%
+server/tests/unit/mock_session.py                      14      1    93%   3
+server/tests/unit/test_authentication.py              164      1    99%   325
+server/tests/unit/test_google_auth.py                  25      0   100%
+server/tests/unit/test_leaderboard.py                  50      2    96%   23, 52
+server/tests/unit/test_player.py                       77      1    99%   63
+server/tests/unit/test_puzzle_exception.py              5      0   100%
+server/tests/unit/test_puzzle_pieces.py                75      3    96%   31, 53, 75
+server/tests/unit/test_sudoku_puzzle.py               186     15    92%   139, 149, 159, 169, 179, 189, 305, 328, 362, 371, 380, 389, 398, 407, 416
+server/tests/unit/test_sudoku_resources.py            301      7    98%   144, 181, 216, 394, 397, 514, 542
+server/tests/unit/test_user.py                         39      1    97%   51
+---------------------------------------------------------------------------------
+TOTAL                                                1666     35    98%
