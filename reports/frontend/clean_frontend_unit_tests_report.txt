@@ -1,0 +1,37 @@
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [2msrc/__tests__/[22m[1mGoogleBtn.test.js[22m ([0m[1m[41m8.017 s[49m[22m[0m)
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [2msrc/puzzle/__tests__/[22m[1mPuzzles.test.js[22m
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [2msrc/puzzle/__tests__/[22m[1mPuzzleCard.test.js[22m
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [2msrc/__tests__/[22m[1mApp.test.js[22m ([0m[1m[41m11.652 s[49m[22m[0m)
+[0m[7m[1m[32m PASS [39m[22m[27m[0m [2msrc/leaderboard/[22m[1mLeaderboard.test.js[22m ([0m[1m[41m12.599 s[49m[22m[0m)
+  [1m● [22mConsole
+
+    [2m[33mconsole.warn[39m[22m
+[33m      Material-UI: useResizeContainer - The parent of the grid has an empty height.[39m
+[33m      You need to make sure the container has an intrinsic height.[39m
+[33m      The grid displays with a height of 0px.[39m
+[33m      [39m
+[33m      You can find a solution in the docs:[39m
+[33m      https://material-ui.com/components/data-grid/rendering/#layout[39m
+[2m[22m
+[2m      [2mat Object.t.<computed> [as warn] ([22m[2mnode_modules/@material-ui/data-grid/dist/index-cjs.js[2m:15:19523)[22m[2m[22m
+[2m      [2mat [22m[2mnode_modules/@material-ui/data-grid/dist/index-cjs.js[2m:15:85262[22m[2m[22m
+[2m      [2mat Timeout.task [as _onTimeout] ([22m[2mnode_modules/jsdom/lib/jsdom/browser/Window.js[2m:391:19)[22m[2m[22m
+
+    [2m[33mconsole.warn[39m[22m
+[33m      Material-UI: useResizeContainer - The parent of the grid has an empty width.[39m
+[33m      You need to make sure the container has an intrinsic width.[39m
+[33m      The grid displays with a width of 0px.[39m
+[33m      [39m
+[33m      You can find a solution in the docs:[39m
+[33m      https://material-ui.com/components/data-grid/rendering/#layout[39m
+[2m[22m
+[2m      [2mat Object.t.<computed> [as warn] ([22m[2mnode_modules/@material-ui/data-grid/dist/index-cjs.js[2m:15:19523)[22m[2m[22m
+[2m      [2mat [22m[2mnode_modules/@material-ui/data-grid/dist/index-cjs.js[2m:15:85586[22m[2m[22m
+[2m      [2mat Timeout.task [as _onTimeout] ([22m[2mnode_modules/jsdom/lib/jsdom/browser/Window.js[2m:391:19)[22m[2m[22m
+
+
+[1mTest Suites: [22m[1m[32m5 passed[39m[22m, 5 total
+[1mTests:       [22m[1m[32m11 passed[39m[22m, 11 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        [1m[33m17.963 s[39m[22m
+[2mRan all test suites[22m[2m.[22m

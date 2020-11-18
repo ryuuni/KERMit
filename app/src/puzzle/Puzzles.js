@@ -54,7 +54,7 @@ class Puzzles extends Component {
                     && (<div className="empty-message">
                             You do not currently have any puzzles. Start a new one using the button above!
                         </div>)}
-                <div className="puzzle-cards">
+                <div className="puzzle-cards" data-testid="puzzle-cards">
                     {puzzles.map(puzzle => (
                         <PuzzleCard 
                         accessToken={this.props.accessToken}

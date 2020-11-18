@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Leaderboard from './leaderboard/Leaderboard';
 import Puzzles from './puzzle/Puzzles';
 import Puzzle from './puzzle/Puzzle';
-import SudokuBoard from './components/SudokuBoard'
+
 import {
   BrowserRouter as Router,
   Switch,

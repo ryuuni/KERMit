@@ -2,7 +2,7 @@ import './PuzzleCard.css';
 
 function PuzzleCard(props) {
     return (
-        <div className="puzzle-card" onClick={() => props.onClick('/puzzle/' + props.puzzleId)}>
+        <div className="puzzle-card" data-testid="puzzle-card" onClick={() => props.onClick('/puzzle/' + props.puzzleId)}>
             <div className="main-info">
                 <div className="title">
                     Puzzle {props.puzzleId}

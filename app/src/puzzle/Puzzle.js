@@ -57,6 +57,7 @@ function Puzzle(props) {
   return (
     <div>
       <SudokuBoard
+        data-testid='sudoku-board'
         gridState={pieces}
         puzzleId={puzzleId}
         solved={solved}
