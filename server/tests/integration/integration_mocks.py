@@ -1,10 +1,15 @@
+"""
+Shared integration tests mocks used in multiple test cases
+"""
 import pytest
 from server.resources.google_auth import GoogleAuth
 
 
 @pytest.fixture(scope="function", autouse=False)
 def verification_true(monkeypatch):
-    """Monkeypatch the google auth that verifies the token."""
+    """
+    Monkeypatch the google auth that verifies the token.
+    """
     def mock_verification(*args, **kwargs):
         return {
             "issued_to": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
@@ -22,7 +27,9 @@ def verification_true(monkeypatch):
 
 @pytest.fixture(scope="function", autouse=False)
 def verification_error(monkeypatch):
-    """Monkeypatch the google auth that verifies the token."""
+    """
+    Monkeypatch the google auth that verifies the token.
+    """
     def mock_verification(*args, **kwargs):
         return {
             "error": "invalid_token",
@@ -30,4 +37,3 @@ def verification_error(monkeypatch):
         }
 
     monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
-

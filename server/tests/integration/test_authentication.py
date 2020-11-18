@@ -1,8 +1,10 @@
+"""
+Integration tests for Google OAuth authentication
+"""
+import pytest
 from server.server import app    # prevent circular inports
 from server.models.user import User
 from server.resources.google_auth import GoogleAuth
-import pytest
-import os
 from server.tests.integration.test_setup import test_client, init_db
 from server.tests.integration.integration_mocks import verification_true, verification_error
 
@@ -18,7 +20,8 @@ def user_info(monkeypatch):
             "name": "Jane Doe",
             "given_name": "Jane",
             "family_name": "Doe",
-            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my"
+                       "8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
             "locale": "en",
             "hd": "columbia.edu"
         }
@@ -34,8 +37,10 @@ def user_info_error(monkeypatch):
             "error": {
                 "code": 401,
                 "message": "Request is missing required authentication credential. "
-                           "Expected OAuth 2 access token, login cookie or other valid authentication credential. "
-                           "See https://developers.google.com/identity/sign-in/web/devconsole-project.",
+                           "Expected OAuth 2 access token, login cookie or other "
+                           "valid authentication credential. "
+                           "See https://developers.google.com/identity/sign-in/web/"
+                           "devconsole-project.",
                 "status": "UNAUTHENTICATED"
             }
         }
@@ -50,8 +55,10 @@ def test_registration_missing_header(test_client, init_db):
     """
     response = test_client.post('/register')
     assert response.status_code == 400
-    assert response.json == {'message': 'Request denied access',
-                             'reason': 'Authorization header missing. Please provide an OAuth2 Token with your request'}
+    assert response.json == {
+        'message': 'Request denied access',
+        'reason': 'Authorization header missing. Please provide an OAuth2 Token with your request'
+    }
 
 
 def test_registration_malformed_header(test_client, init_db):
@@ -61,9 +68,11 @@ def test_registration_malformed_header(test_client, init_db):
     """
     response = test_client.post('/register', headers={'Authorization': '2342351231asdb'})
     assert response.status_code == 400
-    assert response.json == {'message': 'Request denied access',
-                             'reason': "Malformed authorization header provided. Please make sure to specify "
-                                       "the header prefix correctly as 'Bearer ' and try again."}
+    assert response.json == {
+        'message': 'Request denied access',
+        'reason': "Malformed authorization header provided. Please make sure to specify "
+                  "the header prefix correctly as 'Bearer ' and try again."
+    }
 
 
 def test_registration_verification_token_invalid(test_client, init_db, verification_error):
@@ -82,11 +91,13 @@ def test_registration_user_info_error(test_client, init_db, verification_true, u
     """
     response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json == {'message': 'User could not be registered',
-                             'reason': 'User identity could not be found; valid OAuth2 access token not received.'}
+    assert response.json == {
+        'message': 'User could not be registered',
+        'reason': 'User identity could not be found; valid OAuth2 access token not received.'
+    }
 
 
-def test_registration_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
+def test_register_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
     """
     Test when verification of the token succeeds, but user information collection fails
     """
@@ -97,7 +108,8 @@ def test_registration_token_valid_missing_info1(monkeypatch, test_client, init_d
             "name": "Jane Doe",
             "given_name": "Jane",
             "family_name": "Doe",
-            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8"
+                       "WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
             "locale": "en",
             "hd": "columbia.edu"
         }
@@ -105,12 +117,14 @@ def test_registration_token_valid_missing_info1(monkeypatch, test_client, init_d
 
     response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json == {'message': 'User could not be registered',
-                             'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
-                                       'but Google would not provide them.'}
+    assert response.json == {
+        'message': 'User could not be registered',
+        'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
+                  'but Google would not provide them.'
+    }
 
 
-def test_registration_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
+def test_register_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
     """
     Test when verification of the token succeeds, but user information collection fails
     """
@@ -121,7 +135,8 @@ def test_registration_token_valid_missing_info2(monkeypatch, test_client, init_d
             "name": "Jane Doe",
             "given_name": "Jane",
             "family_name": "Doe",
-            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2"
+                       "my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
             "locale": "en",
             "hd": "columbia.edu"
         }
@@ -130,9 +145,10 @@ def test_registration_token_valid_missing_info2(monkeypatch, test_client, init_d
 
     response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 401
-    assert response.json == {'message': 'User could not be registered',
-                             'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
-                                       'but Google would not provide them.'}
+    assert response.json == {
+        'message': 'User could not be registered',
+        'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
+                  'but Google would not provide them.'}
 
 
 def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):

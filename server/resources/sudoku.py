@@ -1,12 +1,18 @@
+"""
+Resources for creating, editing, and retrieving Sudoku Puzzle Board/Pieces.
+"""
+from flask import g
 from flask_restful import Resource, reqparse
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
 from server.models.player import PuzzlePlayer
 from server.server import db
-from flask import g
 
 
 class SudokuPuzzles(Resource):
+    """
+    Resource for retrieving and creating Sudoku puzzles for a user.
+    """
 
     def __init__(self):
         self.parser = reqparse.RequestParser(bundle_errors=True)
@@ -23,7 +29,8 @@ class SudokuPuzzles(Resource):
             required=True
         )
 
-    def get(self):
+    @staticmethod
+    def get():
         """
         Returns all of the sudoku puzzles for the user making the request.
         """
@@ -73,18 +80,22 @@ class SudokuPuzzles(Resource):
                 'puzzle_id': puzzle_id
             }
 
-        except PuzzleException as pe:
+        except PuzzleException as p_exception:
             return {'message': 'Failed to create new Sudoku Puzzle',
-                    'reason': pe.get_message()}, 400  # bad request
+                    'reason': p_exception.get_message()}, 400  # bad request
 
-        except Exception as e:
-            print(f"Exception occurred while creating new puzzle: {e}")
+        except Exception as exception:
+            print(f"Exception occurred while creating new puzzle: {exception}")
             return {'message': 'Failed to create new Sudoku Puzzle'}, 500
 
 
 class SudokuPuzzle(Resource):
+    """
+    Resource for creating and retrieving Sudoku puzzles.
+    """
 
-    def get(self, puzzle_id):
+    @staticmethod
+    def get(puzzle_id):
         """
         Finds a puzzle specified by puzzle_id.
         """
@@ -102,7 +113,8 @@ class SudokuPuzzle(Resource):
             puzzle_players=PuzzlePlayer.find_players_for_puzzle(puzzle_id)
         )
 
-    def post(self, puzzle_id):
+    @staticmethod
+    def post(puzzle_id):
         """
         Player may add themselves to the puzzle, if they are not already affiliated with
         the puzzle.
@@ -112,26 +124,35 @@ class SudokuPuzzle(Resource):
 
         # if the requested puzzle doesn't exist for the user, then return error
         if any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {'message': f"{g.user.as_str()} is already is associated with puzzle {puzzle_id}."}
+            return {
+                'message': f"{g.user.as_str()} is already is associated "
+                           f"with puzzle {puzzle_id}."
+            }
 
         # try to add the user to the puzzle
         try:
             PuzzlePlayer.add_player_to_puzzle(puzzle_id, g.user)
 
             # send back successful message
-            return {'message': f"Successfully added {g.user.as_str()} to puzzle with id {puzzle_id}."}
+            return {
+                'message': f"Successfully added {g.user.as_str()} to "
+                           f"puzzle with id {puzzle_id}."
+            }
 
-        except PuzzleException as pe:
+        except PuzzleException as p_exception:
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
-                    'reason': pe.get_message()}, 400
+                    'reason': p_exception.get_message()}, 400
 
-        except Exception as e:
+        except Exception as exception:
+            print(f"{exception}")
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
                     'reason': 'Unknown error occurred.'}, 500
 
 
 class SudokuPuzzlePiece(Resource):
-
+    """
+    Resource for editing puzzle pieces on a specified puzzle board.
+    """
     def __init__(self):
         self.parser = reqparse.RequestParser(bundle_errors=True)
         self.parser.add_argument(
@@ -171,18 +192,20 @@ class SudokuPuzzlePiece(Resource):
                 value=args['value'],
 
             )
-            return {'message': f"Successfully saved the submission of {args['value']} at "
-                               f"({args['x_coordinate']}, {args['y_coordinate']}) on puzzle_id {puzzle_id} "
-                               f"by {g.user.as_str()}"}
+            return {
+                'message': f"Successfully saved the submission of {args['value']} at "
+                           f"({args['x_coordinate']}, {args['y_coordinate']}) on "
+                           f"puzzle_id {puzzle_id} by {g.user.as_str()}"
+            }
 
-        except PuzzleException as pe:
+        except PuzzleException as p_exception:
             return {'message': f'Attempt to save {args["value"]} at ({args["x_coordinate"]}, '
                                f'{args["y_coordinate"]}) on puzzle_id {puzzle_id}'
                                f' by user {g.user.as_str()} was unsuccessful',
-                    'reason': pe.get_message()}, 400
+                    'reason': p_exception.get_message()}, 400
 
-        except Exception as e:
-            print(f"Unexpected error: {e}")
+        except Exception as exception:
+            print(f"Unexpected error: {exception}")
             return {'message': 'Unexpected error occurred while adding new value to puzzle'}, 500
 
     def delete(self, puzzle_id):
@@ -205,14 +228,14 @@ class SudokuPuzzlePiece(Resource):
             return {'message': f"Successfully deleted piece at position ({args['x_coordinate']}, "
                                f"{args['y_coordinate']}) on puzzle_id {puzzle_id}."}
 
-        except PuzzleException as pe:
+        except PuzzleException as p_exception:
             return {'message': f'Attempt to delete piece at ({args["x_coordinate"]}, '
                                f'{args["y_coordinate"]}) on puzzle_id {puzzle_id}'
                                f' by user {g.user.as_str()} was unsuccessful',
-                    'reason': pe.get_message()}, 400
+                    'reason': p_exception.get_message()}, 400
 
-        except Exception as e:
-            print(f"Unexpected error: {e}")
+        except Exception as exception:
+            print(f"Unexpected error: {exception}")
             return {'message': 'Unexpected error occurred while deleting value from puzzle'}, 500
 
     @staticmethod
@@ -223,12 +246,20 @@ class SudokuPuzzlePiece(Resource):
         """
         # find all puzzles associated with the player making the request
         player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
-        return False if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles) else True
+
+        if not any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
+            return False
+        return True
 
 
 class SudokuPuzzleSolution(Resource):
-
-    def get(self, puzzle_id):
+    """
+    Resource for retrieving solutions for Sudoku puzzles,
+    and comparing a current Sudoku puzzle state to that of the winning
+    configuration.
+    """
+    @staticmethod
+    def get(puzzle_id):
         """
         Returns the solved puzzle for a given puzzle id, as well as a list
         of the discrepancies in the current puzzle relative to the solved version.
