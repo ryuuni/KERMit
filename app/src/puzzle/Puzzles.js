@@ -35,7 +35,7 @@ class Puzzles extends Component {
             method: 'POST',
             headers: { Authorization: `Bearer ${this.props.accessToken}` },
         };
-        fetch('/puzzles?difficulty=0.9&size=2', requestOptions).then(res => res.json()).then(data => {
+        fetch('/puzzles?difficulty=0.9&size=3', requestOptions).then(res => res.json()).then(data => {
             this.redirectToPath('/puzzle/'+data.puzzle_id);
         });
     }
