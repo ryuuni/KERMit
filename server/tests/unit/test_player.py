@@ -9,7 +9,7 @@ from server.tests.unit.mock_session import MockSession
 app.config.from_object(UnitTestingConfig)
 
 
-class MockResults():
+class MockResults:
     """Class to mock query results; has same methods but just stubs that don't do anything"""
     def all(self):
         return []
@@ -91,7 +91,8 @@ def test_add_player_to_puzzle_already_too_many_players(monkeypatch):
         return [user1, user2, user3, user4]
 
     monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", mock_return_existing_players)
-    requesting_user = User('923423', first_name="Requester", last_name="Requester", email='requester@tests.com')
+    requesting_user = User('923423', first_name="Requester",
+                           last_name="Requester", email='requester@tests.com')
 
     with pytest.raises(PuzzleException) as pe:
         PuzzlePlayer.add_player_to_puzzle(1, requesting_user)
@@ -105,7 +106,8 @@ def test_add_player_to_puzzle_player_doesnt_exist(monkeypatch):
         return []
 
     monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", mock_return_existing_players)
-    requesting_user = User('923423', first_name="Requester", last_name="Requester", email='requester@tests.com')
+    requesting_user = User('923423', first_name="Requester",
+                           last_name="Requester", email='requester@tests.com')
 
     with pytest.raises(PuzzleException) as pe:
         PuzzlePlayer.add_player_to_puzzle(1, requesting_user)
@@ -117,13 +119,16 @@ def test_add_player_to_puzzle_ok(monkeypatch):
     """
 
     def mock_return_existing_players(*args, **kwargs):
-        user1 = User('923423', first_name="Tester1", last_name="Tester1", email='test1@tests.com')
-        user2 = User('12345', first_name="Tester2", last_name="Tester2", email='tes2t@tests.com')
+        user1 = User('923423', first_name="Tester1",
+                     last_name="Tester1", email='test1@tests.com')
+        user2 = User('12345', first_name="Tester2",
+                     last_name="Tester2", email='tes2t@tests.com')
         return [user1, user2]
 
     monkeypatch.setattr(db, "session", MockSession)
     monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", mock_return_existing_players)
-    requesting_user = User('923423', first_name="Requester", last_name="Requester", email='requester@tests.com')
+    requesting_user = User('923423', first_name="Requester",
+                           last_name="Requester", email='requester@tests.com')
 
     PuzzlePlayer.add_player_to_puzzle(1, requesting_user)
     assert True  # just need to make sure we can get to this point
