@@ -1,5 +1,5 @@
 import { render, within } from '@testing-library/react';
-import App from './App';
+import App from '../App';
 
 test('App renders a <GoogleBtn />', () => {
   const { getByTestId } = render(<App />);

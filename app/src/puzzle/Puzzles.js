@@ -18,7 +18,6 @@ class Puzzles extends Component {
             method: 'GET',
             headers: { Authorization: `Bearer ${this.props.accessToken}` },
         };
-        console.log(this.props.accessToken);
         fetch('/puzzles', requestOptions).then(res => res.json()).then(data => {
             this.setState({
                 isLoaded: true,
@@ -36,11 +35,7 @@ class Puzzles extends Component {
             method: 'POST',
             headers: { Authorization: `Bearer ${this.props.accessToken}` },
         };
-        console.log(this.props.accessToken);
         fetch('/puzzles?difficulty=0.9&size=2', requestOptions).then(res => res.json()).then(data => {
-            console.log(data);
-            console.log(data.pieces);
-            console.log(data.puzzle_id);
             this.redirectToPath('/puzzle/'+data.puzzle_id);
         });
     }

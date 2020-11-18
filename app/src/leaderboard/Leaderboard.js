@@ -16,7 +16,6 @@ class Leaderboard extends Component {
             method: 'GET',
             headers: { Authorization: `Bearer ${this.props.accessToken}` },
         };
-        console.log(this.props.accessToken);
         fetch('/leaderboard', requestOptions).then(res => res.json()).then(data => {
             this.setState({
                 isLoaded: true,
@@ -42,7 +41,7 @@ class Leaderboard extends Component {
             <div className="leaderboard">
                 {topPlayers.length === 0 && isLoaded && (<div>No players have finished a game.</div>)}
                 {isLoaded && topPlayers.length !== 0 && (
-                    <div className="table">
+                    <div className="table" data-testid="datagrid" style={{ height: 650, width: '23%' }}>
                         <DataGrid rows={rows} columns={columns} pageSize={10} />
                     </div>
                  )}
