@@ -1,10 +1,13 @@
+"""
+Integration tests for Sudoku Puzzle endpoints that impact the creation/editing/checking
+of Sudoku puzzles and pieces.
+"""
 import pytest
 from server.resources.google_auth import GoogleAuth
 from server.server import app  # prevent circular imports
 from server.models.player import PuzzlePlayer
 from server.models.puzzle_pieces import PuzzlePiece
-from server.tests.integration.test_setup import test_client, init_db  # required for mocking/test setup
-from server.models.user import User
+from server.tests.integration.test_setup import test_client, init_db
 from server.tests.integration.integration_mocks import verification_true
 
 
@@ -38,7 +41,10 @@ def test_get_all_puzzles_no_puzzles(test_client, init_db, verification_true):
     """
     response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 200
-    assert response.json == {'message': 'No sudoku puzzles are associated with Joe Biden (id = 5)', 'puzzles': []}
+    assert response.json == {
+        'message': 'No sudoku puzzles are associated with Joe Biden (id = 5)',
+        'puzzles': []
+    }
 
 
 def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
@@ -69,7 +75,8 @@ def test_save_new_puzzle_valid(test_client, init_db, verification_true):
 
 def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verification_true):
     """
-    Test the response when a user makes a request to create a puzzle of invalid difficulty (too high).
+    Test the response when a user makes a request to create a puzzle of
+    invalid difficulty (too high).
     """
     response = test_client.post('/puzzles',
                                 data=dict(difficulty=1.1, size=3),
@@ -83,7 +90,8 @@ def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verifica
 
 def test_save_new_puzzle_invalid_difficulty_large(test_client, init_db, verification_true):
     """
-    Test the response when a user makes a request to create a puzzle of invalid difficulty (too low).
+    Test the response when a user makes a request to create a puzzle of
+    invalid difficulty (too low).
     """
     response = test_client.post('/puzzles',
                                 data=dict(difficulty=0.0, size=3),
@@ -97,7 +105,8 @@ def test_save_new_puzzle_invalid_difficulty_large(test_client, init_db, verifica
 
 def test_save_new_puzzle_invalid_size_large(test_client, init_db, verification_true):
     """
-    Test the response when a user makes a request to create a puzzle of invalid size (too large).
+    Test the response when a user makes a request to create a
+    puzzle of invalid size (too large).
     """
     response = test_client.post('/puzzles',
                                 data=dict(difficulty=0.5, size=10),
@@ -111,7 +120,8 @@ def test_save_new_puzzle_invalid_size_large(test_client, init_db, verification_t
 
 def test_save_new_puzzle_invalid_size_small(test_client, init_db, verification_true):
     """
-    Test the response when a user makes a request to create a puzzle of invalid size (too small).
+    Test the response when a user makes a request to create a
+    puzzle of invalid size (too small).
     """
     response = test_client.post('/puzzles',
                                 data=dict(difficulty=0.5, size=1),
@@ -136,8 +146,12 @@ def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
                 'completed': False,
                 'difficulty': 0.5,
                 'point_value': 90,
-                'pieces': ["this would ordinarily contain a list of pieces; they're not predictable in tests"],
-                'players': [{'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]
+                'pieces': ["this would ordinarily contain a list of pieces; "
+                           "they're not predictable in tests"],
+                'players': [
+                    {'id': 5, 'first_name': 'Joe',
+                     'last_name': 'Biden', 'email': 'jb@biden2020.com'}
+                ]
             }
         ]
     }
@@ -162,7 +176,9 @@ def test_get_puzzle_valid(test_client, init_db, verification_true):
         'difficulty': 0.5,
         'point_value': 90,
         'pieces': ['some pieces would go here'],
-        'players': [{'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]
+        'players': [
+            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}
+        ]
     }
 
     # cannot test for pieces easily; this is randomly created by the Sudoku library for each round
@@ -189,7 +205,9 @@ def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db,
     """
     response = test_client.post('/puzzles/3', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 200
-    assert response.json == {'message': 'Joe Biden (id = 5) is already is associated with puzzle 3.'}
+    assert response.json == {
+        'message': 'Joe Biden (id = 5) is already is associated with puzzle 3.'
+    }
 
 
 def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db, verification_true):
@@ -198,9 +216,10 @@ def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db,
     """
     response = test_client.post('/puzzles/10', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 400
-    assert response.json == {'message': 'Attempt to add Joe Biden (id = 5) to puzzle 10 failed.',
-                             'reason': 'You cannot join a puzzle if the puzzle does not exist and have at '
-                                       'least 1 player.'}
+    assert response.json == {
+        'message': 'Attempt to add Joe Biden (id = 5) to puzzle 10 failed.',
+        'reason': 'You cannot join a puzzle if the puzzle does not exist '
+                  'and have at least 1 player.'}
 
 
 def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verification_true):
@@ -209,7 +228,9 @@ def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verificatio
     """
     response = test_client.post('/puzzles/1', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 200
-    assert response.json == {'message': 'Successfully added Joe Biden (id = 5) to puzzle with id 1.'}
+    assert response.json == {
+        'message': 'Successfully added Joe Biden (id = 5) to puzzle with id 1.'
+    }
 
 
 def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verification_true):
@@ -232,7 +253,8 @@ def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verifi
 
 def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification_true):
     """
-    Attempt to add a valid number to a valid position on a sudoku board that is associated with the user.
+    Attempt to add a valid number to a valid position on a sudoku board
+    that is associated with the user.
     """
     # make sure that we know what the status is of the piece that we are attempting to change
     piece = PuzzlePiece.get_piece(3, 0, 0)
@@ -258,7 +280,8 @@ def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification
 
 def test_attempt_add_piece_valid_override_value(test_client, init_db, verification_true):
     """
-    Attempt to add a valid number to a valid position on a sudoku board that is associated with the user.
+    Attempt to add a valid number to a valid position on a sudoku board that
+    is associated with the user.
     """
     # make sure that we know what the status is of the piece that we are attempting to change
     piece = PuzzlePiece.get_piece(3, 0, 0)
@@ -283,9 +306,10 @@ def test_attempt_add_piece_valid_override_value(test_client, init_db, verificati
     assert piece.value == 2
 
 
-def test_attempt_add_piece_puzzle_player_is_not_affiliated_with(test_client, init_db, verification_true):
+def test_attempt_add_piece_player_is_not_affiliated_with(test_client, init_db, verification_true):
     """
-    Attempt to add a valid number to a valid position on a sudoku board that is NOT associated with the user.
+    Attempt to add a valid number to a valid position on a sudoku board
+    that is NOT associated with the user.
     """
     response = test_client.post(
         '/puzzles/2/piece', data=dict(
@@ -295,12 +319,15 @@ def test_attempt_add_piece_puzzle_player_is_not_affiliated_with(test_client, ini
         ), headers={'Authorization': 'Bearer 2342351231asdb'}
     )
     assert response.status_code == 404
-    assert response.json == {'message': 'Puzzle requested does not exist or is not associated with Joe Biden (id = 5).'}
+    assert response.json == {
+        'message': 'Puzzle requested does not exist or is not associated with Joe Biden (id = 5).'
+    }
 
 
 def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_true):
     """
-    Attempt to add a INVALID number to a valid position on a sudoku board that is associated with the user.
+    Attempt to add a INVALID number to a valid position on a sudoku board that
+    is associated with the user.
     """
     piece = PuzzlePiece.get_piece(3, 0, 0)
     piece.static_piece = False
@@ -316,14 +343,16 @@ def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_
     )
     assert response.status_code == 400
     assert response.json == {
-        'message': 'Attempt to save 50 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'message': 'Attempt to save 50 at (0, 0) on puzzle_id 3 by '
+                   'user Joe Biden (id = 5) was unsuccessful',
         'reason': 'Invalid value provided (50). Available values are 1 to 9.'
     }
 
 
 def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification_true):
     """
-    Attempt to add a INVALID number to a valid position on a sudoku board that is associated with the user.
+    Attempt to add a INVALID number to a valid position on a sudoku board
+    that is associated with the user.
     """
     piece = PuzzlePiece.get_piece(3, 0, 0)
     piece.static_piece = False
@@ -339,14 +368,16 @@ def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification
     )
     assert response.status_code == 400
     assert response.json == {
-        'message': 'Attempt to save 0 at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'message': 'Attempt to save 0 at (0, 0) on puzzle_id 3 by '
+                   'user Joe Biden (id = 5) was unsuccessful',
         'reason': 'Invalid value provided (0). Available values are 1 to 9.'
     }
 
 
 def test_attempt_add_piece_invalid_position_high(test_client, init_db, verification_true):
     """
-    Attempt to add a valid number to an INVALID position on a sudoku board that is associated with the user.
+    Attempt to add a valid number to an INVALID position on a sudoku board
+    that is associated with the user.
     """
     response = test_client.post(
         '/puzzles/3/piece', data=dict(
@@ -357,7 +388,8 @@ def test_attempt_add_piece_invalid_position_high(test_client, init_db, verificat
     )
     assert response.status_code == 400
     assert response.json == {
-        'message': 'Attempt to save 2 at (100, 100) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'message': 'Attempt to save 2 at (100, 100) on puzzle_id 3 by '
+                   'user Joe Biden (id = 5) was unsuccessful',
         'reason': 'Coordinates provided (100, 100) are outside the range of the puzzle. '
                   'Available coordinates are (0, 0) to (9, 9).'
     }
@@ -365,7 +397,8 @@ def test_attempt_add_piece_invalid_position_high(test_client, init_db, verificat
 
 def test_attempt_add_piece_invalid_position_low(test_client, init_db, verification_true):
     """
-    Attempt to add a valid number to an INVALID position on a sudoku board that is associated with the user.
+    Attempt to add a valid number to an INVALID position on a sudoku
+    board that is associated with the user.
     """
     response = test_client.post(
         '/puzzles/3/piece', data=dict(
@@ -376,7 +409,8 @@ def test_attempt_add_piece_invalid_position_low(test_client, init_db, verificati
     )
     assert response.status_code == 400
     assert response.json == {
-        'message': 'Attempt to save 2 at (-1, -1) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'message': 'Attempt to save 2 at (-1, -1) on puzzle_id 3 by '
+                   'user Joe Biden (id = 5) was unsuccessful',
         'reason': 'Coordinates provided (-1, -1) are outside the range of the puzzle. '
                   'Available coordinates are (0, 0) to (9, 9).'
     }
@@ -400,7 +434,9 @@ def test_attempt_remove_piece(test_client, init_db, verification_true):
     )
 
     assert response.status_code == 200
-    assert response.json == {'message': 'Successfully deleted piece at position (0, 0) on puzzle_id 3.'}
+    assert response.json == {
+        'message': 'Successfully deleted piece at position (0, 0) on puzzle_id 3.'
+    }
 
     # test that database is updated
     piece = PuzzlePiece.get_piece(3, 0, 0)
@@ -426,7 +462,8 @@ def test_attempt_remove_static_piece(test_client, init_db, verification_true):
 
     assert response.status_code == 400
     assert response.json == {
-        'message': 'Attempt to delete piece at (0, 0) on puzzle_id 3 by user Joe Biden (id = 5) was unsuccessful',
+        'message': 'Attempt to delete piece at (0, 0) on puzzle_id 3 '
+                   'by user Joe Biden (id = 5) was unsuccessful',
         'reason': 'Changes can only be made to non-static puzzle pieces.'
     }
     # test that database is not updated

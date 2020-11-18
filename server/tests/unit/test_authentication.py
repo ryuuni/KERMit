@@ -1,3 +1,6 @@
+"""
+Test Google Authentication
+"""
 from flask import g
 import pytest
 from server.config import UnitTestingConfig
@@ -12,14 +15,21 @@ app.config.from_object(UnitTestingConfig)
 
 @pytest.fixture
 def get_user(monkeypatch):
+    """
+    Mock the User.find_by_g_id() function.
+    """
     def mock_find_user(*args, **kwargs):
-        return User(g_id="103207743267472488580", first_name='Jane', last_name='Doe', email='janedoe@columbia.edu')
+        return User(g_id="103207743267472488580", first_name='Jane',
+                    last_name='Doe', email='janedoe@columbia.edu')
 
     monkeypatch.setattr(User, 'find_by_g_id', mock_find_user)
 
 
 @pytest.fixture
 def verification_token(monkeypatch):
+    """
+    Mock verification of token.
+    """
     def mock_verify_token(*args, **kwargs):
         return {
         "issued_to": "407408718192.apps.googleusercontent.com",
@@ -36,6 +46,7 @@ def verification_token(monkeypatch):
 
 
 class MockGoogleAuth:
+
     def get_user_information(*args, **kwargs):
         return {
             "id": "103207743267472488580",
@@ -116,11 +127,14 @@ def test_authorize_token_validation_error(monkeypatch):
     assert expected == result
 
 
-def test_authorize_token_validation_success_register(monkeypatch, verification_token):
+def test_authorize_token_validation_success_register(verification_token):
     """
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
+        """
+        Mock Request object for testing authorization
+        """
         def __init__(self):
             self.headers = {'Authorization': 'Bearer Token-Here'}
             self.endpoint = 'registration'
@@ -159,6 +173,9 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
+        """
+        Mock Request for verification of token.
+        """
         def __init__(self):
             self.headers = {'Authorization': 'Bearer Token-Here'}
             self.endpoint = 'sudoku'
@@ -185,7 +202,7 @@ def test_register(get_user):
         registration.google_auth = MockGoogleAuth()
         result = registration.post()
 
-    expected = {'message': f'User with Google ID 103207743267472488580 is already registered.'}
+    expected = {'message': 'User with Google ID 103207743267472488580 is already registered.'}
     assert result == expected
 
 
@@ -193,7 +210,10 @@ def test_register_missing_info_email(get_user):
     """
     If user information retrieved from Google is missing the user's email, request should fail.
     """
-    class MockGoogleAuth:
+    class MockGoogleAuth2:
+        """
+        Mock Google Auth class for easy mocking of user information endpoint.
+        """
         def get_user_information(*args, **kwargs):
             return {
                 "id": "103207743267472488580",
@@ -210,12 +230,12 @@ def test_register_missing_info_email(get_user):
     with app.app_context():
         g.access_token = "access_token"
         registration = Registration()
-        registration.google_auth = MockGoogleAuth()
+        registration.google_auth = MockGoogleAuth2()
         result = registration.post()
 
     expected = ({'message': 'User could not be registered',
-                 'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
-                           'but Google would not provide them.'}, 401)
+                 'reason': 'Google id (unique user identifier) and email must be retrievable '
+                           'attributes, but Google would not provide them.'}, 401)
     assert result == expected
 
 
@@ -244,8 +264,8 @@ def test_register_missing_info_id(get_user):
         result = registration.post()
 
     expected = ({'message': 'User could not be registered',
-                 'reason': 'Google id (unique user identifier) and email must be retrievable attributes, '
-                           'but Google would not provide them.'}, 401)
+                 'reason': 'Google id (unique user identifier) and email must be retrievable'
+                            ' attributes, but Google would not provide them.'}, 401)
     assert result == expected
 
 
@@ -259,8 +279,9 @@ def test_register_error_googleauth(get_user):
                 "error": {
                     "code": 401,
                     "message": "Request is missing required authentication credential. "
-                               "Expected OAuth 2 access token, login cookie or other valid authentication "
-                               "credential. See https://developers.google.com/identity/"
+                               "Expected OAuth 2 access token, login cookie or other valid "
+                               "authentication credential. "
+                               "See https://developers.google.com/identity/"
                                "sign-in/web/devconsole-project.",
                     "status": "UNAUTHENTICATED"
                 }
@@ -283,6 +304,9 @@ def test_register_exception(get_user):
     If any exception is raised, the user should not be able to register.
     """
     class MockGoogleAuth:
+        """
+        Mock Google authentication to easily raise Exception
+        """
         def get_user_information(*args, **kwargs):
             raise Exception("Unknown Exception")
 

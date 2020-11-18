@@ -1,8 +1,14 @@
+"""
+Resource for handling leaderboard information.
+"""
 from flask_restful import Resource, reqparse
 from server.models.player import PuzzlePlayer
 
 
 class Leaderboard(Resource):
+    """
+    Resource for handling leaderboard information
+    """
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
@@ -25,7 +31,7 @@ class Leaderboard(Resource):
             'players': [
                 user_score_as_dict(
                     first_name=entry.first_name,
-                    last_name=entry.last_name, 
+                    last_name=entry.last_name,
                     score=entry.score
                 )
                 for entry in top_players
@@ -34,15 +40,7 @@ class Leaderboard(Resource):
 
 
 def user_score_as_dict(first_name, last_name, score):
-        """
-        Helper function for converting a user + score into a dictionary
-        """
-        return {
-            'first_name': first_name,
-            'last_name': last_name,
-            'score': score
-        }
-
-
-        
-
+    """
+    Helper function for converting a user + score into a dictionary
+    """
+    return {'first_name': first_name, 'last_name': last_name, 'score': score}

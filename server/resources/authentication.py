@@ -1,9 +1,13 @@
-from flask_restful import Resource
-from server.models.user import User
-from server.server import app
-from flask import request
-from server.resources.google_auth import GoogleAuth
+"""
+Responsible for verification of the OAuth token submitted
+before each request, as well as user registration.
+"""
 from flask import g
+from flask import request
+from flask_restful import Resource
+from server.server import app
+from server.models.user import User
+from server.resources.google_auth import GoogleAuth
 
 
 @app.before_request
@@ -15,14 +19,13 @@ def verify_token():
     While g is not appropriate for storing data across requests, it provides a global namespace
     for holding any data you want during a single app context.
     """
-    result = _verify_token(request)
-    if result:
-        return result
+    return _verify_token(request)
 
 
 def _verify_token(incoming_request):
     """
-    The implementation of verification of token; separated from the method above for ease in testing.
+    The implementation of verification of token; separated from the method
+    above for ease in testing.
     """
     if 'Authorization' not in incoming_request.headers:
         return {'message': 'Request denied access',
@@ -56,6 +59,7 @@ def _verify_token(incoming_request):
 
         # save this user for the rest of the request processing
         g.user = user
+    return None
 
 
 class Registration(Resource):
@@ -66,7 +70,9 @@ class Registration(Resource):
     google_auth = GoogleAuth()
 
     def post(self):
-
+        """
+        Endpoint for POST requests to register a new user with the sudoku puzzle system.
+        """
         try:
             user_info = self.google_auth.get_user_information(g.access_token)
             if 'error' in user_info.keys():
@@ -74,12 +80,12 @@ class Registration(Resource):
                         'reason': 'User identity could not be found; valid OAuth2 access '
                                   'token not received.'}, 401
 
-            elif any(field not in user_info.keys() for field in ['id', 'email']):
+            if any(field not in user_info.keys() for field in ['id', 'email']):
                 return {'message': 'User could not be registered',
                         'reason': "Google id (unique user identifier) and email must be "
                                   "retrievable attributes, but Google would not provide them."}, 401
-        except Exception as e:
-            print(f"Unexpected error occurred getting user info from Google: {e}")
+        except Exception as exception:
+            print(f"Unexpected error occurred getting user info from Google: {exception}")
             return {'message': 'User could not be registered',
                     'reason': "Could not determine user information from Google using Oath2 token"
                               "for unknown reason"}, 500
@@ -99,7 +105,7 @@ class Registration(Resource):
             return {'message': 'User {} {} was successfully registered'.format(
                                 new_user.first_name, new_user.last_name)}
 
-        except Exception as e:
-            print(f"Unexpected error occurred registering new user in db: {e}")
+        except Exception as exception:
+            print(f"Unexpected error occurred registering new user in db: {exception}")
             return {'message': 'User could not be registered.',
-                    'reason': f'An unknown error occurred {e}'}, 500
+                    'reason': f'An unknown error occurred {exception}'}, 500

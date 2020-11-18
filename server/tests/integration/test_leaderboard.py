@@ -1,13 +1,17 @@
+"""
+Integration tests for leaderboard endpoints
+"""
 from server.server import app  # prevent circular imports
 from server.models.player import PuzzlePlayer
 from server.models.sudoku_puzzle import Puzzle
-from server.tests.integration.test_setup import test_client, init_db  # required for mocking/test setup
+from server.tests.integration.test_setup import test_client, init_db
 from server.tests.integration.integration_mocks import verification_true
 
 
 def test_get_leaders_no_completed_puzzle(test_client, init_db, verification_true):
     """
-    Test the response when user makes request for leaderboard when there is no one on the leaderboard.
+    Test the response when user makes request for leaderboard when there
+    is no one on the leaderboard.
     """
     response = test_client.get('/leaderboard', headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 200
@@ -42,8 +46,8 @@ def test_get_leaders_completed_puzzles_limit2(test_client, init_db, verification
     Test the response when a valid request is made for a top leaderboard players, the limit
     on players is provided.
 
-    Important: This test relies on the test_get_leaders_completed_puzzles() test to complete, meaning
-    that the ordering is important.
+    Important: This test relies on the test_get_leaders_completed_puzzles()
+    test to complete, meaning that the ordering is important.
     """
     response = test_client.get('/leaderboard',
                                query_string={'limit': '2'},
@@ -53,4 +57,3 @@ def test_get_leaders_completed_puzzles_limit2(test_client, init_db, verification
         'players': [{'first_name': 'foo', 'last_name': 'bar', 'score': 45},
                     {'first_name': 'integration', 'last_name': 'tester', 'score': 45}]
     }
-
