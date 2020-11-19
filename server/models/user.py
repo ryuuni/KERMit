@@ -1,7 +1,17 @@
+"""Implementation of user class.
+
+TODO: Flesh out documentation more.
+
+"""
 from server.server import db
 
 
 class User(db.Model):
+    """The user class.
+
+    TODO: Flesh out documentation more.
+
+    """
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -35,5 +45,5 @@ class User(db.Model):
         return f'User(first_name={self.first_name}, last_name={self.last_name}, id={self.id})'
 
     def as_str(self):
+        """String conversion of User for consumption purposes."""
         return f"{self.first_name} {self.last_name} (id = {self.id})"
-

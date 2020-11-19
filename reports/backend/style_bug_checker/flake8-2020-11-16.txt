@@ -1,0 +1,328 @@
+./server/server.py:29:101: E501 line too long (101 > 100 characters)
+./server/server.py:30:101: E501 line too long (104 > 100 characters)
+./server/server.py:33:1: E402 module level import not at top of file
+./server/server.py:34:1: E402 module level import not at top of file
+./server/server.py:34:101: E501 line too long (114 > 100 characters)
+./server/config.py:34:1: W391 blank line at end of file
+./server/models/sudoku_puzzle.py:50:101: E501 line too long (101 > 100 characters)
+./server/models/sudoku_puzzle.py:65:101: E501 line too long (118 > 100 characters)
+./server/models/sudoku_puzzle.py:105:101: E501 line too long (106 > 100 characters)
+./server/models/sudoku_puzzle.py:149:101: E501 line too long (106 > 100 characters)
+./server/models/sudoku_puzzle.py:150:101: E501 line too long (117 > 100 characters)
+./server/models/sudoku_puzzle.py:155:101: E501 line too long (112 > 100 characters)
+./server/models/sudoku_puzzle.py:248:101: E501 line too long (105 > 100 characters)
+./server/models/player.py:55:35: F541 f-string is missing placeholders
+./server/models/user.py:39:1: W391 blank line at end of file
+./server/models/puzzle_pieces.py:47:101: E501 line too long (102 > 100 characters)
+./server/models/puzzle_pieces.py:50:101: E501 line too long (105 > 100 characters)
+./server/models/puzzle_pieces.py:60:35: F541 f-string is missing placeholders
+./server/models/puzzle_pieces.py:67:101: E501 line too long (108 > 100 characters)
+./server/models/puzzle_pieces.py:68:101: E501 line too long (105 > 100 characters)
+./server/resources/sudoku.py:115:101: E501 line too long (102 > 100 characters)
+./server/resources/sudoku.py:122:101: E501 line too long (102 > 100 characters)
+./server/resources/sudoku.py:128:9: F841 local variable 'e' is assigned to but never used
+./server/resources/sudoku.py:180:101: E501 line too long (108 > 100 characters)
+./server/resources/authentication.py:25:101: E501 line too long (101 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:3:1: F401 'server.server.app' imported but unused
+./server/tests/integration/test_sudoku_endpoints.py:6:1: F401 'server.tests.integration.test_setup.test_client' imported but unused
+./server/tests/integration/test_sudoku_endpoints.py:6:1: F401 'server.tests.integration.test_setup.init_db' imported but unused
+./server/tests/integration/test_sudoku_endpoints.py:6:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:7:1: F401 'server.models.user.User' imported but unused
+./server/tests/integration/test_sudoku_endpoints.py:28:64: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:28:77: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:52:37: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:52:50: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:58:101: E501 line too long (114 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:61:33: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:61:46: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:71:32: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:71:45: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:87:51: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:87:64: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:89:101: E501 line too long (102 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:101:51: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:101:64: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:103:101: E501 line too long (101 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:115:45: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:115:58: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:129:45: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:129:58: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:143:35: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:143:48: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:156:101: E501 line too long (111 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:157:101: E501 line too long (110 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:170:27: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:170:40: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:182:101: E501 line too long (102 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:192:45: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:192:58: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:203:60: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:203:73: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:209:101: E501 line too long (101 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:212:60: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:212:73: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:219:101: E501 line too long (107 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:223:48: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:223:61: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:229:101: E501 line too long (101 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:232:53: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:232:66: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:250:47: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:250:60: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:252:101: E501 line too long (105 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:276:49: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:276:62: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:278:101: E501 line too long (105 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:303:65: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:303:78: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:303:101: E501 line too long (105 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:305:101: E501 line too long (109 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:315:101: E501 line too long (120 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:318:46: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:318:59: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:320:101: E501 line too long (107 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:336:101: E501 line too long (109 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:341:47: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:341:60: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:343:101: E501 line too long (107 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:359:101: E501 line too long (108 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:364:50: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:364:63: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:366:101: E501 line too long (108 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:377:101: E501 line too long (112 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:383:49: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:383:62: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:385:101: E501 line too long (108 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:396:101: E501 line too long (110 > 100 characters)
+./server/tests/integration/test_sudoku_endpoints.py:402:41: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_sudoku_endpoints.py:402:54: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:1:1: F401 'server.server.app' imported but unused
+./server/tests/integration/test_authentication.py:2:1: F401 'server.models.user.User' imported but unused
+./server/tests/integration/test_authentication.py:5:1: F401 'os' imported but unused
+./server/tests/integration/test_authentication.py:6:1: F401 'server.tests.integration.test_setup.test_client' imported but unused
+./server/tests/integration/test_authentication.py:6:1: F401 'server.tests.integration.test_setup.init_db' imported but unused
+./server/tests/integration/test_authentication.py:20:101: E501 line too long (116 > 100 characters)
+./server/tests/integration/test_authentication.py:36:101: E501 line too long (115 > 100 characters)
+./server/tests/integration/test_authentication.py:37:101: E501 line too long (104 > 100 characters)
+./server/tests/integration/test_authentication.py:75:38: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:75:51: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:83:101: E501 line too long (120 > 100 characters)
+./server/tests/integration/test_authentication.py:86:40: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:86:53: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:94:101: E501 line too long (110 > 100 characters)
+./server/tests/integration/test_authentication.py:98:50: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:98:63: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:108:39: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:108:52: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:115:101: E501 line too long (115 > 100 characters)
+./server/tests/integration/test_authentication.py:118:62: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:118:75: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:118:101: E501 line too long (102 > 100 characters)
+./server/tests/integration/test_authentication.py:129:101: E501 line too long (116 > 100 characters)
+./server/tests/integration/test_authentication.py:138:101: E501 line too long (118 > 100 characters)
+./server/tests/integration/test_authentication.py:142:62: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:142:75: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:142:101: E501 line too long (102 > 100 characters)
+./server/tests/integration/test_authentication.py:153:101: E501 line too long (116 > 100 characters)
+./server/tests/integration/test_authentication.py:163:101: E501 line too long (118 > 100 characters)
+./server/tests/integration/test_authentication.py:167:59: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:167:72: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_authentication.py:184:39: F811 redefinition of unused 'test_client' from line 6
+./server/tests/integration/test_authentication.py:184:52: F811 redefinition of unused 'init_db' from line 6
+./server/tests/integration/test_setup.py:27:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_setup.py:29:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_setup.py:31:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_setup.py:33:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_setup.py:35:101: E501 line too long (103 > 100 characters)
+./server/tests/integration/test_setup.py:54:1: W391 blank line at end of file
+./server/tests/unit/test_google_auth.py:1:1: F401 'pytest' imported but unused
+./server/tests/unit/test_google_auth.py:50:101: E501 line too long (112 > 100 characters)
+./server/tests/unit/test_player.py:84:101: E501 line too long (107 > 100 characters)
+./server/tests/unit/test_player.py:94:101: E501 line too long (112 > 100 characters)
+./server/tests/unit/test_player.py:96:44: F841 local variable 'pe' is assigned to but never used
+./server/tests/unit/test_player.py:108:101: E501 line too long (112 > 100 characters)
+./server/tests/unit/test_player.py:110:44: F841 local variable 'pe' is assigned to but never used
+./server/tests/unit/test_player.py:126:101: E501 line too long (112 > 100 characters)
+./server/tests/unit/test_puzzle_pieces.py:78:44: F841 local variable 'pe' is assigned to but never used
+./server/tests/unit/test_puzzle_pieces.py:79:9: F841 local variable 'result' is assigned to but never used
+./server/tests/unit/test_puzzle_pieces.py:107:44: F841 local variable 'pe' is assigned to but never used
+./server/tests/unit/test_authentication.py:16:101: E501 line too long (115 > 100 characters)
+./server/tests/unit/test_authentication.py:25:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:26:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:27:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:28:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:30:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:31:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:32:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:33:9: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:34:5: E122 continuation line missing indentation or outdented
+./server/tests/unit/test_authentication.py:115:27: F541 f-string is missing placeholders
+./server/tests/unit/test_authentication.py:188:28: F541 f-string is missing placeholders
+./server/tests/unit/test_authentication.py:217:101: E501 line too long (106 > 100 characters)
+./server/tests/unit/test_authentication.py:247:101: E501 line too long (106 > 100 characters)
+./server/tests/unit/test_authentication.py:262:101: E501 line too long (107 > 100 characters)
+./server/tests/unit/test_sudoku_puzzle.py:1:101: E501 line too long (110 > 100 characters)
+./server/tests/unit/test_sudoku_puzzle.py:112:1: E302 expected 2 blank lines, found 1
+./server/tests/unit/test_sudoku_puzzle.py:134:101: E501 line too long (102 > 100 characters)
+./server/tests/unit/test_sudoku_puzzle.py:138:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:144:101: E501 line too long (102 > 100 characters)
+./server/tests/unit/test_sudoku_puzzle.py:148:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:154:101: E501 line too long (102 > 100 characters)
+./server/tests/unit/test_sudoku_puzzle.py:158:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:168:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:178:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:188:9: F841 local variable 'sudoku' is assigned to but never used
+./server/tests/unit/test_sudoku_puzzle.py:458:101: E501 line too long (114 > 100 characters)
+./server/tests/unit/test_user.py:57:1: W391 blank line at end of file
+./server/tests/unit/test_sudoku_resources.py:8:101: E501 line too long (120 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:71:101: E501 line too long (104 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:86:20: F541 f-string is missing placeholders
+./server/tests/unit/test_sudoku_resources.py:101:101: E501 line too long (102 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:127:101: E501 line too long (104 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:163:101: E501 line too long (107 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:246:29: F541 f-string is missing placeholders
+./server/tests/unit/test_sudoku_resources.py:253:101: E501 line too long (101 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:266:29: F541 f-string is missing placeholders
+./server/tests/unit/test_sudoku_resources.py:271:101: E501 line too long (101 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:294:101: E501 line too long (105 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:301:101: E501 line too long (103 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:371:101: E501 line too long (103 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:373:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:392:101: E501 line too long (113 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:396:101: E501 line too long (105 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:398:101: E501 line too long (104 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:420:101: E501 line too long (114 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:424:101: E501 line too long (113 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:426:101: E501 line too long (103 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:448:101: E501 line too long (116 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:454:101: E501 line too long (115 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:456:101: E501 line too long (102 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:486:101: E501 line too long (103 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:488:101: E501 line too long (104 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:496:101: E501 line too long (117 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:500:101: E501 line too long (109 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:502:101: E501 line too long (104 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:510:101: E501 line too long (117 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:514:101: E501 line too long (109 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:525:101: E501 line too long (109 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:526:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:527:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:528:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:529:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:530:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:531:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:532:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:533:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:534:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:535:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:536:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:537:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:538:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:539:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:540:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:541:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:542:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:543:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:544:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:545:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:546:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:547:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:548:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:549:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:550:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:551:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:552:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:553:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:554:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:555:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:556:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:557:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:558:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:559:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:560:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:561:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:562:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:563:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:564:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:565:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:566:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:567:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:568:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:569:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:570:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:571:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:572:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:573:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:574:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:575:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:576:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:577:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:578:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:579:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:580:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:581:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:582:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:583:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:584:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:585:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:586:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:587:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:588:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:589:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:590:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:591:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:592:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:593:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:594:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:595:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:596:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:597:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:598:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:599:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:600:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:601:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:602:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:603:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:604:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:605:101: E501 line too long (119 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:606:101: E501 line too long (106 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:608:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:609:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:610:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:611:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:612:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:613:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:614:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:615:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:616:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:617:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:618:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:619:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:620:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:621:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:622:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:623:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:624:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:625:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:626:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:627:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:628:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:629:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:630:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:631:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:632:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:633:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:634:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:635:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:636:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:637:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:638:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:639:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:640:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:641:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:642:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:643:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:644:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:645:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:646:101: E501 line too long (111 > 100 characters)
+./server/tests/unit/test_sudoku_resources.py:647:101: E501 line too long (111 > 100 characters)

@@ -1,8 +1,18 @@
+"""Puzzle pieces module.
+
+TODO: Flesh out documentation
+
+"""
 from server.server import db  # db object from the file where db connection was initialized
 from server.models.puzzle_exception import PuzzleException
 
 
 class PuzzlePiece(db.Model):
+    """PuzzlePiece class
+
+    TODO: Flesh out documentation
+
+    """
     __tablename__ = 'puzzle_pieces'
     __table_args__ = (
         db.UniqueConstraint('puzzle_id', 'x_coordinate', 'y_coordinate', name='unique_piece'),
@@ -31,6 +41,7 @@ class PuzzlePiece(db.Model):
 
     @classmethod
     def get_piece(cls, puzzle_id, x_coordinate, y_coordinate):
+        """Gets the requested piece"""
         piece = cls.query.filter_by(
             puzzle_id=puzzle_id,
             x_coordinate=x_coordinate,
@@ -44,10 +55,11 @@ class PuzzlePiece(db.Model):
 
     def save(self, autocommit=False):
         """
-        Saves a new "puzzle piece" to the database. Optionally, you can auto-commit this puzzle piece.
+        Saves a new "puzzle piece" to the database, autocommits if True.
         """
         db.session.add(self)
-        if autocommit:  # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
+        # this allows for transactions when creating SudokuPuzzle instance and ALL pieces
+        if autocommit:
             db.session.commit()
 
     def update(self, new_value, autocommit=False):
@@ -57,12 +69,15 @@ class PuzzlePiece(db.Model):
         """
 
         if self.static_piece:  # you cannot change pieces that came with the game board
-            raise PuzzleException(f"Changes can only be made to non-static puzzle pieces.")
+            raise PuzzleException("Changes can only be made to non-static puzzle pieces.")
 
         self.value = new_value
         if autocommit:
             db.session.commit()
 
     def __str__(self):
-        return f'PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}, x_coordinate={self.x_coordinate}, ' \
-               f'y_coordinate={self.y_coordinate}, value={self.value}, static_piece={self.static_piece})'
+        return (
+            f"PuzzlePiece(id={self.id}, puzzle_id={self.puzzle_id}, "
+            f"x_coordinate={self.x_coordinate}, y_coordinate={self.y_coordinate}, "
+            f"value={self.value}, static_piece={self.static_piece})"
+        )
