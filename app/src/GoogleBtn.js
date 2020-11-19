@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import register from './utils/ApiClient.js';
 
 const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleusercontent.com';
 
+/**
+ * Class skeleton taken from: https://zoejoyuliao.medium.com
+ * /add-google-sign-in-and-sign-out-to-your-react-app-and-
+ * get-the-accesstoken-2ee16bfd8297
+ */
 class GoogleBtn extends Component {
    constructor(props) {
     super(props);
@@ -27,13 +33,7 @@ class GoogleBtn extends Component {
     }
     this.props.onAccessTokenChanged(response.accessToken)
     console.log('response: ')
-    const requestOptions = {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${this.state.accessToken}` },
-    };
-    fetch('/register', requestOptions).then(res => res.json()).then(data => {
-      console.log(data)
-    });
+    register (this.state.accessToken);
   }
 
   logout (response) {
