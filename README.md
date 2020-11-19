@@ -10,6 +10,8 @@ Group Members:
 
 ## Server - Flask API
 
+Documentation of the backend API supporting this Sudoku application is available [here](https://documenter.getpostman.com/view/8320178/TVemA8kq), as well as in the following write-up.
+
 ## I. Setup
 To start up the server, follow this sequence of steps:
 
