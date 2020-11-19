@@ -73,6 +73,9 @@ def test_find_by_g_id(monkeypatch, user):
                 Mock results class for mimicking base query results
                 """
                 def first(self):
+                    """
+                    Mock get first result
+                    """
                     return user
             return Results()
 

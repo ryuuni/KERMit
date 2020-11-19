@@ -1,7 +1,15 @@
+"""
+Contents include the implementation of the User class, which holds information
+about a User registered with the puzzle system. User information used
+to populate this table comes from information retrieved from the Google OAuth API.
+"""
 from server.server import db
 
 
 class User(db.Model):
+    """
+    Class which holds contents about puzzle users.
+    """
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -35,5 +43,7 @@ class User(db.Model):
         return f'User(first_name={self.first_name}, last_name={self.last_name}, id={self.id})'
 
     def as_str(self):
+        """
+        String conversion of User for specific formatting use cases.
+        """
         return f"{self.first_name} {self.last_name} (id = {self.id})"
-

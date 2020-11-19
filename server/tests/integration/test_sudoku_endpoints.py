@@ -2,7 +2,6 @@
 Integration tests for Sudoku Puzzle endpoints that impact the creation/editing/checking
 of Sudoku puzzles and pieces.
 """
-import pytest
 from server.resources.google_auth import GoogleAuth
 from server.server import app  # prevent circular imports
 from server.models.player import PuzzlePlayer

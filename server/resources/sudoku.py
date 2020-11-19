@@ -84,7 +84,7 @@ class SudokuPuzzles(Resource):
             return {'message': 'Failed to create new Sudoku Puzzle',
                     'reason': p_exception.get_message()}, 400  # bad request
 
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"Exception occurred while creating new puzzle: {exception}")
             return {'message': 'Failed to create new Sudoku Puzzle'}, 500
 
@@ -143,7 +143,7 @@ class SudokuPuzzle(Resource):
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
                     'reason': p_exception.get_message()}, 400
 
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"{exception}")
             return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
                     'reason': 'Unknown error occurred.'}, 500
@@ -204,7 +204,7 @@ class SudokuPuzzlePiece(Resource):
                                f' by user {g.user.as_str()} was unsuccessful',
                     'reason': p_exception.get_message()}, 400
 
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"Unexpected error: {exception}")
             return {'message': 'Unexpected error occurred while adding new value to puzzle'}, 500
 
@@ -234,7 +234,7 @@ class SudokuPuzzlePiece(Resource):
                                f' by user {g.user.as_str()} was unsuccessful',
                     'reason': p_exception.get_message()}, 400
 
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"Unexpected error: {exception}")
             return {'message': 'Unexpected error occurred while deleting value from puzzle'}, 500
 

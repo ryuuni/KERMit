@@ -1,0 +1,158 @@
+************* Module server.tests.unit.test_player
+server/tests/unit/test_player.py:19:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:25:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:39:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:45:4: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_user
+server/tests/unit/test_user.py:75:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_user.py:71:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_user.py:67:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_user.py:82:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_google_auth
+server/tests/unit/test_google_auth.py:9:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module server.tests.unit.mock_session
+server/tests/unit/mock_session.py:15:4: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_leaderboard
+server/tests/unit/test_leaderboard.py:32:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_leaderboard.py:36:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_leaderboard.py:60:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_leaderboard.py:71:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_leaderboard.py:75:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_authentication
+server/tests/unit/test_authentication.py:62:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:55:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:84:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:100:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:116:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:132:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:153:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:169:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:196:4: R0903: Too few public methods (0/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:244:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:240:4: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:281:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:277:4: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:318:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:314:4: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_authentication.py:355:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:351:4: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module server.tests.unit.test_sudoku_resources
+server/tests/unit/test_sudoku_resources.py:164:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:170:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:210:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:216:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:253:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:259:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:440:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:446:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:478:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:484:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:517:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:523:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:559:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:565:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:601:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:607:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:638:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:644:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:317:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:315:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_sudoku_puzzle.py:313:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:323:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:346:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:344:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_sudoku_puzzle.py:342:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:352:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_puzzle_pieces
+server/tests/unit/test_puzzle_pieces.py:44:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:40:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_puzzle_pieces.py:36:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:53:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:84:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:80:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_puzzle_pieces.py:76:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:92:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:123:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:119:12: R0903: Too few public methods (1/2) (too-few-public-methods)
+server/tests/unit/test_puzzle_pieces.py:115:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:131:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.integration.test_sudoku_endpoints
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 3 files
+==server.tests.unit.test_puzzle_pieces:107
+==server.tests.unit.test_puzzle_pieces:68
+==server.tests.unit.test_user:59
+    class MockBaseQuery:
+        """
+        Mock the database base query class, so that unit test does not hit actual db
+        """
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            """
+            Mock filter by function.
+            """
+            class Results():
+                """
+                Mock results class, aims to provide a fake database result for test
+                """
+                def first(self):
+                    """
+                    Mock first function
+                    """ (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.unit.test_puzzle_pieces:28
+==server.tests.unit.test_user:59
+    class MockBaseQuery:
+        """
+        Mock the database base query class, so that unit test does not hit actual db
+        """
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            """
+            Mock filter by function.
+            """
+            class Results():
+                """
+                Mock results class, aims to provide a fake database result for test
+                """ (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.unit.test_authentication:41
+==server.tests.unit.test_google_auth:28
+            "issued_to": "407408718192.apps.googleusercontent.com",
+            "audience": "407408718192.apps.googleusercontent.com",
+            "user_id": "103207743267402488580",
+            "scope": "https://www.googleapis.com/auth/userinfo.email "
+                     "https://www.googleapis.com/auth/userinfo.profile openid",
+            "expires_in": 3590,
+            "email": "mmf2171@columbia.edu",
+            "verified_email": True,
+            "access_type": "offline"
+        } (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.integration.test_authentication:131
+==server.tests.unit.test_authentication:285
+            return {
+                "email": "janedoe@columbia.edu",
+                "verified_email": True,
+                "name": "Jane Doe",
+                "given_name": "Jane",
+                "family_name": "Doe", (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 5 files
+==server.tests.integration.test_authentication:132
+==server.tests.integration.test_authentication:17
+==server.tests.unit.test_authentication:286
+==server.tests.unit.test_authentication:67
+==server.tests.unit.test_google_auth:53
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe", (duplicate-code)
+
+-------------------------------------------------------------------
+Your code has been rated at 9.37/10 (previous run: 10.00/10, -0.63)
+

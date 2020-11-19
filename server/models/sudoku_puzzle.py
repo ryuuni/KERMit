@@ -1,10 +1,20 @@
+"""Implementation of sudoku puzzle classes.
+
+Sudoku Puzzle class is overarching class, holding a given puzzle's
+size, difficulty, point_value and puzzle pieces. The puzzle also
+keeps track of whether or not the Sudoku Puzzle has been completed,
+as pieces are incrementally added to the puzzle.
+"""
+from sudoku import Sudoku
 from server.models.puzzle_pieces import PuzzlePiece
 from server.models.puzzle_exception import PuzzleException
 from server.server import db
-from sudoku import Sudoku
 
 
 class Puzzle(db.Model):
+    """
+    Puzzle class to hold information about a specific Sudoku puzzle.
+    """
     __tablename__ = 'sudoku_puzzles'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -45,9 +55,9 @@ class Puzzle(db.Model):
         self.set_pieces()
 
     @classmethod
-    def get_puzzle(cls, puzzle_id):
+    def get_puzzle(cls, puzzle_id: int):
         """
-        Returns the Puzzle matching the given id. If the puzzle doesn't exist, then None is returned.
+        Returns the Puzzle matching the given id, or None if no such id exists.
         """
         puzzle = cls.query.filter_by(id=puzzle_id).first()  # returns None if no results matched
         if not puzzle:
@@ -57,12 +67,14 @@ class Puzzle(db.Model):
         puzzle.puzzle_pieces = PuzzlePiece.find_all_pieces(puzzle_id=puzzle_id)
         return puzzle
 
-    def save(self, autocommit=True):
+    def save(self, autocommit: bool = True):
         """
-        Saves a new Sudoku puzzle to the database. This automatically adds new records
-        to SudokuPieces.
+        Saves a new Sudoku puzzle to the database.
+
+        By default this automatically adds new records to SudokuPieces.
         """
-        # add the puzzle and flush; this allows the auto-increment id to be assigned to current puzzle, without commit
+        # add the puzzle and flush; this allows the auto-increment id to be
+        # assigned to current puzzle, without commit
         db.session.add(self)
         db.session.flush()
 
@@ -102,8 +114,8 @@ class Puzzle(db.Model):
                                   f"Got {size} ({type(size)}).")
 
         if size not in range(self.SIZE_RANGE[0], self.SIZE_RANGE[1] + 1):
-            raise PuzzleException(f"Valid sizes range from {self.SIZE_RANGE[0]} to {self.SIZE_RANGE[1]}. "
-                                  f"Got {size}.")
+            raise PuzzleException(f"Valid sizes range from {self.SIZE_RANGE[0]}"
+                                  f" to {self.SIZE_RANGE[1]}. Got {size}.")
         self.size = size
 
     def set_pieces(self):
@@ -111,10 +123,10 @@ class Puzzle(db.Model):
         Set the puzzle pieces for the Sudoku board.
         """
         pieces = Sudoku(self.size).difficulty(self.difficulty).board  # produces 2D array of values
-        for i in range(len(pieces)):
-            for j in range(len(pieces[i])):
-                static_piece = True if pieces[i][j] else False
-                new_piece = PuzzlePiece(self.id, j, i, pieces[i][j], static_piece)
+        for i, row in enumerate(pieces):
+            for j, piece in enumerate(row):
+                static_piece = bool(piece)
+                new_piece = PuzzlePiece(self.id, j, i, piece, static_piece)
                 self.puzzle_pieces.append(new_piece)
 
     def set_point_value(self):
@@ -125,8 +137,8 @@ class Puzzle(db.Model):
         # find points for difficulty
         difficulty_intervals = list(self.POINT_VALUES_DIFFICULTY.keys())
         i = 0
-        while i < len(difficulty_intervals) and not \
-                (difficulty_intervals[i][0] <= self.difficulty <= difficulty_intervals[i][1]):
+        while (i < len(difficulty_intervals) and not
+                difficulty_intervals[i][0] <= self.difficulty <= difficulty_intervals[i][1]):
             i += 1
         difficulty_points = self.POINT_VALUES_DIFFICULTY[difficulty_intervals[i]]
 
@@ -146,13 +158,16 @@ class Puzzle(db.Model):
         # make sure that the coordinate is in the puzzle
         coord_range = self.size * self.size
         if (x_coord >= coord_range or x_coord < 0) or (y_coord >= coord_range or y_coord < 0):
-            raise PuzzleException(f'Coordinates provided ({x_coord}, {y_coord}) are outside the range of '
-                                  f'the puzzle. Available coordinates are (0, 0) to ({coord_range}, {coord_range}).')
+            raise PuzzleException(
+                    f"Coordinates provided ({x_coord}, {y_coord}) are outside the range of the"
+                    f" puzzle. Available coordinates are (0, 0) to ({coord_range}, {coord_range})."
+                )
 
         # make sure that the value is valid for the puzzle
         value_range = coord_range
         if value is not None and (value > value_range or value <= 0):
-            raise PuzzleException(f'Invalid value provided ({value}). Available values are 1 to {value_range}.')
+            raise PuzzleException(f"Invalid value provided ({value})."
+                                  f" Available values are 1 to {value_range}.")
 
         # update the piece in order to test if the puzzle is now complete
         for piece in self.puzzle_pieces:
@@ -176,7 +191,7 @@ class Puzzle(db.Model):
 
         # rebuild original sudoku puzzle form static pieces
         discrepancies = self.compare_with_solved_board()
-        return True if not discrepancies else False
+        return not discrepancies
 
     def set_puzzle_complete(self, autocommit=False):
         """
@@ -196,9 +211,9 @@ class Puzzle(db.Model):
         solved_board_arr = solved_board.get_pieces_as_arr()
 
         discrepancies = []
-        for y_coord in range(len(solved_board_arr)):
-            for x_coord in range(len(solved_board_arr[y_coord])):
-                if current_board_arr[y_coord][x_coord] != solved_board_arr[y_coord][x_coord]:
+        for y_coord, sbay in enumerate(solved_board_arr):
+            for x_coord, sbar in enumerate(sbay):
+                if current_board_arr[y_coord][x_coord] != sbar:
                     discrepancies.append({'x_coordinate': x_coord, 'y_coordinate': y_coord})
 
         return discrepancies
@@ -210,20 +225,27 @@ class Puzzle(db.Model):
         return self.get_pieces_as_arr(static_only=True)
 
     def get_solved_puzzle(self):
+        """
+        Gets the solved puzzle, by recreating the original puzzle as an array,
+        and using the Sudoku() library to solve the Sudoku board. Finally, it
+        uses this "solved" board to create an instance of this Puzzle class that
+        has all the same attributes as the current class, but with a completed
+        configuration.
+        """
         original_arr = self.recreate_original_puzzle_as_array()
         solved_arr = Sudoku(self.size, self.size, board=original_arr).solve().board
 
         # create the winning puzzle board
         pieces = []
-        for idx_row in range(len(solved_arr)):
-            for idx_column in range(len(solved_arr[idx_row])):
-                static = True if original_arr[idx_row][idx_column] else False
+        for idx_row, sax in enumerate(solved_arr):
+            for idx_column, piece in enumerate(sax):
+                static = bool(original_arr[idx_row][idx_column])
                 pieces.append(
                     PuzzlePiece(
                         puzzle_id=self.id,
                         x_coordinate=idx_column,
                         y_coordinate=idx_row,
-                        value=solved_arr[idx_row][idx_column],
+                        value=piece,
                         static_piece=static
                     )
                 )
@@ -245,5 +267,7 @@ class Puzzle(db.Model):
         return arr
 
     def __str__(self):
-        return f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, completed={self.completed}, ' \
-               f'point_value={self.point_value}, size={self.size})'
+        return (
+            f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, '
+            f'completed={self.completed}, point_value={self.point_value}, size={self.size})'
+        )

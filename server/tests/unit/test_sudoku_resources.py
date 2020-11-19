@@ -254,7 +254,7 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
             """
             Mock add argument, do nothing.
             """
-            pass
+            return
 
         def parse_args(self):
             """
@@ -518,7 +518,7 @@ def test_get_sudoku_puzzles_add_move_invalid(monkeypatch, user, mock_single_puzz
             """
             Mock add argument, do nothing.
             """
-            pass
+            return
 
         def parse_args(self):
             """

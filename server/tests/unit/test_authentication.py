@@ -1,5 +1,5 @@
 """
-Test Google Authentication
+Test Google Authentication mechanism
 """
 from flask import g
 import pytest
@@ -19,6 +19,10 @@ def get_user(monkeypatch):
     Mock the User.find_by_g_id() function.
     """
     def mock_find_user(*args, **kwargs):
+        """
+        Mock the find user method, providing back a user that can be
+        used in further testing.
+        """
         return User(g_id="103207743267472488580", first_name='Jane',
                     last_name='Doe', email='janedoe@columbia.edu')
 
@@ -28,26 +32,37 @@ def get_user(monkeypatch):
 @pytest.fixture
 def verification_token(monkeypatch):
     """
-    Mock verification of token.
+    Mock verification of token that is valid.
     """
     def mock_verify_token(*args, **kwargs):
+        """
+        Return the content expected when a token is successfully verified.
+        """
         return {
-        "issued_to": "407408718192.apps.googleusercontent.com",
-        "audience": "407408718192.apps.googleusercontent.com",
-        "user_id": "103207743267402488580",
-        "scope": "https://www.googleapis.com/auth/userinfo.email "
-                 "https://www.googleapis.com/auth/userinfo.profile openid",
-        "expires_in": 3590,
-        "email": "mmf2171@columbia.edu",
-        "verified_email": True,
-        "access_type": "offline"
-    }
+            "issued_to": "407408718192.apps.googleusercontent.com",
+            "audience": "407408718192.apps.googleusercontent.com",
+            "user_id": "103207743267402488580",
+            "scope": "https://www.googleapis.com/auth/userinfo.email "
+                     "https://www.googleapis.com/auth/userinfo.profile openid",
+            "expires_in": 3590,
+            "email": "mmf2171@columbia.edu",
+            "verified_email": True,
+            "access_type": "offline"
+        }
     monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
 
 
 class MockGoogleAuth:
+    """
+    Mock google auth class that can be used to mock the case when
+    the Google Auth API is able to successfully validate a Oauth token for a user
+    and the user has provided access to their information.
+    """
 
-    def get_user_information(*args, **kwargs):
+    def get_user_information(self, *args):
+        """
+        Mock get user information when token is valid and information is available.
+        """
         return {
             "id": "103207743267472488580",
             "email": "janedoe@columbia.edu",
@@ -66,8 +81,8 @@ def test_authorize_token_missing_header():
     """
     Verification of token should fail if header is missing Authentication info.
     """
-
     class MockRequest:
+        """Mock Request for verification of token."""
         def __init__(self):
             self.headers = {}
 
@@ -83,6 +98,7 @@ def test_authorize_token_missing_header2():
     Verification of token should fail if header is missing Authentication info.
     """
     class MockRequest:
+        """Mock Request for verification of token."""
         def __init__(self):
             self.headers = {'Something': 'here'}
 
@@ -98,6 +114,7 @@ def test_authorize_token_malformed_header():
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
+        """Mock Request for verification of token."""
         def __init__(self):
             self.headers = {'Authorization': 'Token here'}
 
@@ -113,17 +130,19 @@ def test_authorize_token_validation_error(monkeypatch):
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
+        """Mock Request for verification of token."""
         def __init__(self):
             self.headers = {'Authorization': 'Bearer Token-Here'}
 
     def mock_verify_token(*args, **kwargs):
+        """Mock the verification of the token fails."""
         return {"error": "some error", "error_description": 'A bad error occurred'}
 
     monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
 
     result = _verify_token(MockRequest())
     expected = {'message': 'Request denied access',
-                'reason': f'Google rejected oauth2 token: A bad error occurred'}, 401
+                'reason': 'Google rejected oauth2 token: A bad error occurred'}, 401
     assert expected == result
 
 
@@ -132,9 +151,7 @@ def test_authorize_token_validation_success_register(verification_token):
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
-        """
-        Mock Request object for testing authorization
-        """
+        """Mock Request for verification of token."""
         def __init__(self):
             self.headers = {'Authorization': 'Bearer Token-Here'}
             self.endpoint = 'registration'
@@ -150,6 +167,9 @@ def test_authorize_token_validation_success(monkeypatch, verification_token):
     Verification of token should fail if header is Authentication info is malformed
     """
     class MockRequest:
+        """
+        Mock Request for verification of token.
+        """
         def __init__(self):
             self.headers = {'Authorization': 'Bearer Token-Here'}
             self.endpoint = 'sudoku'
@@ -157,6 +177,7 @@ def test_authorize_token_validation_success(monkeypatch, verification_token):
     mock_user = User('103207743267402488580', 'Megan', 'Frenkel', 'mmf2171@columbia.edu')
 
     def mock_find_user(*args, **kwargs):
+        """Mock find user when there is a user to find."""
         return mock_user
 
     monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
@@ -181,6 +202,10 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
             self.endpoint = 'sudoku'
 
     def mock_find_user(*args, **kwargs):
+        """
+        Mock the scenario where the method that attempts to find users cannot find
+        any matching users; the request should be denied.
+        """
         return None
 
     monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
@@ -195,7 +220,9 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
 
 
 def test_register(get_user):
-
+    """
+    Test register a user where the authentication of the token is successful.
+    """
     with app.app_context():
         g.access_token = "access_token"
         registration = Registration()
@@ -212,9 +239,13 @@ def test_register_missing_info_email(get_user):
     """
     class MockGoogleAuth2:
         """
-        Mock Google Auth class for easy mocking of user information endpoint.
+        Mock the google authentication class and results
         """
-        def get_user_information(*args, **kwargs):
+        def get_user_information(self, *args, **kwargs):
+            """
+            Expected user information, when there is a succesfull token validation
+            but a required field is missing.
+            """
             return {
                 "id": "103207743267472488580",
                 "verified_email": True,
@@ -244,7 +275,14 @@ def test_register_missing_info_id(get_user):
     If user information retrieved from Google is missing the user's id, request should fail.
     """
     class MockGoogleAuth:
-        def get_user_information(*args, **kwargs):
+        """
+        Mock the google authentication class and results
+        """
+        def get_user_information(self, *args, **kwargs):
+            """
+            Expected user information, when there is a succesfull token validation
+            but a required field is missing.
+            """
             return {
                 "email": "janedoe@columbia.edu",
                 "verified_email": True,
@@ -274,7 +312,14 @@ def test_register_error_googleauth(get_user):
     If user information could not be retrieved from Google for any reason, request should fail.
     """
     class MockGoogleAuth:
-        def get_user_information(*args, **kwargs):
+        """
+        Mock the google authentication class and results
+        """
+        def get_user_information(self, *args, **kwargs):
+            """
+            Expected user information, when there is an error that occurs in the validation
+            of the Oauth token by the Google API
+            """
             return {
                 "error": {
                     "code": 401,
@@ -307,7 +352,8 @@ def test_register_exception(get_user):
         """
         Mock Google authentication to easily raise Exception
         """
-        def get_user_information(*args, **kwargs):
+        def get_user_information(self, *args, **kwargs):
+            """Use this function to cause a function to raise an exception when called."""
             raise Exception("Unknown Exception")
 
     with app.app_context():
@@ -346,6 +392,7 @@ def test_register_exception_db(monkeypatch):
     If an exception is raised during the processing of the registration, the user should be alerted.
     """
     def raise_exception():
+        """Use this function to cause a function to raise an exception when called."""
         raise Exception("some exception")
 
     monkeypatch.setattr(User, 'find_by_g_id', lambda x: None)

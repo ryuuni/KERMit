@@ -1,3 +1,7 @@
+"""
+Module responsible for mapping players to all of their puzzles,
+as well as adding players to a new puzzle.
+"""
 from sqlalchemy import func
 from server.server import db
 from server.models.user import User
@@ -8,7 +12,10 @@ MAX_PLAYERS_PER_PUZZLE = 4
 
 
 class PuzzlePlayer(db.Model):
-
+    """
+    Class to map puzzles (based on id) to their puzzles, and responsible
+    for adding a player to a puzzle.
+    """
     __tablename__ = 'puzzle_players'
 
     player_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
@@ -45,19 +52,22 @@ class PuzzlePlayer(db.Model):
             .filter_by(puzzle_id=puzzle_id)\
             .all()
 
-    @classmethod 
+    @classmethod
     def get_top_players(cls, n_results):
         """
         Get the top players by cumulative score.
         """
-        return User.query\
-            .with_entities(User.first_name, User.last_name, func.sum(Puzzle.point_value).label('score'))\
-            .join(PuzzlePlayer, PuzzlePlayer.player_id == User.id)\
-            .join(Puzzle, Puzzle.id == PuzzlePlayer.puzzle_id)\
-            .filter_by(completed=True)\
-            .group_by(User.id)\
-            .order_by(func.sum(Puzzle.point_value).desc())\
+        return (
+            User.query
+            .with_entities(User.first_name, User.last_name,
+                           func.sum(Puzzle.point_value).label('score'))
+            .join(PuzzlePlayer, PuzzlePlayer.player_id == User.id)
+            .join(Puzzle, Puzzle.id == PuzzlePlayer.puzzle_id)
+            .filter_by(completed=True)
+            .group_by(User.id)
+            .order_by(func.sum(Puzzle.point_value).desc())
             .limit(n_results)
+        )
 
     @classmethod
     def add_player_to_puzzle(cls, puzzle_id, user):
@@ -68,9 +78,9 @@ class PuzzlePlayer(db.Model):
         existing_players = PuzzlePlayer.find_players_for_puzzle(puzzle_id)
 
         if not existing_players:
-            raise PuzzleException(f"You cannot join a puzzle if the puzzle does not exist and "
-                                  f"have at least 1 player.")
-        elif len(existing_players) >= MAX_PLAYERS_PER_PUZZLE:
+            raise PuzzleException("You cannot join a puzzle if the puzzle does not exist and "
+                                  "have at least 1 player.")
+        if len(existing_players) >= MAX_PLAYERS_PER_PUZZLE:
             raise PuzzleException(f"There are already {MAX_PLAYERS_PER_PUZZLE} "
                                   f"players affiliated with puzzle {puzzle_id}")
 
