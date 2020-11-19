@@ -1,0 +1,29 @@
+************* Module server.tests.unit.test_leaderboard
+server/tests/unit/test_leaderboard.py:24:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_leaderboard.py:47:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_leaderboard.py:53:4: C0115: Missing class docstring (missing-class-docstring)
+************* Module server.tests.unit.test_authentication
+server/tests/unit/test_authentication.py:48:0: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:70:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:85:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:100:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:115:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:152:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:246:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:276:4: C0115: Missing class docstring (missing-class-docstring)
+************* Module server.tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:306:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:312:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:329:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:335:12: C0115: Missing class docstring (missing-class-docstring)
+************* Module server.tests.unit.test_puzzle_pieces
+server/tests/unit/test_puzzle_pieces.py:22:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:27:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:43:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:49:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:65:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:71:12: C0115: Missing class docstring (missing-class-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.82/10 (previous run: 9.43/10, +0.39)
+

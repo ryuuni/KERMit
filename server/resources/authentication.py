@@ -84,7 +84,7 @@ class Registration(Resource):
                 return {'message': 'User could not be registered',
                         'reason': "Google id (unique user identifier) and email must be "
                                   "retrievable attributes, but Google would not provide them."}, 401
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"Unexpected error occurred getting user info from Google: {exception}")
             return {'message': 'User could not be registered',
                     'reason': "Could not determine user information from Google using Oath2 token"
@@ -105,7 +105,7 @@ class Registration(Resource):
             return {'message': 'User {} {} was successfully registered'.format(
                                 new_user.first_name, new_user.last_name)}
 
-        except Exception as exception:
+        except Exception as exception:  # pylint: disable=broad-except
             print(f"Unexpected error occurred registering new user in db: {exception}")
             return {'message': 'User could not be registered.',
                     'reason': f'An unknown error occurred {exception}'}, 500

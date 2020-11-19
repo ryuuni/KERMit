@@ -1,14 +1,23 @@
+"""
+Unit tests for the Google Auth class.
+"""
 import pytest
 import requests
 from server.resources.google_auth import GoogleAuth
 
 
 class MockResponse:
+    """
+    Mock the response from API
+    """
     def __init__(self, json_data, status_code):
         self.json_data = json_data
         self.status_code = status_code
 
     def json(self):
+        """
+        Mock return json data
+        """
         return self.json_data
 
 
@@ -47,7 +56,8 @@ def test_get_user_information(monkeypatch):
         "name": "Jane Doe",
         "given_name": "Jane",
         "family_name": "Doe",
-        "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+        "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8WQ"
+                   "qJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
         "locale": "en",
         "hd": "columbia.edu"
     }

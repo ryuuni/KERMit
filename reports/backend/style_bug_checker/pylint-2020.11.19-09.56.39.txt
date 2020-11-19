@@ -1,0 +1,12 @@
+************* Module server.models.puzzle_pieces
+server/models/puzzle_pieces.py:26:4: R0913: Too many arguments (6/5) (too-many-arguments)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.models.player -> server.server -> server.resources.leaderboard) (cyclic-import)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.resources.authentication -> server.server) (cyclic-import)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.models.player -> server.server -> server.resources.sudoku) (cyclic-import)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.models.player -> server.models.sudoku_puzzle -> server.models.puzzle_pieces -> server.server -> server.resources.leaderboard) (cyclic-import)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.models.puzzle_pieces -> server.server -> server.resources.sudoku -> server.models.sudoku_puzzle) (cyclic-import)
+server/models/puzzle_pieces.py:1:0: R0401: Cyclic import (server.models.player -> server.models.user -> server.server -> server.resources.leaderboard) (cyclic-import)
+
+------------------------------------------------------------------
+Your code has been rated at 9.84/10 (previous run: 9.82/10, +0.02)
+

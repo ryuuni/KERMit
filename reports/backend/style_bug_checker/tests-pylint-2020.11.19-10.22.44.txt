@@ -1,0 +1,12 @@
+************* Module server.tests.unit.test_authentication
+server/tests/unit/test_authentication.py:50:4: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:217:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:247:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:277:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:310:8: E0211: Method has no argument (no-method-argument)
+************* Module server.tests.integration.test_setup
+server/tests/integration/test_setup.py:32:4: E1101: Instance of 'scoped_session' has no 'commit' member (no-member)
+
+------------------------------------------------------------------
+Your code has been rated at 9.75/10 (previous run: 9.75/10, +0.00)
+

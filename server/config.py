@@ -1,3 +1,8 @@
+"""
+Configuration helper file, responsible for allowing specific Flask configurations
+for different environments.
+"""
+# pylint: disable=too-few-public-methods
 import os
 
 
@@ -31,4 +36,3 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     ENV = 'production'
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI_PROD')
-

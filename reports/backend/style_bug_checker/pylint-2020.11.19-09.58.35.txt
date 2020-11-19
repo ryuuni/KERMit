@@ -1,0 +1,6 @@
+************* Module server.models.puzzle_pieces
+server/models/puzzle_pieces.py:26:4: R0913: Too many arguments (6/5) (too-many-arguments)
+
+------------------------------------------------------------------
+Your code has been rated at 9.98/10 (previous run: 9.84/10, +0.14)
+

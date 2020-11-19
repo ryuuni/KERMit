@@ -1,0 +1,268 @@
+************* Module server.tests.unit.test_player
+server/tests/unit/test_player.py:84:0: C0301: Line too long (107/100) (line-too-long)
+server/tests/unit/test_player.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_player.py:14:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_player.py:14:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:17:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_player.py:17:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_player.py:26:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_player.py:29:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_player.py:62:4: W0612: Unused variable 'mock_query' (unused-variable)
+server/tests/unit/test_player.py:97:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_player.py:97:43: W0612: Unused variable 'pe' (unused-variable)
+server/tests/unit/test_player.py:112:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_player.py:112:43: W0612: Unused variable 'pe' (unused-variable)
+server/tests/unit/test_player.py:137:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module server.tests.unit.test_user
+server/tests/unit/test_user.py:75:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_user.py:75:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_user.py:67:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_user.py:79:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_google_auth
+server/tests/unit/test_google_auth.py:50:0: C0301: Line too long (112/100) (line-too-long)
+server/tests/unit/test_google_auth.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_google_auth.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_google_auth.py:11:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_google_auth.py:1:0: W0611: Unused import pytest (unused-import)
+************* Module server.tests.unit.mock_session
+server/tests/unit/mock_session.py:15:4: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_leaderboard
+server/tests/unit/test_leaderboard.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_leaderboard.py:13:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:21:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_leaderboard.py:22:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:25:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:25:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_leaderboard.py:43:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:44:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_leaderboard.py:45:50: W0622: Redefining built-in 'sum' (redefined-builtin)
+server/tests/unit/test_leaderboard.py:50:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_leaderboard.py:51:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:54:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_leaderboard.py:54:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_authentication
+server/tests/unit/test_authentication.py:48:0: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:50:4: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:50:4: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:50:4: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:70:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:85:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:100:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:115:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:126:26: W1309: Using an f-string that does not have any interpolated variables (f-string-without-interpolation)
+server/tests/unit/test_authentication.py:152:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:197:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:217:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:217:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:217:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:246:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:247:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:247:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:247:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:276:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_authentication.py:277:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:277:8: E0211: Method has no argument (no-method-argument)
+server/tests/unit/test_authentication.py:277:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_authentication.py:310:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_authentication.py:310:8: E0211: Method has no argument (no-method-argument)
+************* Module server.tests.unit.test_sudoku_resources
+server/tests/unit/test_sudoku_resources.py:164:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:170:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:210:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:216:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:257:12: W0107: Unnecessary pass statement (unnecessary-pass)
+server/tests/unit/test_sudoku_resources.py:259:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:440:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:446:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:478:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:484:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:521:12: W0107: Unnecessary pass statement (unnecessary-pass)
+server/tests/unit/test_sudoku_resources.py:523:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:559:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:565:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:601:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:607:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:638:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_resources.py:644:8: R0201: Method could be a function (no-self-use)
+************* Module server.tests.unit.test_puzzle_exception
+server/tests/unit/test_puzzle_exception.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_puzzle_exception.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module server.tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:1:0: C0301: Line too long (110/100) (line-too-long)
+server/tests/unit/test_sudoku_puzzle.py:135:0: C0301: Line too long (102/100) (line-too-long)
+server/tests/unit/test_sudoku_puzzle.py:145:0: C0301: Line too long (102/100) (line-too-long)
+server/tests/unit/test_sudoku_puzzle.py:155:0: C0301: Line too long (102/100) (line-too-long)
+server/tests/unit/test_sudoku_puzzle.py:459:0: C0301: Line too long (114/100) (line-too-long)
+server/tests/unit/test_sudoku_puzzle.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_sudoku_puzzle.py:41:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:67:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:92:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:138:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:139:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:148:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:149:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:158:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:159:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:168:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:169:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:178:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:179:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:188:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:189:8: W0612: Unused variable 'sudoku' (unused-variable)
+server/tests/unit/test_sudoku_puzzle.py:293:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:298:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:299:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:300:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:300:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:298:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:305:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:305:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:316:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:321:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:322:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_sudoku_puzzle.py:323:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:323:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:321:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:328:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:328:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_sudoku_puzzle.py:343:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:350:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:361:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:370:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:379:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:388:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:397:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:406:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:415:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_sudoku_puzzle.py:458:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_puzzle.py:7:0: C0411: third party import "import pytest" should be placed before "from server.server import app, db" (wrong-import-order)
+************* Module server.tests.unit.test_puzzle_pieces
+server/tests/unit/test_puzzle_pieces.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_puzzle_pieces.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:19:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:23:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:24:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:25:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:25:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:23:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:30:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:30:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:40:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:45:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:46:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:47:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:47:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:45:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:52:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:52:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:61:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:62:4: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:67:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:68:12: C0115: Missing class docstring (missing-class-docstring)
+server/tests/unit/test_puzzle_pieces.py:69:16: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:69:16: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:67:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:74:8: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:74:8: R0201: Method could be a function (no-self-use)
+server/tests/unit/test_puzzle_pieces.py:78:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_puzzle_pieces.py:78:43: W0612: Unused variable 'pe' (unused-variable)
+server/tests/unit/test_puzzle_pieces.py:79:8: W0612: Unused variable 'result' (unused-variable)
+server/tests/unit/test_puzzle_pieces.py:82:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:89:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:96:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:103:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_puzzle_pieces.py:107:43: C0103: Variable name "pe" doesn't conform to snake_case naming style (invalid-name)
+server/tests/unit/test_puzzle_pieces.py:107:43: W0612: Unused variable 'pe' (unused-variable)
+server/tests/unit/test_puzzle_pieces.py:111:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module server.tests.integration.test_leaderboard
+server/tests/integration/test_leaderboard.py:4:0: W0611: Unused app imported from server.server (unused-import)
+server/tests/integration/test_leaderboard.py:7:0: W0611: Unused test_client imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_leaderboard.py:7:0: W0611: Unused init_db imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_leaderboard.py:8:0: W0611: Unused verification_true imported from server.tests.integration.integration_mocks (unused-import)
+************* Module server.tests.integration.test_authentication
+server/tests/integration/test_authentication.py:5:0: W0611: Unused app imported from server.server (unused-import)
+server/tests/integration/test_authentication.py:6:0: W0611: Unused User imported from server.models.user (unused-import)
+server/tests/integration/test_authentication.py:8:0: W0611: Unused test_client imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_authentication.py:8:0: W0611: Unused init_db imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_authentication.py:9:0: W0611: Unused verification_true imported from server.tests.integration.integration_mocks (unused-import)
+server/tests/integration/test_authentication.py:9:0: W0611: Unused verification_error imported from server.tests.integration.integration_mocks (unused-import)
+************* Module server.tests.integration.test_sudoku_endpoints
+server/tests/integration/test_sudoku_endpoints.py:5:0: W0611: Unused import pytest (unused-import)
+server/tests/integration/test_sudoku_endpoints.py:7:0: W0611: Unused app imported from server.server (unused-import)
+server/tests/integration/test_sudoku_endpoints.py:10:0: W0611: Unused test_client imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_sudoku_endpoints.py:10:0: W0611: Unused init_db imported from server.tests.integration.test_setup (unused-import)
+server/tests/integration/test_sudoku_endpoints.py:11:0: W0611: Unused verification_true imported from server.tests.integration.integration_mocks (unused-import)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.unit.test_puzzle_pieces:61
+==server.tests.unit.test_sudoku_puzzle:292
+    class MockBaseQuery:
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            class Results():
+                def first(self):
+                    return None
+
+            return Results()
+
+        def join(self, *args, **kwargs):
+            return
+
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery) (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.unit.test_authentication:34
+==server.tests.unit.test_google_auth:19
+        "issued_to": "407408718192.apps.googleusercontent.com",
+        "audience": "407408718192.apps.googleusercontent.com",
+        "user_id": "103207743267402488580",
+        "scope": "https://www.googleapis.com/auth/userinfo.email "
+                 "https://www.googleapis.com/auth/userinfo.profile openid",
+        "expires_in": 3590,
+        "email": "mmf2171@columbia.edu",
+        "verified_email": True,
+        "access_type": "offline"
+    } (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 4 files
+==server.tests.unit.test_puzzle_pieces:39
+==server.tests.unit.test_puzzle_pieces:61
+==server.tests.unit.test_sudoku_puzzle:292
+==server.tests.unit.test_sudoku_puzzle:315
+    class MockBaseQuery:
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def filter_by(self, *args, **kwargs):
+            class Results():
+                def first(self): (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 2 files
+==server.tests.integration.test_authentication:131
+==server.tests.unit.test_authentication:247
+        return {
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe", (duplicate-code)
+server/tests/integration/test_sudoku_endpoints.py:1:0: R0801: Similar lines in 5 files
+==server.tests.integration.test_authentication:132
+==server.tests.integration.test_authentication:17
+==server.tests.unit.test_authentication:248
+==server.tests.unit.test_authentication:52
+==server.tests.unit.test_google_auth:44
+            "email": "janedoe@columbia.edu",
+            "verified_email": True,
+            "name": "Jane Doe",
+            "given_name": "Jane",
+            "family_name": "Doe", (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 8.24/10 (previous run: 1.84/10, +6.40)
+

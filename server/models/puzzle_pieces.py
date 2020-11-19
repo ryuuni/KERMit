@@ -1,17 +1,15 @@
-"""Puzzle pieces module.
-
-TODO: Flesh out documentation
-
+"""
+Module responsible for handling individual puzzle pieces (i.e., validation and
+saving a specific value to the database for a given piece).
 """
 from server.server import db  # db object from the file where db connection was initialized
 from server.models.puzzle_exception import PuzzleException
 
 
 class PuzzlePiece(db.Model):
-    """PuzzlePiece class
-
-    TODO: Flesh out documentation
-
+    """
+    Supports functionality related to individual puzzle pieces: finding pieces,
+    validating piece changes, and storing updates.
     """
     __tablename__ = 'puzzle_pieces'
     __table_args__ = (
@@ -25,6 +23,7 @@ class PuzzlePiece(db.Model):
     static_piece = db.Column(db.Boolean, nullable=False)
     value = db.Column(db.Integer, nullable=True)
 
+    # pylint: disable=too-many-arguments
     def __init__(self, puzzle_id, x_coordinate, y_coordinate, value=None, static_piece=False):
         self.puzzle_id = puzzle_id
         self.x_coordinate = x_coordinate
@@ -41,7 +40,9 @@ class PuzzlePiece(db.Model):
 
     @classmethod
     def get_piece(cls, puzzle_id, x_coordinate, y_coordinate):
-        """Gets the requested piece"""
+        """
+        Gets the requested piece, by puzzle id and coordinates on puzzle board.
+        """
         piece = cls.query.filter_by(
             puzzle_id=puzzle_id,
             x_coordinate=x_coordinate,

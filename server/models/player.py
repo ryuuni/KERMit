@@ -1,7 +1,6 @@
-"""Player module
-
-TODO: Flesh out documentation.
-
+"""
+Module responsible for mapping players to all of their puzzles,
+as well as adding players to a new puzzle.
 """
 from sqlalchemy import func
 from server.server import db
@@ -13,12 +12,10 @@ MAX_PLAYERS_PER_PUZZLE = 4
 
 
 class PuzzlePlayer(db.Model):
-    """Puzzle player class
-
-    TODO: Flesh out documentation
-
     """
-
+    Class to map puzzles (based on id) to their puzzles, and responsible
+    for adding a player to a puzzle.
+    """
     __tablename__ = 'puzzle_players'
 
     player_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)

@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 132 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header ERROR [  0%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header ERROR [  1%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid ERROR [  2%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error ERROR [  3%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 ERROR [  3%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 

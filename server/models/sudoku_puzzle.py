@@ -1,7 +1,9 @@
 """Implementation of sudoku puzzle classes.
 
-TODO: Flesh out full module documentation.
-
+Sudoku Puzzle class is overarching class, holding a given puzzle's
+size, difficulty, point_value and puzzle pieces. The puzzle also
+keeps track of whether or not the Sudoku Puzzle has been completed,
+as pieces are incrementally added to the puzzle.
 """
 from sudoku import Sudoku
 from server.models.puzzle_pieces import PuzzlePiece
@@ -10,10 +12,8 @@ from server.server import db
 
 
 class Puzzle(db.Model):
-    """Puzzle class
-
-    TODO: Flesh out documentation
-
+    """
+    Puzzle class to hold information about a specific Sudoku puzzle.
     """
     __tablename__ = 'sudoku_puzzles'
 
@@ -123,9 +123,9 @@ class Puzzle(db.Model):
         Set the puzzle pieces for the Sudoku board.
         """
         pieces = Sudoku(self.size).difficulty(self.difficulty).board  # produces 2D array of values
-        for i, pi in enumerate(pieces):
-            for j, piece in enumerate(pi):
-                static_piece = bool(piece[i][j])
+        for i, row in enumerate(pieces):
+            for j, piece in enumerate(row):
+                static_piece = bool(piece)
                 new_piece = PuzzlePiece(self.id, j, i, piece, static_piece)
                 self.puzzle_pieces.append(new_piece)
 
@@ -225,10 +225,12 @@ class Puzzle(db.Model):
         return self.get_pieces_as_arr(static_only=True)
 
     def get_solved_puzzle(self):
-        """Gets the solved puzzle.
-
-        TODO: Flesh out documentation more.
-
+        """
+        Gets the solved puzzle, by recreating the original puzzle as an array,
+        and using the Sudoku() library to solve the Sudoku board. Finally, it
+        uses this "solved" board to create an instance of this Puzzle class that
+        has all the same attributes as the current class, but with a completed
+        configuration.
         """
         original_arr = self.recreate_original_puzzle_as_array()
         solved_arr = Sudoku(self.size, self.size, board=original_arr).solve().board
@@ -266,6 +268,6 @@ class Puzzle(db.Model):
 
     def __str__(self):
         return (
-            f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, completed={self.completed}, '
-            f'point_value={self.point_value}, size={self.size})'
+            f'SudokuPuzzle(id={self.id}, difficulty={self.difficulty}, '
+            f'completed={self.completed}, point_value={self.point_value}, size={self.size})'
         )

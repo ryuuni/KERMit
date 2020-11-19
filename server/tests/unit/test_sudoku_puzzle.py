@@ -1,10 +1,13 @@
-from server.server import app, db                  # this dependency is necessary to prevent a circular import
+"""
+Unit testing for Sudoku Puzzle class.
+"""
+import pytest
+from server.server import app, db    # this dependency is necessary to prevent a circular import
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_pieces import PuzzlePiece
 from server.models.puzzle_exception import PuzzleException
 from server.config import UnitTestingConfig
 from server.tests.unit.mock_session import MockSession
-import pytest
 
 app.config.from_object(UnitTestingConfig)
 
@@ -12,7 +15,7 @@ app.config.from_object(UnitTestingConfig)
 @pytest.fixture(autouse=False)
 def incomplete_puzzle():
     """
-    Have an incomplete puzzle that can be used for testing
+    Have an incomplete puzzle that can be used for testing.
     """
     puzzle = Puzzle(difficulty_level=0.2, size=2)
     puzzle.id = 1
@@ -39,6 +42,9 @@ def incomplete_puzzle():
 
 @pytest.fixture(autouse=False)
 def complete_puzzle():
+    """
+    Provide sample complete puzzle, with valid pieces in each position.
+    """
     puzzle = Puzzle(difficulty_level=0.2, size=2)
     puzzle.id = 1
     puzzle.puzzle_pieces = [
@@ -65,6 +71,10 @@ def complete_puzzle():
 
 @pytest.fixture(autouse=False)
 def incorrect_puzzle():
+    """
+    Provide a sample incorrect puzzle (all pieces submitted, but
+    not a valid configuration)"
+    """
     puzzle = Puzzle(difficulty_level=0.2, size=2)
     puzzle.id = 1
     puzzle.puzzle_pieces = [
@@ -90,6 +100,9 @@ def incorrect_puzzle():
 
 @pytest.fixture(autouse=False)
 def pieces():
+    """
+    Mock list of pieces for a 4x4 sudoku puzzle
+    """
     return [
         PuzzlePiece(1, 0, 0, value=2, static_piece=True),
         PuzzlePiece(1, 1, 0, value=4, static_piece=True),
@@ -108,6 +121,7 @@ def pieces():
         PuzzlePiece(1, 2, 3, value=4, static_piece=False),
         PuzzlePiece(1, 3, 3, value=4, static_piece=True)
     ]
+
 
 def test_create_sudoku_puzzle_valid_defaults():
     """
@@ -131,32 +145,32 @@ def test_create_sudoku_puzzle_valid_specification():
 
 def test_create_sudoku_puzzle_invalid_difficulty_str():
     """
-    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid difficulty level
-    that is not of type float.
+    Make sure that it is NOT possible to create a sudoku puzzle
+    by specifying invalid difficulty level that is not of type float.
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level='bad level', size=4)
-        assert "Sudoku puzzle difficulty specified must be a float value" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level='bad level', size=4)
+        assert "Sudoku puzzle difficulty specified must be a float value" in str(p_exception.value)
 
 
 def test_create_sudoku_puzzle_invalid_difficulty_too_low():
     """
-    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid difficulty level
-    that is out of range (too low).
+    Make sure that it is NOT possible to create a sudoku puzzle by
+    specifying invalid difficulty level that is out of range (too low).
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level=0.0, size=4)
-        assert "Difficulty levels must range between" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.0, size=4)
+        assert "Difficulty levels must range between" in str(p_exception.value)
 
 
 def test_create_sudoku_puzzle_invalid_difficulty_too_high():
     """
-    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid difficulty level
-    that is out of range (too high).
+    Make sure that it is NOT possible to create a sudoku puzzle by specifying
+    invalid difficulty level that is out of range (too high).
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level=1.1, size=4)
-        assert "Difficulty levels must range between" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=1.1, size=4)
+        assert "Difficulty levels must range between" in str(p_exception.value)
 
 
 def test_create_sudoku_puzzle_invalid_size_str():
@@ -164,9 +178,9 @@ def test_create_sudoku_puzzle_invalid_size_str():
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
     that is not of type int.
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level=0.3, size='invalid size')
-        assert "Sudoku puzzle sizes specified must be valid integers" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.3, size='invalid size')
+        assert "Sudoku puzzle sizes specified must be valid integers" in str(p_exception.value)
 
 
 def test_create_sudoku_puzzle_invalid_size_too_low():
@@ -174,9 +188,9 @@ def test_create_sudoku_puzzle_invalid_size_too_low():
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
     that is out of range (too low).
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level=0.5, size=0)
-        assert "Valid sizes range from" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.5, size=0)
+        assert "Valid sizes range from" in str(p_exception.value)
 
 
 def test_create_sudoku_puzzle_invalid_size_too_high():
@@ -184,9 +198,9 @@ def test_create_sudoku_puzzle_invalid_size_too_high():
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
     that is out of range (too high).
     """
-    with pytest.raises(PuzzleException) as pe:
-        sudoku = Puzzle(difficulty_level=0.5, size=10)
-        assert "Valid sizes range from" in str(pe.value)
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.5, size=10)
+        assert "Valid sizes range from" in str(p_exception.value)
 
 
 def test_set_point_value1():
@@ -290,18 +304,24 @@ def test_get_puzzle_none(monkeypatch):
     Test the result when no puzzle with the specified id exists.
     """
     class MockBaseQuery:
-
+        """
+        A mock database query class to allow return of results with hitting the database.
+        """
         def __init__(self, *args, **kwargs):
             pass
 
         def filter_by(self, *args, **kwargs):
+            """Mock filter by function"""
             class Results():
+                """ Mock database results"""
                 def first(self):
+                    """ Mock return first function, where Puzzle result is known"""
                     return None
 
             return Results()
 
         def join(self, *args, **kwargs):
+            """Mock join function, doesn't need to do anything"""
             return
 
     monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
@@ -313,21 +333,30 @@ def test_get_puzzle_found(monkeypatch, pieces):
     If the puzzle exists, it should be successfully returned by the get_puzzle() function.
     """
     class MockBaseQuery:
-
+        """
+        A mock database query class to allow return of results with hitting the database.
+        """
         def __init__(self, *args, **kwargs):
             pass
 
         def filter_by(self, *args, **kwargs):
+            """Mock filter by function"""
             class Results():
+                """ Mock database results"""
                 def first(self):
+                    """ Mock return first function, where Puzzle result is known"""
                     return Puzzle(difficulty_level=0.2, size=2)
 
             return Results()
 
         def join(self, *args, **kwargs):
+            """Mock join function, doesn't need to do anything"""
             return
 
     def mock_find_pieces(*args, **kwargs):
+        """
+        Mock function that can be used to match a real method that returns all pieces
+        """
         return pieces
 
     monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
@@ -340,6 +369,9 @@ def test_get_puzzle_found(monkeypatch, pieces):
 
 
 def test_save(monkeypatch, complete_puzzle):
+    """
+    Test save a puzzle, mocking the database session action and with autocommit off.
+    """
     monkeypatch.setattr(db, "session", MockSession)
 
     result = complete_puzzle.save(autocommit=False)
@@ -347,6 +379,9 @@ def test_save(monkeypatch, complete_puzzle):
 
 
 def test_save_autocommit(monkeypatch, complete_puzzle):
+    """
+    Test save a puzzle, mocking the database session action and with autocommit on.
+    """
     monkeypatch.setattr(db, "session", MockSession)
 
     result = complete_puzzle.save(autocommit=True)
@@ -357,63 +392,68 @@ def test_attempt_update_complete_puzzle(monkeypatch, complete_puzzle):
     """
     Users should not be able to make updates to a completed puzzle. It's complete.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         complete_puzzle.update(0, 0, 1)
-        assert 'Updates cannot be made to previously completed puzzles.' in str(pe.value)
+        assert 'Updates cannot be made to previously' \
+               ' completed puzzles.' in str(p_exception.value)
 
 
 def test_update_invalid_coordinate1(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(1, 6, 1)
-        assert 'Coordinates provided (1, 6) are outside the range of the puzzle.' in str(pe.value)
+        assert 'Coordinates provided (1, 6) are outside the range' \
+               ' of the puzzle.' in str(p_exception.value)
 
 
 def test_update_invalid_coordinate2(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(1, -1, 1)
-        assert 'Coordinates provided (1, -1) are outside the range of the puzzle.' in str(pe.value)
+        assert 'Coordinates provided (1, -1) are outside the range of' \
+               ' the puzzle.' in str(p_exception.value)
 
 
 def test_update_invalid_coordinate3(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(6, 1, 1)
-        assert 'Coordinates provided (6, 1) are outside the range of the puzzle.' in str(pe.value)
+        assert 'Coordinates provided (6, 1) are outside the ' \
+               'range of the puzzle.' in str(p_exception.value)
 
 
 def test_update_invalid_coordinate4(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(-1, 1, 1)
-        assert 'Coordinates provided (-1, 1) are outside the range of the puzzle.' in str(pe.value)
+        assert 'Coordinates provided (-1, 1) are outside the range of the ' \
+               'puzzle.' in str(p_exception.value)
 
 
 def test_update_invalid_value1(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to provide invalid values to the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(1, 1, 0)
-        assert 'Invalid value provided (0)' in str(pe.value)
+        assert 'Invalid value provided (0)' in str(p_exception.value)
 
 
 def test_update_invalid_value2(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to provide invalid values to the puzzle.
     """
-    with pytest.raises(PuzzleException) as pe:
+    with pytest.raises(PuzzleException) as p_exception:
         incomplete_puzzle.update(1, 1, 5)
-        assert 'Invalid value provided (5)' in str(pe.value)
+        assert 'Invalid value provided (5)' in str(p_exception.value)
 
 
 def test_update_valid(monkeypatch, incomplete_puzzle):
@@ -455,4 +495,6 @@ def test_set_puzzle_complete(monkeypatch, incomplete_puzzle):
 
 
 def test_as_str(incomplete_puzzle):
-    assert str(incomplete_puzzle) == 'SudokuPuzzle(id=1, difficulty=0.2, completed=False, point_value=30, size=2)'
+    """Test that overriden str method works correctly"""
+    assert str(incomplete_puzzle) == 'SudokuPuzzle(id=1, difficulty=0.2,' \
+                                     ' completed=False, point_value=30, size=2)'
