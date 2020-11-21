@@ -59,7 +59,6 @@ const PuzzlePage = () => {
 
   return (
     <PageTemplate>
-      {solved ? <h3>You win!</h3> : null}
       <SudokuBoard
         data-testid='sudoku-board'
         gridState={pieces}
@@ -67,6 +66,7 @@ const PuzzlePage = () => {
         solved={solved}
         accessToken={accessToken}
       />
+      {solved ? <h3>You win!</h3> : null}
     </PageTemplate>
   );
 }

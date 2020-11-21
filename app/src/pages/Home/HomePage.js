@@ -11,7 +11,7 @@ const HomePage = () => {
   const [redirect, setRedirect] = useState(null);
   const { accessToken } = useContext(AccessTokenContext);
 
-  const redirectToPuzzle = useCallback((puzzleId) => {
+  const redirectToPuzzle = useCallback(puzzleId => {
     setRedirect(`/puzzle/${puzzleId}`);
   }, []);
 
@@ -34,7 +34,7 @@ const HomePage = () => {
       setIsLoaded(true);
       setPuzzles(data.puzzles);
     });
-  }, [accessToken]);
+  }, [accessToken, setPuzzles]);
 
   if (redirect) {
     return <Redirect to={redirect} />
