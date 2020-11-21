@@ -11,19 +11,19 @@ const HomePage = () => {
   const [redirect, setRedirect] = useState(null);
   const { accessToken } = useContext(AccessTokenContext);
 
+  const redirectToPuzzle = useCallback((puzzleId) => {
+    setRedirect(`/puzzle/${puzzleId}`);
+  }, []);
+
   const createGame = useCallback(() => {
     const requestOptions = {
       method: 'POST',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
     fetch('/puzzles?difficulty=0.9&size=3', requestOptions).then(res => res.json()).then(data => {
-      setRedirect('/puzzle/' + data.puzzle_id);
+      redirectToPuzzle(data.puzzle_id);
     });
-  }, [accessToken]);
-
-  const redirectToPuzzle = useCallback((puzzleId) => {
-    setRedirect(`/puzzle/${puzzleId}`);
-  }, []);
+  }, [accessToken, redirectToPuzzle]);
 
   useEffect(() => {
     const requestOptions = {
