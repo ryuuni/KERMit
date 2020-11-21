@@ -2,6 +2,7 @@ import './LeaderboardPage.css';
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import AccessTokenContext from '../../context/AccessTokenContext';
+import PageTemplate from '../Template/PageTemplate';
 
 const columns = [
   { field: 'id', headerName: 'Rank', width: 70 },
@@ -34,17 +35,18 @@ const LeaderboardPage = () => {
   })), [topPlayers]);
 
   return (
-    <div className="leaderboard">
-      <h3>hello</h3>
-      {isLoaded && (
-        topPlayers.length === 0 ? <div>No players have finished a game.</div> :
-          (
-            <div className="table" data-testid="datagrid" style={{ height: 650, width: '23%' }}>
-              <DataGrid rows={rows} columns={columns} pageSize={10} />
-            </div>
-          )
-      )}
-    </div>
+    <PageTemplate>
+      <div className="leaderboard">
+        {isLoaded && (
+          topPlayers.length === 0 ? <div>No players have finished a game.</div> :
+            (
+              <div className="table" data-testid="datagrid" style={{ height: 650, width: '23%' }}>
+                <DataGrid rows={rows} columns={columns} pageSize={10} />
+              </div>
+            )
+        )}
+      </div>
+    </PageTemplate>
   );
 };
 

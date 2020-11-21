@@ -19,8 +19,9 @@ const GoogleBtn = () => {
     if (response.accessToken) {
       setAccessToken(response.accessToken);
       register(response.accessToken);
+      history.push('/mypuzzles');
     }
-  }, [setAccessToken]);
+  }, [setAccessToken, history]);
   const logout = useCallback(() => {
     setAccessToken('');
     history.push('/');
