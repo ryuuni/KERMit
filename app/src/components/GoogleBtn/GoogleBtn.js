@@ -15,11 +15,11 @@ const GoogleBtn = () => {
   const login = useCallback(response => {
     if (response.accessToken) {
       setAccessToken(response.accessToken);
+      register(response.accessToken);
     }
-    register(response.accessToken);
   }, [setAccessToken]);
-  const logout = useCallback(response => {
-    setAccessToken(response.accessToken);
+  const logout = useCallback(() => {
+    setAccessToken('');
   }, [setAccessToken]);
   const handleLoginFailure = useCallback(response => {
     alert('Failed to log in');
