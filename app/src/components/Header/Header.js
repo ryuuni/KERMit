@@ -1,6 +1,6 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
-import GoogleBtn from '../../GoogleBtn/GoogleBtn';
+import GoogleBtn from '../GoogleBtn/GoogleBtn';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import { useContext } from 'react';
 

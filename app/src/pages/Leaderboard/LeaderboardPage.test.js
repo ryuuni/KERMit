@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from "@testing-library/react";
-import Leaderboard from './Leaderboard.js';
+import LeaderboardPage from './LeaderboardPage.js';
 import { PLAYERS, EMPTY_PLAYERS } from '../data/mock_leaderboard_data.js'
 
 function setupFetchStub(data) {
@@ -13,7 +13,7 @@ function setupFetchStub(data) {
 
 test('renders with empty leaderboard message', async () => {
   jest.spyOn(global, "fetch").mockImplementation(setupFetchStub(EMPTY_PLAYERS));
-  render(<Leaderboard accessToken="mockToken" />);
+  render(<LeaderboardPage accessToken="mockToken" />);
   const emptyMessage = await screen.findAllByText(/No players have finished a game./);
   expect(emptyMessage).toHaveLength(1);
   global.fetch.mockClear();
@@ -21,7 +21,7 @@ test('renders with empty leaderboard message', async () => {
 
 test('renders with DataGrid table', async () => {
   jest.spyOn(global, "fetch").mockImplementation(setupFetchStub(PLAYERS));
-  render(<Leaderboard accessToken="mockToken" />);
+  render(<LeaderboardPage accessToken="mockToken" />);
   const emptyMessage = screen.queryByText('No players have finished a game.')
   expect(emptyMessage).toBeNull()
   const leaderboardTable = await screen.findAllByTestId('datagrid');
