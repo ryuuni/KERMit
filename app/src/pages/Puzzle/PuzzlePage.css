@@ -1,8 +1,3 @@
-.puzzlePage {
-  align-content: center;
-  background-color: #f2f2f2;
-  display: flex; 
-  flex-direction: column;
-  padding: 30px;
-  min-height: 100vh;
+.PuzzlePage-win-text {
+  text-align: center;
 }
