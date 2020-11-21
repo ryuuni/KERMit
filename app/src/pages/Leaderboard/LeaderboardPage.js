@@ -35,6 +35,7 @@ const LeaderboardPage = () => {
 
   return (
     <div className="leaderboard">
+      <h3>hello</h3>
       {isLoaded && (
         topPlayers.length === 0 ? <div>No players have finished a game.</div> :
           (

@@ -5,7 +5,7 @@ import AccessTokenContext from '../../context/AccessTokenContext';
 import { useContext } from 'react';
 
 const Header = () => {
-  const { isLoggedIn, setAccessToken } = useContext(AccessTokenContext);
+  const { isLoggedIn } = useContext(AccessTokenContext);
 
   return (
     <div className="header">
@@ -21,7 +21,7 @@ const Header = () => {
         </div>
       )}
       <div className="login-btn" data-testid="login-btn">
-        <GoogleBtn onAccessTokenChanged={setAccessToken} />
+        <GoogleBtn />
       </div>
     </div>
   );

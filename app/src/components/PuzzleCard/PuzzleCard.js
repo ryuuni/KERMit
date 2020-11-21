@@ -28,7 +28,7 @@ PuzzleCard.defaultProps = {
 
 PuzzleCard.propTypes = {
   puzzle: PropTypes.shape({
-    puzzle_id: PropTypes.string.isRequired,
+    puzzle_id: PropTypes.number.isRequired,
     difficulty: PropTypes.number.isRequired,
     completed: PropTypes.bool.isRequired,
     point_value: PropTypes.number.isRequired,
