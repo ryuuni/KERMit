@@ -1,7 +1,7 @@
 import './HomePage.css';
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Redirect } from "react-router-dom";
-import PuzzleCard from './PuzzleCard';
+import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 

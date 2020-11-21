@@ -1,11 +1,11 @@
 import './Header.css';
-import {Link} from 'react-router-dom';
-import GoogleBtn from '../../GoogleBtn';
+import { Link } from 'react-router-dom';
+import GoogleBtn from '../../GoogleBtn/GoogleBtn';
 import AccessTokenContext from '../../context/AccessTokenContext';
-import {useContext} from 'react';
+import { useContext } from 'react';
 
 const Header = () => {
-  const {isLoggedIn, setAccessToken} = useContext(AccessTokenContext);
+  const { isLoggedIn, setAccessToken } = useContext(AccessTokenContext);
 
   return (
     <div className="header">
@@ -21,7 +21,7 @@ const Header = () => {
         </div>
       )}
       <div className="login-btn" data-testid="login-btn">
-        <GoogleBtn onAccessTokenChanged={setAccessToken}/>
+        <GoogleBtn onAccessTokenChanged={setAccessToken} />
       </div>
     </div>
   );

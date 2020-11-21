@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react"
-import SudokuBoard from '../../PuzzlePageComponents/SudokuBoard';
+import SudokuBoard from '../../components/SudokuBoard/SudokuBoard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 // import { getPuzzleResponse } from '../data/get_puzzle_response'

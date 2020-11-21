@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuBoard.css'
-import SudokuCell from './SudokuCell'
+import SudokuCell from '../SudokuCell/SudokuCell'
 
 export default function SudokuBoard(props) {
-  const movePiece = useCallback(async ({puzzleId, x, y, value, accessToken, onSuccess}) => {
+  const movePiece = useCallback(async ({ puzzleId, x, y, value, accessToken, onSuccess }) => {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -28,7 +28,7 @@ export default function SudokuBoard(props) {
     <div className="gridContainer">
       {
         props.gridState.map(cell =>
-          <SudokuCell 
+          <SudokuCell
             key={Number(cell.value) * 100 + cell.y_coordinate * 10 + cell.x_coordinate}
             x={cell.x_coordinate}
             y={cell.y_coordinate}
@@ -39,7 +39,7 @@ export default function SudokuBoard(props) {
                 x: cell.x_coordinate,
                 y: cell.y_coordinate,
                 value: number,
-                puzzleId: props.puzzleId, 
+                puzzleId: props.puzzleId,
               });
             }}
             prefilled={cell.static_piece || props.solved}
