@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import register from '../../utils/ApiClient.js';
 import AccessTokenContext from '../../context/AccessTokenContext';
+import { useHistory } from 'react-router-dom';
 
 const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleusercontent.com';
 
@@ -12,6 +13,8 @@ const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleuser
  */
 const GoogleBtn = () => {
   const { isLoggedIn, setAccessToken } = useContext(AccessTokenContext);
+  const history = useHistory();
+
   const login = useCallback(response => {
     if (response.accessToken) {
       setAccessToken(response.accessToken);
@@ -20,7 +23,8 @@ const GoogleBtn = () => {
   }, [setAccessToken]);
   const logout = useCallback(() => {
     setAccessToken('');
-  }, [setAccessToken]);
+    history.push('/');
+  }, [setAccessToken, history]);
   const handleLoginFailure = useCallback(response => {
     alert('Failed to log in');
   }, []);
