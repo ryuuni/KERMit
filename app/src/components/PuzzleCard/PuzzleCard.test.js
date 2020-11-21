@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from "@testing-library/react";
-import PuzzleCard from './PuzzleCard.js';
+import PuzzleCard from './PuzzleCard';
 
-test('renders correct text according to params', async() => {
+test('renders correct text according to params', async () => {
     render(<PuzzleCard accessToken="mockToken"
-        puzzleId={2} 
+        puzzleId={2}
         completed={true}
         difficulty={0.5}
         pointValue={80}
@@ -19,9 +19,9 @@ test('renders correct text according to params', async() => {
     expect(points).toHaveLength(1);
 });
 
-test('renders incomplete message', async() => {
+test('renders incomplete message', async () => {
     render(<PuzzleCard accessToken="mockToken"
-        puzzleId={2} 
+        puzzleId={2}
         completed={false}
         difficulty={0.5}
         pointValue={80}

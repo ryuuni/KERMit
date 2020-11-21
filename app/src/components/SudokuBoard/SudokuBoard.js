@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuBoard.css'
-import SudokuCell from '../SudokuCell/SudokuCell'
+import SudokuCell from '../SudokuCell/SudokuCell';
+import AccessTokenContext from '../../context/AccessTokenContext';
 
 export default function SudokuBoard(props) {
-  const movePiece = useCallback(async ({ puzzleId, x, y, value, accessToken, onSuccess }) => {
+  const { accessToken } = useContext(AccessTokenContext);
+  const movePiece = useCallback(async ({ puzzleId, x, y, value, onSuccess }) => {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -18,7 +20,7 @@ export default function SudokuBoard(props) {
       }),
     };
     await fetch(`/puzzles/${puzzleId}/piece`, requestOptions)
-  }, []);
+  }, [accessToken]);
 
   if (!props.gridState) {
     return <h3>Loading puzzle {props.puzzleId}...</h3>;
@@ -35,7 +37,6 @@ export default function SudokuBoard(props) {
             number={cell.value}
             onNumberChanged={number => {
               movePiece({
-                accessToken: props.accessToken,
                 x: cell.x_coordinate,
                 y: cell.y_coordinate,
                 value: number,
@@ -54,11 +55,9 @@ SudokuBoard.defaultProps = {
   gridState: null,
   puzzleId: '',
   solved: false,
-  accessToken: '',
 };
 
 SudokuBoard.propTypes = {
-  accessToken: PropTypes.string.isRequired,
   gridState: PropTypes.array,
   puzzleId: PropTypes.string.isRequired,
   solved: PropTypes.bool.isRequired,

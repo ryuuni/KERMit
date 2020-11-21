@@ -65,7 +65,6 @@ const PuzzlePage = () => {
           gridState={pieces}
           puzzleId={puzzleId}
           solved={solved}
-          accessToken={accessToken}
         />
         {solved ? <h1>You win!</h1> : null}
       </div>

@@ -20,7 +20,7 @@ const HomePage = () => {
       method: 'POST',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('/puzzles?difficulty=0.01&size=3', requestOptions).then(res => res.json()).then(data => {
+    fetch('/puzzles?difficulty=0.1&size=3', requestOptions).then(res => res.json()).then(data => {
       redirectToPuzzle(data.puzzle_id);
     });
   }, [accessToken, redirectToPuzzle]);
