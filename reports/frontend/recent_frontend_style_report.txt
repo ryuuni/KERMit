@@ -1,0 +1,6 @@
+
+/home/emilyjin/KERMit/app/src/__tests__/GoogleBtn.test.js
+  2:18  warning  'screen' is defined but never used  no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+

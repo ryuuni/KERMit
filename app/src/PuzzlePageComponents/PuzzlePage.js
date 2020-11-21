@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react"
-import SudokuBoard from '../components/SudokuBoard'
+import SudokuBoard from './SudokuBoard'
 // import { getPuzzleResponse } from '../data/get_puzzle_response'
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
 
