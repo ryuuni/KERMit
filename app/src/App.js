@@ -1,68 +1,46 @@
 import './App.css';
-import GoogleBtn from './GoogleBtn';
 import React, { useState } from 'react';
-import Leaderboard from './LeaderboardPageComponents/Leaderboard';
-import Puzzles from './HomePageComponents/Puzzles';
-import Puzzle from './PuzzlePageComponents/PuzzlePage';
+import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
+import HomePage from './pages/Home/HomePage';
+import PuzzlePage from './pages/Puzzle/PuzzlePage';
+import LoginPage from './pages/Login/LoginPage';
+import AccessTokenContext from './context/AccessTokenContext';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 
 function App(props) {
   const [accessToken, setAccessToken] = useState('');
-  const loggedIn = accessToken !== '';
+  const isLoggedIn = accessToken !== '';
 
   return (
-    <Router>
-      <div className="App" data-testid="app">
-        {loggedIn && (
-          <div className="nav-item">
-            <Link to="/mypuzzles">My Puzzles</Link>
-          </div>
-        )}
-        {loggedIn && (
-          <div className="nav-item">
-            <Link to="/leaderboard-view">Leaderboard</Link>
-          </div>
-        )}
-        <div className="login-btn" data-testid="login-btn">
-          <GoogleBtn onAccessTokenChanged={token => setAccessToken(token)}/>
-        </div>
-        <div className="page-content">
-          {loggedIn ? (
+    <AccessTokenContext.Provider value={{ accessToken, setAccessToken, isLoggedIn }}>
+      <Router>
+        <div data-testid="app">
+          {isLoggedIn ? (
             <Switch>
+              <Route path="/">
+                <HomePage />
+              </Route>
               <Route path="/mypuzzles">
-                <Puzzles accessToken={accessToken}/>
+                <HomePage />
               </Route>
               <Route path="/leaderboard-view">
-                <Leaderboard accessToken={accessToken}/>
+                <LeaderboardPage />
               </Route>
               <Route path="/puzzle/:puzzleId">
-                <Puzzle accessToken={accessToken} />
-              </Route>
-              <Route path="/">
-                <Puzzles accessToken={accessToken}/>
+                <PuzzlePage />
               </Route>
             </Switch>
-          ):(
-            <div>
-              <p className="japanese-name">一緒に数独</p>
-              <h1>Isshoni Sudoku</h1>
-              <div className="login-btn" data-testid="login-btn">
-                <GoogleBtn onAccessTokenChanged={token => setAccessToken(token)}/>
-              </div>
-            </div>
-          )}
+          ) : <LoginPage />}
         </div>
-      </div>
-    </Router>
+      </Router>
+    </AccessTokenContext.Provider>
   );
-
 }
 
 export default App;

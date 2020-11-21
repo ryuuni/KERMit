@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from "@testing-library/react";
-import PuzzleCard from '../PuzzleCard.js';
+import PuzzleCard from './PuzzleCard.js';
 
 test('renders correct text according to params', async() => {
     render(<PuzzleCard accessToken="mockToken"

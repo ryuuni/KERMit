@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import register from './utils/ApiClient.js';
+import register from '../../utils/ApiClient.js';
 
 const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleusercontent.com';
 
@@ -10,7 +10,7 @@ const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleuser
  * get-the-accesstoken-2ee16bfd8297
  */
 class GoogleBtn extends Component {
-   constructor(props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -24,8 +24,8 @@ class GoogleBtn extends Component {
     this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
 
-  login (response) {
-    if(response.accessToken){
+  login(response) {
+    if (response.accessToken) {
       this.setState(state => ({
         isLoggedIn: true,
         accessToken: response.accessToken
@@ -33,10 +33,10 @@ class GoogleBtn extends Component {
     }
     this.props.onAccessTokenChanged(response.accessToken)
     console.log('response: ')
-    register (this.state.accessToken);
+    register(this.state.accessToken);
   }
 
-  logout (response) {
+  logout(response) {
     this.setState(state => ({
       isLoggedIn: false,
       accessToken: ''
@@ -44,34 +44,34 @@ class GoogleBtn extends Component {
     this.props.onAccessTokenChanged(this.state.accessToken)
   }
 
-  handleLoginFailure (response) {
+  handleLoginFailure(response) {
     alert('Failed to log in')
   }
 
-  handleLogoutFailure (response) {
+  handleLogoutFailure(response) {
     alert('Failed to log out')
   }
 
   render() {
     return (
-    <div>
-      { this.state.isLoggedIn ?
-        <GoogleLogout
-          clientId={ CLIENT_ID }
-          buttonText='Logout'
-          onLogoutSuccess={ this.logout }
-          onFailure={ this.handleLogoutFailure }
-        >
-        </GoogleLogout>: <GoogleLogin
-          clientId={ CLIENT_ID }
-          buttonText='Login'
-          onSuccess={ this.login }
-          onFailure={ this.handleLoginFailure }
-          cookiePolicy={ 'single_host_origin' }
-          responseType='code,token'
-        />
-      }
-    </div>
+      <div>
+        { this.state.isLoggedIn ?
+          <GoogleLogout
+            clientId={CLIENT_ID}
+            buttonText='Logout'
+            onLogoutSuccess={this.logout}
+            onFailure={this.handleLogoutFailure}
+          >
+          </GoogleLogout> : <GoogleLogin
+            clientId={CLIENT_ID}
+            buttonText='Login'
+            onSuccess={this.login}
+            onFailure={this.handleLoginFailure}
+            cookiePolicy={'single_host_origin'}
+            responseType='code,token'
+          />
+        }
+      </div>
     )
   }
 }
