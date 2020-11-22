@@ -23,7 +23,7 @@ export default function SudokuBoard(props) {
   }, [accessToken]);
 
   if (!props.gridState) {
-    return <h3>Loading puzzle {props.puzzleId}...</h3>;
+    return <h3 style={{"text-align": "center"}}>Loading puzzle...</h3>;
   }
 
   return (

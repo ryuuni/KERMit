@@ -1,13 +1,36 @@
 .header {
   background-color: white;
-  color: rgb(27, 27, 27);
   border-bottom: 1px solid  rgb(202, 202, 202);
   display: flex; 
   flex-direction: row;
-  font-size: 25px;
   font-weight: bold;
   height: 50px;
   line-height: 50px;
   padding: 10px;
   text-align: center;
+}
+
+.titleLogo {
+  color: rgb(25, 25, 25);
+  font-size: 20px;
+}
+
+.login-btn {
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.nav-item {
+  border-color: white;
+  border-width: 0px thick;
+  font-size: 15px;
+  margin-left: 30px;
+  min-height: 50px;
+  padding: 0px 10px;
+  text-decoration: none;
+  color: rgb(43, 43, 43);
+}
+
+.nav-item:hover {
+  background-color: #e7e5e5;
 }

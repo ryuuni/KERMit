@@ -9,17 +9,9 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="title">一緒に Sudoku</div>
-      {isLoggedIn && (
-        <div className="nav-item">
-          <Link to="/mypuzzles" style={{ textDecoration: 'none', color: 'rgb(43, 43, 43)'}}>My Puzzles</Link>
-        </div>
-      )}
-      {isLoggedIn && (
-        <div className="nav-item">
-          <Link to="/leaderboard-view" style={{ textDecoration: 'none',  color: 'rgb(43, 43, 43)' }}>Leaderboard</Link>
-        </div>
-      )}
+      <div className="titleLogo">一緒に Sudoku</div>
+      {isLoggedIn && (<Link to="/mypuzzles" className="nav-item">My Puzzles</Link>)}
+      {isLoggedIn && (<Link to="/leaderboard-view" className="nav-item">Leaderboard</Link>)}
       <div className="login-btn" data-testid="login-btn">
         <GoogleBtn />
       </div>
