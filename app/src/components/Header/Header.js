@@ -12,12 +12,12 @@ const Header = () => {
       <div className="title">一緒に Sudoku</div>
       {isLoggedIn && (
         <div className="nav-item">
-          <Link to="/mypuzzles">My Puzzles</Link>
+          <Link to="/mypuzzles" style={{ textDecoration: 'none', color: 'rgb(43, 43, 43)'}}>My Puzzles</Link>
         </div>
       )}
       {isLoggedIn && (
         <div className="nav-item">
-          <Link to="/leaderboard-view">Leaderboard</Link>
+          <Link to="/leaderboard-view" style={{ textDecoration: 'none',  color: 'rgb(43, 43, 43)' }}>Leaderboard</Link>
         </div>
       )}
       <div className="login-btn" data-testid="login-btn">

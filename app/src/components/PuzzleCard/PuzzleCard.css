@@ -1,10 +1,10 @@
 .puzzle-card {
     background-color: white;
-    border: 2px solid rgb(177, 175, 175);
+    border: 2px solid rgba(177, 175, 175, 0.55);
     border-radius: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19); */
     height: 75px;
-    margin: 20px;
+    margin: 30px;
     padding: 30px;
     width: 300px; 
 }
@@ -24,6 +24,7 @@
 .title {
     font-weight: bold;
     font-size: 20px;
+    color: rgb(43, 43, 43);
 }
 
 .status {

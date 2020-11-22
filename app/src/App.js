@@ -20,6 +20,7 @@ function App(props) {
   return (
     <AccessTokenContext.Provider value={{ accessToken, setAccessToken, isLoggedIn }}>
       <Router>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <div data-testid="app">
           <Switch>
             {isLoggedIn && (
