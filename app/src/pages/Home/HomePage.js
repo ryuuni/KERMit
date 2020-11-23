@@ -1,11 +1,11 @@
 import './HomePage.css';
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Redirect } from "react-router-dom";
+import CreatePuzzleModalContent from '../../components/CreatePuzzleModalContent/CreatePuzzleModalContent';
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 import Modal from '@material-ui/core/Modal';
-import CreatePuzzleModalContent from '../../components/CreatePuzzleModalContent/CreatePuzzleModalContent';
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);

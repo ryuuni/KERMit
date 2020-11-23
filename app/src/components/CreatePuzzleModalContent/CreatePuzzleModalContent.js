@@ -1,8 +1,8 @@
 import './CreatePuzzleModalContent.css';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, { useState } from 'react';
 
 function getModalStyle() {
     const top = 50;
@@ -35,31 +35,29 @@ const CreatePuzzleModal = (props) => {
     const [modalStyle] = useState(getModalStyle);
 
     return (
-        <div className="modal-content">
-          <div style={modalStyle} className={classes.paper}>
-            <h2 className="modal-title">Start new puzzle</h2>
-            <div className="difficulty-select">
-              <p className="label">
-                Difficulty Level: 
-              </p>
-              <Select
-                  value={selectedDifficulty}
-                  onChange={(event) => setSelectedDifficulty(event.target.value)}
-                  className="select-options"
-                >
-                  <MenuItem value={0.1}>0.1</MenuItem>
-                  <MenuItem value={0.2}>0.2</MenuItem>
-                  <MenuItem value={0.3}>0.3</MenuItem>
-                  <MenuItem value={0.4}>0.4</MenuItem>
-                  <MenuItem value={0.5}>0.5</MenuItem>
-                  <MenuItem value={0.6}>0.6</MenuItem>
-                  <MenuItem value={0.7}>0.7</MenuItem>
-                  <MenuItem value={0.8}>0.8</MenuItem>
-                  <MenuItem value={0.9}>0.9</MenuItem>
-                </Select>
-              </div>
-            <button className="submit-new-game" onClick={() => props.createGame(selectedDifficulty)}>Create</button>
-          </div>
+        <div style={modalStyle} className={classes.paper}>
+          <h2 className="modal-title">Start new puzzle</h2>
+          <div className="difficulty-select">
+            <p className="label">
+              Difficulty Level: 
+            </p>
+            <Select
+                value={selectedDifficulty}
+                onChange={(event) => setSelectedDifficulty(event.target.value)}
+                className="select-options"
+              >
+                <MenuItem value={0.1}>0.1</MenuItem>
+                <MenuItem value={0.2}>0.2</MenuItem>
+                <MenuItem value={0.3}>0.3</MenuItem>
+                <MenuItem value={0.4}>0.4</MenuItem>
+                <MenuItem value={0.5}>0.5</MenuItem>
+                <MenuItem value={0.6}>0.6</MenuItem>
+                <MenuItem value={0.7}>0.7</MenuItem>
+                <MenuItem value={0.8}>0.8</MenuItem>
+                <MenuItem value={0.9}>0.9</MenuItem>
+              </Select>
+            </div>
+          <button className="submit-new-game" onClick={() => props.createGame(selectedDifficulty)}>Create</button>
         </div>
     );
 };
