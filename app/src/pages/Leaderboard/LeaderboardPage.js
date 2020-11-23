@@ -59,7 +59,7 @@ const LeaderboardPage = () => {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('/leaderboard', requestOptions).then(res => res.json()).then(data => {
+    fetch('http://localhost:5000/leaderboard', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
       setTopPlayers(data.players);
     });

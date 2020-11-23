@@ -10,6 +10,7 @@ class BaseConfig:
     """ Base Configurations """
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    CORS_HEADERS = 'Content-Type'
 
 
 class DevelopmentConfig(BaseConfig):
@@ -17,6 +18,8 @@ class DevelopmentConfig(BaseConfig):
     ENV = 'development'
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI_DEV')
+    CORS_HEADERS = 'Content-Type'
+    CORS_SUPPORTS_CREDENTIALS=True
 
 
 class UnitTestingConfig(BaseConfig):
@@ -36,3 +39,4 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
     ENV = 'production'
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI_PROD')
+    CORS_HEADERS = 'Content-Type'

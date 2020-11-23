@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse
 from server.models.sudoku_puzzle import Puzzle
 from server.models.puzzle_exception import PuzzleException
 from server.models.player import PuzzlePlayer
-from server.server import db
+from server.server import db, socketio
 
 
 class SudokuPuzzles(Resource):
@@ -192,6 +192,9 @@ class SudokuPuzzlePiece(Resource):
                 value=args['value'],
 
             )
+
+            # emit the puzzle update to all members of the room
+            socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
             return {
                 'message': f"Successfully saved the submission of {args['value']} at "
                            f"({args['x_coordinate']}, {args['y_coordinate']}) on "
@@ -225,6 +228,10 @@ class SudokuPuzzlePiece(Resource):
                 y_coord=args['y_coordinate'],
                 value=None
             )
+
+            # emit the puzzle update to all members of the room
+            socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
+
             return {'message': f"Successfully deleted piece at position ({args['x_coordinate']}, "
                                f"{args['y_coordinate']}) on puzzle_id {puzzle_id}."}
 
