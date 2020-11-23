@@ -61,7 +61,9 @@ const LeaderboardPage = () => {
     };
     fetch('/leaderboard', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
-      setTopPlayers(data.players);
+      if (data.players !== undefined) {
+        setTopPlayers(data.players);
+      }
     });
   }, [accessToken]);
 

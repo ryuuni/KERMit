@@ -38,7 +38,9 @@ const HomePage = () => {
     };
     fetch('/puzzles', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
-      setPuzzles(data.puzzles);
+      if (data.puzzles !== undefined) {
+        setPuzzles(data.puzzles);
+      }
     });
   }, [accessToken, setPuzzles]);
 
