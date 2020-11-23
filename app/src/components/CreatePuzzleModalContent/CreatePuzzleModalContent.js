@@ -46,15 +46,13 @@ const CreatePuzzleModal = (props) => {
                 onChange={(event) => setSelectedDifficulty(event.target.value)}
                 className="select-options"
               >
-                <MenuItem value={0.1}>0.1</MenuItem>
-                <MenuItem value={0.2}>0.2</MenuItem>
-                <MenuItem value={0.3}>0.3</MenuItem>
-                <MenuItem value={0.4}>0.4</MenuItem>
-                <MenuItem value={0.5}>0.5</MenuItem>
-                <MenuItem value={0.6}>0.6</MenuItem>
-                <MenuItem value={0.7}>0.7</MenuItem>
-                <MenuItem value={0.8}>0.8</MenuItem>
-                <MenuItem value={0.9}>0.9</MenuItem>
+                <MenuItem value={0.2}>Warmup</MenuItem>
+                <MenuItem value={0.3}>Beginner</MenuItem>
+                <MenuItem value={0.4}>Easy</MenuItem>
+                <MenuItem value={0.5}>Intermediate</MenuItem>
+                <MenuItem value={0.6}>Advanced</MenuItem>
+                <MenuItem value={0.7}>Expert</MenuItem>
+                <MenuItem value={0.8}>Master</MenuItem>
               </Select>
             </div>
           <button className="submit-new-game" onClick={() => props.createGame(selectedDifficulty)}>Create</button>

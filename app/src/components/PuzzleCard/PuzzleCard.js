@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 
 export default function PuzzleCard(props) {
   const puzzle = props.puzzle;
+  const difficulty_dict = { 
+    0.2:'Warmup', 
+    0.3:'Beginner', 
+    0.4:'Easy', 
+    0.5:'Intermediate', 
+    0.6:'Advanced', 
+    0.7:'Expert', 
+    0.8:'Master', 
+  };
   return (
     <div
       className="puzzle-card"
@@ -14,7 +23,7 @@ export default function PuzzleCard(props) {
         <div className="status">{puzzle.completed ? "Completed" : "In Progress"}</div>
       </div>
       <div className="details">
-        <div className="detail">Difficulty: {puzzle.difficulty}</div>
+        <div className="detail">Difficulty: {difficulty_dict[puzzle.difficulty]}</div>
         <div className="detail">Point Value: {puzzle.point_value}</div>
       </div>
     </div>
