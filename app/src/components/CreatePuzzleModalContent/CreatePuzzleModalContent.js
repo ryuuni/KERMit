@@ -68,8 +68,9 @@ const CreatePuzzleModal = (props) => {
           <div className="modal-section">
             <p className="label">Invite Friends: </p>
             <TextField 
-              id="standard-basic" 
-              label="user1@sample.com, user2@sample.com" 
+              id="standard-multiline-flexible" 
+              label="Emails"
+              placeholder="johndoe@gmail.com, maryjane@gmail.com" 
               onChange={event => {
                 const additionalPlayers = event.target.value.replace(' ', '').split(',').filter(player => player);
                 setAdditionalPlayers(additionalPlayers);

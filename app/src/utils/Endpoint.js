@@ -8,7 +8,7 @@ const Endpoint = {
   createPuzzle: ({difficulty, additionalPlayers, size = 3}) => `${backendRoot}/puzzles?difficulty=${difficulty}&size=${size}&additional_players=${additionalPlayers.join(',')}`,
   getPuzzles: () => `${backendRoot}/puzzles`,
   movePiece: ({puzzleId}) => `${backendRoot}/puzzles/${puzzleId}/piece`,
-  getLoaderboard: () => `${backendRoot}/leaderboard`,
+  getLeaderboard: () => `${backendRoot}/leaderboard`,
 };
 
 export default Endpoint;
