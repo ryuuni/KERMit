@@ -26,7 +26,7 @@ const HomePage = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
         body: JSON.stringify({'additional_players': additionalPlayers}),
       };
-      const url = Endpoint.createPuzzle({difficulty});
+      const url = Endpoint.createPuzzle({difficulty, additionalPlayers});
       fetch(url, requestOptions).then(res => res.json()).then(data => {
         redirectToPuzzle(data.puzzle_id);
       });
