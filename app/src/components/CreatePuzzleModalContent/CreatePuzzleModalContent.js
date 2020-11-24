@@ -59,7 +59,7 @@ const CreatePuzzleModal = (props) => {
               className="select-options"
             >
               {
-                Object.entries(difficultyValues).map((difficultyLabel, value) => (
+                Object.entries(difficultyValues).map(([difficultyLabel, value]) => (
                   <MenuItem value={value}>{difficultyLabel}</MenuItem>
                 ))
               }
@@ -69,7 +69,7 @@ const CreatePuzzleModal = (props) => {
             <p className="label">Invite Friends: </p>
             <TextField 
               id="standard-basic" 
-              label="Enter emails here separated by comma" 
+              label="user1@sample.com, user2@sample.com" 
               onChange={event => {
                 const additionalPlayers = event.target.value.replace(' ', '').split(',').filter(player => player);
                 setAdditionalPlayers(additionalPlayers);
