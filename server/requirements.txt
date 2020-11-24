@@ -5,10 +5,14 @@ certifi==2020.6.20
 chardet==3.0.4
 click==7.1.2
 coverage==5.3
+dnspython==1.16.0
+eventlet==0.29.1
 Flask==1.1.2
 Flask-Cors==3.0.9
 Flask-RESTful==0.3.8
+Flask-SocketIO==4.3.1
 Flask-SQLAlchemy==2.4.4
+greenlet==0.4.17
 idna==2.10
 iniconfig==1.1.1
 isort==5.6.4
@@ -29,6 +33,8 @@ pylint-plugin-utils==0.6
 pyparsing==2.4.7
 pytest==6.1.2
 pytest-mock==3.3.1
+python-engineio==3.13.2
+python-socketio==4.6.0
 pytz==2020.4
 requests==2.24.0
 six==1.15.0

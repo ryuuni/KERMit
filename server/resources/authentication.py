@@ -19,6 +19,9 @@ def verify_token():
     While g is not appropriate for storing data across requests, it provides a global namespace
     for holding any data you want during a single app context.
     """
+    # allow the health check endpoint to be unauthenticated
+    if request.endpoint is None or request.endpoint != '/':
+        return None
     return _verify_token(request)
 
 
@@ -59,7 +62,7 @@ def _verify_token(incoming_request):
 
         # save this user for the rest of the request processing
         g.user = user
-    return None
+    return None  # hurray no issues!
 
 
 class Registration(Resource):
