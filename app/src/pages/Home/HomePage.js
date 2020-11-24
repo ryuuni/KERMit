@@ -6,6 +6,7 @@ import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 import Modal from '@material-ui/core/Modal';
+import Endpoint from '../../utils/Endpoint';
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,7 +25,7 @@ const HomePage = () => {
         method: 'POST',
         headers: { Authorization: `Bearer ${accessToken}` },
       };
-      const url = 'http://localhost:5000/puzzles?difficulty=' + difficulty + '&size=3';
+      const url = Endpoint.createPuzzle({difficulty});
       fetch(url, requestOptions).then(res => res.json()).then(data => {
         redirectToPuzzle(data.puzzle_id);
       });
@@ -36,7 +37,7 @@ const HomePage = () => {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('http://localhost:5000/puzzles', requestOptions).then(res => res.json()).then(data => {
+    fetch(Endpoint.getPuzzles(), requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
       if (data.puzzles !== undefined) {
         setPuzzles(data.puzzles);

@@ -4,6 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
+import Endpoint from '../../utils/Endpoint'''
 
 const columns = [
   { field: 'id', headerName: 'Rank', width: 90 },
@@ -59,7 +60,7 @@ const LeaderboardPage = () => {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('http://localhost:5000/leaderboard', requestOptions).then(res => res.json()).then(data => {
+    fetch(Endpoint.getLeaderboard(), requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
       if (data.players !== undefined) {
         setTopPlayers(data.players);

@@ -1,8 +1,9 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuBoard.css'
 import SudokuCell from '../SudokuCell/SudokuCell';
 import AccessTokenContext from '../../context/AccessTokenContext';
+import Endpoint from '../../utils/Endpoint';
 
 async function getSolution({ accessToken, puzzleId, onSuccess }) {
   const requestOptions = {
@@ -15,7 +16,7 @@ async function getSolution({ accessToken, puzzleId, onSuccess }) {
   onSuccess(json);
 }
 
-export default function SudokuBoard(props) {
+const SudokuBoard = forwardRef((props, socket) => {
   const { accessToken } = useContext(AccessTokenContext);
   const [solved, setSolved] = useState(props.solved);
   const [checked, setChecked] = useState(false);
@@ -33,9 +34,9 @@ export default function SudokuBoard(props) {
         'value': value ? Number(value) : null,
       }),
     };
-    await fetch(`http://localhost:5000/puzzles/${puzzleId}/piece`, requestOptions)
-    props.socket.emit('move', {puzzle_id:puzzleId});
-  }, [accessToken, props.socket]);
+    await fetch(Endpoint.movePiece({puzzleId}), requestOptions);
+    socket.current.emit('move', {puzzle_id:puzzleId});
+  }, [accessToken, socket]);
 
   if (!props.gridState) {
     return <h3 style={{"text-align": "center"}}>Loading puzzle...</h3>;
@@ -86,7 +87,7 @@ export default function SudokuBoard(props) {
       }
     </div>
   );
-}
+});
 
 SudokuBoard.defaultProps = {
   gridState: null,
@@ -99,3 +100,5 @@ SudokuBoard.propTypes = {
   puzzleId: PropTypes.string.isRequired,
   solved: PropTypes.bool.isRequired,
 };
+
+export default SudokuBoard;

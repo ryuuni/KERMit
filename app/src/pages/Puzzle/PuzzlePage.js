@@ -7,19 +7,6 @@ import PageTemplate from '../Template/PageTemplate';
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
 import socketIOClient from "socket.io-client";
 
-const ONE_SECOND_IN_MILLIS = 1000;
-
-async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
-  const requestOptions = {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${accessToken}` },
-  };
-  const response = await fetch(`http://localhost:5000/puzzles/${puzzleId}`, requestOptions)
-  // const response = await Promise.resolve(getPuzzleResponse());
-  const json = await response.json();
-  onSuccess(json);
-}
-
 const PuzzlePage = () => {
   const { puzzleId } = useParams();
   const [pieces, setPieces] = useState(null);
@@ -42,12 +29,12 @@ const PuzzlePage = () => {
       console.log(data);
     });
 
-    currSocket.on("puzzle_update", data => {
+    currSocket.on("puzzle_update", ({pieces, completed}) => {
       setPieces(
-        data.pieces.sort((pieceA, pieceB) =>
+        pieces.sort((pieceA, pieceB) =>
           (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
       ));
-      setSolved(data.completed);
+      setSolved(completed);
     });
 
     return () => {
@@ -63,7 +50,7 @@ const PuzzlePage = () => {
         gridState={pieces}
         puzzleId={puzzleId}
         solved={solved}
-        socket={socket.current}
+        ref={socket}
       />
     </PageTemplate>
   );
