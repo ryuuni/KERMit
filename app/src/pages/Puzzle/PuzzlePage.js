@@ -1,11 +1,22 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useContext, useRef } from "react"
+import { useState, useEffect, useContext, useRef, useCallback } from "react"
 import SudokuBoard from '../../components/SudokuBoard/SudokuBoard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 // import { getPuzzleResponse } from '../data/get_puzzle_response'
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
 import socketIOClient from "socket.io-client";
+
+async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  };
+  const response = await fetch(`http://localhost:5000/puzzles/${puzzleId}`, requestOptions)
+  // const response = await Promise.resolve(getPuzzleResponse());
+  const json = await response.json();
+  onSuccess(json);
+}
 
 const PuzzlePage = () => {
   const { puzzleId } = useParams();
@@ -14,7 +25,15 @@ const PuzzlePage = () => {
   const { accessToken } = useContext(AccessTokenContext);
   const socket = useRef(null); 
 
-  useEffect(() => {
+  const updatePuzzle = useCallback(({pieces, completed}) => {
+    setPieces(
+      pieces.sort((pieceA, pieceB) =>
+        (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
+    ));
+    setSolved(completed);
+  }, []);
+
+  useEffect(() => {  
     socket.current = socketIOClient("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
 
     const currSocket = socket.current;
@@ -30,18 +49,22 @@ const PuzzlePage = () => {
     });
 
     currSocket.on("puzzle_update", ({pieces, completed}) => {
-      setPieces(
-        pieces.sort((pieceA, pieceB) =>
-          (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
-      ));
-      setSolved(completed);
+      console.log(pieces);
+      console.log(completed);
+      updatePuzzle({pieces, completed})
+    });
+
+    getPuzzle({
+      accessToken,
+      puzzleId,
+      onSuccess: updatePuzzle,
     });
 
     return () => {
       currSocket.emit('leave', {puzzle_id: puzzleId});
       currSocket.disconnect();
     };
-  }, [accessToken, puzzleId, socket]);
+  }, [accessToken, puzzleId, socket, updatePuzzle]);
 
   return (
     <PageTemplate>

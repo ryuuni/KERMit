@@ -39,7 +39,7 @@ const SudokuBoard = forwardRef((props, socket) => {
   }, [accessToken, socket]);
 
   if (!props.gridState) {
-    return <h3 style={{"text-align": "center"}}>Loading puzzle...</h3>;
+    return <h3 style={{textAlign: "center"}}>Loading puzzle...</h3>;
   }
 
   return (
