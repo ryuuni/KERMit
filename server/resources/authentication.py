@@ -5,9 +5,9 @@ before each request, as well as user registration.
 from flask import g
 from flask import request
 from flask_restful import Resource
-from server.server import app
-from server.models.user import User
-from server.resources.google_auth import GoogleAuth
+from server import app
+from models.user import User
+from resources.google_auth import GoogleAuth
 
 
 @app.before_request
@@ -20,8 +20,6 @@ def verify_token():
     for holding any data you want during a single app context.
     """
     # allow the health check endpoint to be unauthenticated
-    if request.endpoint is None or request.endpoint != '/':
-        return None
     return _verify_token(request)
 
 

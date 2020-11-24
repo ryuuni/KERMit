@@ -9,6 +9,7 @@ be used, explicitly, they just need to be imported. This funky Flask configurati
 causes style errors, but it is not a problem, so they have been commented out with
 # pylint: disable=wrong-import-position
 """
+import eventlet
 import os
 from flask_cors import CORS
 from flask import Flask, request, make_response
@@ -22,7 +23,7 @@ app = Flask(__name__)
 
 app_settings = os.getenv(
     'APP_SETTINGS',
-    'server.config.DevelopmentConfig'
+    'config.DevelopmentConfig'
 )
 app.config.from_object(app_settings)
 
@@ -68,8 +69,7 @@ def create_tables():
 
 # ------- Allow socket capabilities -------
 # setup socketio for handling web sockets
-socketio = SocketIO(app, manage_session=True)
-
+socketio = SocketIO(app, manage_session=True, cors_allowed_origins="*", logger=True, async_mode="eventlet")
 
 @socketio.on('connect')
 def test_connect():
@@ -115,10 +115,10 @@ def default_error_handler(exception):
 
 # --------------- Register HTTP endpoints and callbacks for API -----------
 
-from server.resources.authentication import Registration   # pylint: disable=wrong-import-position
-from server.resources.sudoku import SudokuPuzzles, SudokuPuzzle, \
+from resources.authentication import Registration   # pylint: disable=wrong-import-position
+from resources.sudoku import SudokuPuzzles, SudokuPuzzle, \
     SudokuPuzzlePiece, SudokuPuzzleSolution  # pylint: disable=wrong-import-position
-from server.resources.leaderboard import Leaderboard  # pylint: disable=wrong-import-position
+from resources.leaderboard import Leaderboard  # pylint: disable=wrong-import-position
 
 
 @app.route('/')

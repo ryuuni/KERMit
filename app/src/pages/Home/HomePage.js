@@ -4,6 +4,8 @@ import { Redirect } from "react-router-dom";
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
+// import {socket} from "../../utils/Socket.js";
+// import {socket} from "../../utils/Socket.js";
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,7 +22,7 @@ const HomePage = () => {
       method: 'POST',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('/puzzles?difficulty=0.1&size=3', requestOptions).then(res => res.json()).then(data => {
+    fetch('http://localhost:5000/puzzles?difficulty=0.1&size=3', requestOptions).then(res => res.json()).then(data => {
       redirectToPuzzle(data.puzzle_id);
     });
   }, [accessToken, redirectToPuzzle]);
@@ -30,7 +32,7 @@ const HomePage = () => {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('/puzzles', requestOptions).then(res => res.json()).then(data => {
+    fetch('http://localhost:5000/puzzles', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
       setPuzzles(data.puzzles);
     });
