@@ -4,7 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
-import Endpoint from '../../utils/Endpoint'''
+import Endpoint from '../../utils/Endpoint'
 
 const columns = [
   { field: 'id', headerName: 'Rank', width: 90 },
