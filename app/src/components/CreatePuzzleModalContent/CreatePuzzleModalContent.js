@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 function getModalStyle() {
     const top = 50;
@@ -29,34 +30,55 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const difficultyValues = {
+  'Warmup': 0.2,
+  'Beginner': 0.3,
+  'Easy': 0.4,
+  'Intermediate': 0.5,
+  'Advanced': 0.6,
+  'Expert': 0.7,
+  'Master': 0.8,
+};
+
 const CreatePuzzleModal = (props) => {
     const classes = useStyles();
     const [selectedDifficulty, setSelectedDifficulty] = useState(0);
+    const [additionalPlayers, setAdditionalPlayers] = useState([]);
     const [modalStyle] = useState(getModalStyle);
 
     return (
         <div style={modalStyle} className={classes.paper}>
           <h2 className="modal-title">Start new puzzle</h2>
-          <div className="difficulty-select">
+          <div className="modal-section">
             <p className="label">
               Difficulty Level: 
             </p>
             <Select
-                value={selectedDifficulty}
-                onChange={(event) => setSelectedDifficulty(event.target.value)}
-                className="select-options"
-              >
-                <MenuItem value={0.2}>Warmup</MenuItem>
-                <MenuItem value={0.3}>Beginner</MenuItem>
-                <MenuItem value={0.4}>Easy</MenuItem>
-                <MenuItem value={0.5}>Intermediate</MenuItem>
-                <MenuItem value={0.6}>Advanced</MenuItem>
-                <MenuItem value={0.7}>Expert</MenuItem>
-                <MenuItem value={0.8}>Master</MenuItem>
-              </Select>
-            </div>
-          <button className="submit-new-game" onClick={() => props.createGame(selectedDifficulty)}>Create</button>
-        </div>
+              value={selectedDifficulty}
+              onChange={(event) => setSelectedDifficulty(event.target.value)}
+              className="select-options"
+            >
+              {
+                Object.entries(difficultyValues).map((difficultyLabel, value) => (
+                  <MenuItem value={value}>{difficultyLabel}</MenuItem>
+                ))
+              }
+            </Select>
+          </div>
+          <div className="modal-section">
+            <p className="label">Invite Friends: </p>
+            <TextField 
+              id="standard-basic" 
+              label="Enter emails here separated by comma" 
+              onChange={event => {
+                const additionalPlayers = event.target.value.replace(' ', '').split(',').filter(player => player);
+                setAdditionalPlayers(additionalPlayers);
+              }}
+              error={additionalPlayers.length && additionalPlayers.some(player => !/@.*\./.test(player))}
+            />
+          </div>
+        <button className="submit-new-game" onClick={() => props.createGame({difficulty: selectedDifficulty, additionalPlayers})}>Create</button>
+      </div>
     );
 };
 

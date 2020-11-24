@@ -19,11 +19,12 @@ const HomePage = () => {
     setRedirect(`/puzzle/${puzzleId}`);
   }, []);
 
-  const createGame = useCallback((difficulty) => {
+  const createGame = useCallback(({difficulty, additionalPlayers}) => {
     if (difficulty >= 0.1 && difficulty <= 0.99) {
       const requestOptions = {
         method: 'POST',
         headers: { Authorization: `Bearer ${accessToken}` },
+        body: JSON.stringify({'additional_players': additionalPlayers}),
       };
       const url = Endpoint.createPuzzle({difficulty});
       fetch(url, requestOptions).then(res => res.json()).then(data => {
