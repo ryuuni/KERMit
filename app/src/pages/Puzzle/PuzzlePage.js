@@ -5,7 +5,7 @@ import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 // import { getPuzzleResponse } from '../data/get_puzzle_response'
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
-import io from "socket.io-client";
+import socketIOClient from "socket.io-client";
 
 const ONE_SECOND_IN_MILLIS = 1000;
 
@@ -28,20 +28,9 @@ const PuzzlePage = () => {
   const socket = useRef(null); 
 
   useEffect(() => {
-    const getPuzzleSubscription = setInterval(() => getPuzzle({
-      accessToken,
-      puzzleId,
-      onSuccess: json => {setPieces(
-        json.pieces.sort((pieceA, pieceB) =>
-          (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
-        ))
-        setSolved(json.completed)
-      },
-    }), ONE_SECOND_IN_MILLIS);
+    socket.current = socketIOClient("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
 
-    socket.current = io("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
-
-    let currSocket = socket.current;
+    const currSocket = socket.current;
 
     if (currSocket.disconnected) {
       currSocket.connect({query: {auth: accessToken}});
@@ -54,14 +43,16 @@ const PuzzlePage = () => {
     });
 
     currSocket.on("puzzle_update", data => {
-      console.log('puzzle updated:');
-      console.log(data);
+      setPieces(
+        data.pieces.sort((pieceA, pieceB) =>
+          (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
+      ));
+      setSolved(data.completed);
     });
 
     return () => {
       currSocket.emit('leave', {puzzle_id: puzzleId});
       currSocket.disconnect();
-      clearInterval(getPuzzleSubscription);
     };
   }, [accessToken, puzzleId, socket]);
 

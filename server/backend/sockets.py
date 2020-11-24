@@ -50,7 +50,7 @@ def on_join(data):
     """
     Leave a websocket representing a puzzle room; data should be in format
     {puzzle_id: <puzzle_id>, token: <oauth_token>}, where puzzle_id represents
-    a "room" that can be joined. Note that users can only entire web socket "rooms" if they
+    a "room" that can be joined. Note that users can only enter web socket "rooms" if they
     are, in fact, associated with a puzzle.
     """
     if any(key not in data.keys() for key in ['token', 'puzzle_id']):
