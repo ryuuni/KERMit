@@ -4,8 +4,10 @@ of the server
 """
 from backend import app, api
 from backend.resources.authentication import Registration
-from backend.resources.sudoku import SudokuPuzzles, SudokuPuzzle, \
-    SudokuPuzzlePiece, SudokuPuzzleSolution
+from backend.resources.sudoku_solution import SudokuPuzzleSolution
+from backend.resources.sudoku_puzzle_piece import SudokuPuzzlePiece
+from backend.resources.sudoku_puzzle import SudokuPuzzle
+from backend.resources.sudoku_puzzles import SudokuPuzzles
 from backend.resources.leaderboard import Leaderboard
 
 

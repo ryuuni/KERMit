@@ -1,0 +1,12 @@
+************* Module backend.resources.sudoku_solution
+server/backend/resources/sudoku_solution.py:36:0: C0304: Final newline missing (missing-final-newline)
+************* Module backend.resources.sudoku_puzzle_piece
+server/backend/resources/sudoku_puzzle_piece.py:119:0: C0304: Final newline missing (missing-final-newline)
+************* Module backend.resources.sudoku_puzzles
+server/backend/resources/sudoku_puzzles.py:106:0: C0304: Final newline missing (missing-final-newline)
+************* Module backend.resources.sudoku_puzzle
+server/backend/resources/sudoku_puzzle.py:106:0: C0304: Final newline missing (missing-final-newline)
+
+-------------------------------------------------------------------
+Your code has been rated at 9.93/10 (previous run: 10.00/10, -0.07)
+

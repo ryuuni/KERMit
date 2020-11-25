@@ -32,6 +32,33 @@ class User(db.Model):
         """
         return cls.query.filter_by(g_id=g_id).first()
 
+    @classmethod
+    def find_users_by_email(cls, emails):
+        """
+        Given a list of user emails, find the users associated with the emails.
+        Function returns tuple of the list of "found" users and a list of emails
+        that were not found in the system.
+        """
+        found = []
+        not_found = []
+
+        for email in emails:
+            user = cls.find_by_email(email)
+            if user is not None:
+                found.append(user)
+            else:
+                not_found.append(email)
+
+        return found, not_found
+
+    @classmethod
+    def find_by_email(cls, email):
+        """
+        Finds a User by their email address; if email address it not
+        registered, then None will be returned.
+        """
+        return cls.query.filter_by(email=email).first()
+
     def save(self):
         """
         Saves User to the database.

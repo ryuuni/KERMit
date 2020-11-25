@@ -60,15 +60,56 @@ def test_save_new_puzzle_valid(test_client, init_db, verification_true):
     Test the response when a user makes a valid request to create a new sudoku puzzle
     """
     response = test_client.post('/puzzles',
-                                data=dict(difficulty=0.5, size=3),
+                                data=dict(difficulty=0.5, size=3, additional_players=[]),
                                 headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 200
     assert response.json == {
         'message': 'New Sudoku puzzle successfully created',
         'difficulty': 0.5,
         'size': 3,
-        'puzzle_id': 3
+        'puzzle_id': 3,
+        'unregistered_emails': []
     }
+
+
+def test_save_new_puzzle_valid_unregistered_participant(test_client, init_db, verification_true):
+    """
+    Test the response when a user makes a valid request to create a new sudoku puzzle,
+    with an additional specified user that does not exist (isn't registered with
+    the application.
+    """
+    data = dict(difficulty=0.5, size=3, additional_players=['not_registered.com', 'another.com'])
+    response = test_client.post('/puzzles',
+                                data=data,
+                                headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 3,
+        'puzzle_id': 4,
+        'unregistered_emails': ['not_registered.com', 'another.com']
+    }
+
+
+def test_save_new_puzzle_valid_registered_participant(test_client, init_db, verification_true):
+    """
+    Test the response when a user makes a valid request to create a new sudoku puzzle,
+    with an additional specified user that does exist (is registered with
+    the application).
+    """
+    data = dict(difficulty=0.5, size=3, additional_players=['princess@princessbride.com'])
+    response = test_client.post('/puzzles', data=data,
+                                headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 3,
+        'puzzle_id': 5,
+        'unregistered_emails': []
+    }
+    assert len(PuzzlePlayer.find_players_for_puzzle(5)) == 2
 
 
 def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verification_true):
@@ -77,7 +118,7 @@ def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verifica
     invalid difficulty (too high).
     """
     response = test_client.post('/puzzles',
-                                data=dict(difficulty=1.1, size=3),
+                                data=dict(difficulty=1.1, size=3, additional_players=[]),
                                 headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 400
     assert response.json == {
@@ -92,7 +133,7 @@ def test_save_new_puzzle_invalid_difficulty_large(test_client, init_db, verifica
     invalid difficulty (too low).
     """
     response = test_client.post('/puzzles',
-                                data=dict(difficulty=0.0, size=3),
+                                data=dict(difficulty=0.0, size=3, additional_players=[]),
                                 headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 400
     assert response.json == {
@@ -107,7 +148,7 @@ def test_save_new_puzzle_invalid_size_large(test_client, init_db, verification_t
     puzzle of invalid size (too large).
     """
     response = test_client.post('/puzzles',
-                                data=dict(difficulty=0.5, size=10),
+                                data=dict(difficulty=0.5, size=10, additional_players=[]),
                                 headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 400
     assert response.json == {
@@ -122,7 +163,7 @@ def test_save_new_puzzle_invalid_size_small(test_client, init_db, verification_t
     puzzle of invalid size (too small).
     """
     response = test_client.post('/puzzles',
-                                data=dict(difficulty=0.5, size=1),
+                                data=dict(difficulty=0.5, size=1, additional_players=[]),
                                 headers={'Authorization': 'Bearer 2342351231asdb'})
     assert response.status_code == 400
     assert response.json == {
@@ -136,27 +177,21 @@ def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
     Test response for valid request to get all puzzzles associated with user.
     """
     response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
-    expected = {
-        'puzzles':
-        [
-            {
-                'puzzle_id': 3,
-                'completed': False,
-                'difficulty': 0.5,
-                'point_value': 90,
-                'pieces': ["this would ordinarily contain a list of pieces; "
-                           "they're not predictable in tests"],
-                'players': [
-                    {'id': 5, 'first_name': 'Joe',
-                     'last_name': 'Biden', 'email': 'jb@biden2020.com'}
-                ]
-            }
-        ]
-    }
+    expected = {'puzzles': [
+        {'puzzle_id': 3, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 4, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 5, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+            {'id': 3, 'first_name': 'Princess', 'last_name': 'Bride',
+             'email': 'princess@princessbride.com'},
+            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]}]}
 
-    # cannot test for pieces easily; this is randomly created by the Sudoku library for each round
+    # not testing pieces in this test; just that puzzles are returned. Otherwise,
+    # this is a pretty hefty response to compare
     response.json['puzzles'][0].pop('pieces')
-    expected['puzzles'][0].pop('pieces')
+    response.json['puzzles'][1].pop('pieces')
+    response.json['puzzles'][2].pop('pieces')
 
     assert response.status_code == 200
     assert response.json == expected

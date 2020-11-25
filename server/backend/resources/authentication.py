@@ -27,9 +27,8 @@ def verify_token(incoming_request):
     # validate the token with Google
     access_token = auth_header.split("Bearer ")[1]
 
-    google_auth = GoogleAuth()
-    validation = google_auth.validate_token(access_token)
-    if 'error' in validation.keys():
+    is_valid, validation = is_valid_token(access_token)
+    if not is_valid:
         return {'message': 'Request denied access',
                 'reason': f'Google rejected oauth2 token: {validation["error_description"]}'}, 401
 
@@ -46,6 +45,20 @@ def verify_token(incoming_request):
         # save this user for the rest of the request processing
         g.user = user
     return None  # hurray no issues!
+
+
+def is_valid_token(token):
+    """
+    Takes a token, determines if it is valid and returns the validation resulting
+    from the Google Auth API. Determines if the token is valid so that calling function
+    does not need to do any additional checks to know the result, but can use the
+    error description from the validation provided.
+    """
+    google_auth = GoogleAuth()
+    validation = google_auth.validate_token(token)
+    if 'error' in validation.keys():
+        return False, validation
+    return True, validation
 
 
 class Registration(Resource):
