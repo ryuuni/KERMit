@@ -1,7 +1,33 @@
 .gridContainer {
   display: grid;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 30px;
   grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
   grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+}
+
+.puzzleStatusText {
+  text-align: center;
+}
+
+.checkSolutionBtn {
+  align-content: center;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid rgba(177, 175, 175, 0.55);
+  color: rgba(0, 0, 0, 0.85);
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;;
+  font-size: 16px;
+  font-weight: normal;
+  height: 45px; 
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.checkSolutionBtn:hover {
+  background-color: #e7e5e5;
+  cursor: pointer;
 }

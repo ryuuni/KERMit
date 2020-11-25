@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState } from 'react';
 import LeaderboardPage from './pages/Leaderboard/LeaderboardPage';
 import HomePage from './pages/Home/HomePage';

@@ -1,29 +1,36 @@
 import './HomePage.css';
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Redirect } from "react-router-dom";
+import CreatePuzzleModalContent from '../../components/CreatePuzzleModalContent/CreatePuzzleModalContent';
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
+import Modal from '@material-ui/core/Modal';
 import {socket} from "../../utils/Socket.js";
+
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [puzzles, setPuzzles] = useState([]);
   const [redirect, setRedirect] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const { accessToken } = useContext(AccessTokenContext);
 
   const redirectToPuzzle = useCallback(puzzleId => {
     setRedirect(`/puzzle/${puzzleId}`);
   }, []);
 
-  const createGame = useCallback(() => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}` },
-    };
-    fetch('http://localhost:5000/puzzles?difficulty=0.1&size=3', requestOptions).then(res => res.json()).then(data => {
-      redirectToPuzzle(data.puzzle_id);
-    });
+  const createGame = useCallback((difficulty) => {
+    if (difficulty >= 0.1 && difficulty <= 0.99) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}` },
+      };
+      const url = 'http://localhost:5000/puzzles?difficulty=' + difficulty + '&size=3';
+      fetch(url, requestOptions).then(res => res.json()).then(data => {
+        redirectToPuzzle(data.puzzle_id);
+      });
+    }
   }, [accessToken, redirectToPuzzle]);
 
   useEffect(() => {
@@ -33,7 +40,9 @@ const HomePage = () => {
     };
     fetch('http://localhost:5000/puzzles', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
-      setPuzzles(data.puzzles);
+      if (data.puzzles !== undefined) {
+        setPuzzles(data.puzzles);
+      }
     });
   }, [accessToken, setPuzzles]);
 
@@ -44,9 +53,15 @@ const HomePage = () => {
   return (
     <PageTemplate>
       <div className="homepage">
-        <button className="new-game-btn" onClick={createGame}>
+        <button className="new-game-btn" onClick={() => setModalOpen(true)}>
           Start new puzzle
         </button>
+        <Modal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+        >
+          <CreatePuzzleModalContent createGame={createGame} />
+        </Modal>
         {puzzles.length === 0 && isLoaded
           && (<div className="empty-message">
             You do not currently have any puzzles. Start a new one using the button above!

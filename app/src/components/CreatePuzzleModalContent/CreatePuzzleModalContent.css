@@ -1,0 +1,35 @@
+.select-options {
+    margin-left: 20px;
+}
+  
+.difficulty-select {
+    margin-left: 10px;
+    display: flex; 
+    flex-direction: row; 
+    margin-bottom: 20px;
+}
+
+.label {
+    line-height: 20px;
+}
+
+.submit-new-game {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgba(177, 175, 175, 0.55);
+    color: rgba(0, 0, 0, 0.85);
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;;
+    font-size: 16px;
+    font-weight: normal; 
+    align-content: center;
+    justify-content: center;
+    height: 45px;
+    margin: auto;
+    width: 150px;
+}
+
+.submit-new-game:hover {
+    background-color: #e7e5e5;
+    cursor: pointer;
+}
