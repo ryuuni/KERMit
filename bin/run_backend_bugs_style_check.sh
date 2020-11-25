@@ -14,5 +14,4 @@ pylint ./server/tests --load-plugins pylint_flask_sqlalchemy \
   --disable unused-import \
   --disable no-self-use \
   --disable too-few-public-methods \
-  --disable R0801 | tee ./reports/backend/style_bug_checker/tests-$filenamei
-
+  --disable R0801 | tee ./reports/backend/style_bug_checker/tests-$filename

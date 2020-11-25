@@ -55,11 +55,13 @@ like though!
  
 #### iii. Start the server
 
-Starting the Flask server is as simple as issuing the following command
-from the `./server` directory:
+Start the flask server using gunicorn and evenlet:
 ```
-$ flask run
+$ gunicorn server:app -b localhost:5000 -k eventlet --log-level DEBUG
 ```
+Setting the `log-level` as `DEBUG` is helpful in development, but not strictly necessary. This
+will run the server on `localhost:5000`. Eventlet is necessary for providing support
+for web-socket transports (default Flask development server only supports long-polling).
 
 ## II. Endpoints
 
