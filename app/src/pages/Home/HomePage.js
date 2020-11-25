@@ -24,7 +24,7 @@ const HomePage = () => {
         method: 'POST',
         headers: { Authorization: `Bearer ${accessToken}` },
       };
-      const url = '/puzzles?difficulty=' + difficulty + '&size=3';
+      const url = 'http://localhost:5000/puzzles?difficulty=' + difficulty + '&size=3';
       fetch(url, requestOptions).then(res => res.json()).then(data => {
         redirectToPuzzle(data.puzzle_id);
       });
@@ -36,7 +36,7 @@ const HomePage = () => {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    fetch('/puzzles', requestOptions).then(res => res.json()).then(data => {
+    fetch('http://localhost:5000/puzzles', requestOptions).then(res => res.json()).then(data => {
       setIsLoaded(true);
       if (data.puzzles !== undefined) {
         setPuzzles(data.puzzles);

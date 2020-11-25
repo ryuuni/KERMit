@@ -2,11 +2,11 @@
 Unit tests for the Puzzle Pieces class.
 """
 import pytest
-from server.server import app, db
-from server.config import UnitTestingConfig
-from server.models.puzzle_exception import PuzzleException
-from server.models.puzzle_pieces import PuzzlePiece
-from server.tests.unit.mock_session import MockSession
+from backend import app, db
+from backend.config import UnitTestingConfig
+from backend.models.puzzle_exception import PuzzleException
+from backend.models.puzzle_pieces import PuzzlePiece
+from tests.unit.mock_session import MockSession
 
 app.config.from_object(UnitTestingConfig)
 

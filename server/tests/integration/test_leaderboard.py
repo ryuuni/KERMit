@@ -1,11 +1,10 @@
 """
 Integration tests for leaderboard endpoints
 """
-from server.server import app  # prevent circular imports
-from server.models.player import PuzzlePlayer
-from server.models.sudoku_puzzle import Puzzle
-from server.tests.integration.test_setup import test_client, init_db
-from server.tests.integration.integration_mocks import verification_true
+from backend.models.player import PuzzlePlayer
+from backend.models.sudoku_puzzle import Puzzle
+from tests.integration.test_setup import test_client, init_db
+from tests.integration.integration_mocks import verification_error, verification_true
 
 
 def test_get_leaders_no_completed_puzzle(test_client, init_db, verification_true):

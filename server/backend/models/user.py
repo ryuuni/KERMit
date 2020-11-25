@@ -3,7 +3,7 @@ Contents include the implementation of the User class, which holds information
 about a User registered with the puzzle system. User information used
 to populate this table comes from information retrieved from the Google OAuth API.
 """
-from server.server import db
+from backend import db
 
 
 class User(db.Model):

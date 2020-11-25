@@ -3,12 +3,12 @@ Test Google Authentication mechanism
 """
 from flask import g
 import pytest
-from server.config import UnitTestingConfig
-from server.resources.google_auth import GoogleAuth
-from server.server import app, db
-from server.models.user import User
-from server.resources.authentication import Registration, _verify_token
-from server.tests.unit.mock_session import MockSession
+from backend.config import UnitTestingConfig
+from backend.google_auth import GoogleAuth
+from backend import app, db
+from backend.models.user import User
+from backend.resources.authentication import Registration, verify_token
+from tests.unit.mock_session import MockSession
 
 app.config.from_object(UnitTestingConfig)
 
@@ -86,7 +86,7 @@ def test_authorize_token_missing_header():
         def __init__(self):
             self.headers = {}
 
-    result = _verify_token(MockRequest())
+    result = verify_token(MockRequest())
     expected = {'message': 'Request denied access',
                 'reason': 'Authorization header missing. Please provide an '
                            'OAuth2 Token with your request'}, 400
@@ -102,7 +102,7 @@ def test_authorize_token_missing_header2():
         def __init__(self):
             self.headers = {'Something': 'here'}
 
-    result = _verify_token(MockRequest())
+    result = verify_token(MockRequest())
     expected = {'message': 'Request denied access',
                 'reason': 'Authorization header missing. Please provide an '
                            'OAuth2 Token with your request'}, 400
@@ -118,7 +118,7 @@ def test_authorize_token_malformed_header():
         def __init__(self):
             self.headers = {'Authorization': 'Token here'}
 
-    result = _verify_token(MockRequest())
+    result = verify_token(MockRequest())
     expected = {'message': 'Request denied access',
                 'reason': "Malformed authorization header provided. Please make sure to "
                            "specify the header prefix correctly as 'Bearer ' and try again."}, 400
@@ -140,7 +140,7 @@ def test_authorize_token_validation_error(monkeypatch):
 
     monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
 
-    result = _verify_token(MockRequest())
+    result = verify_token(MockRequest())
     expected = {'message': 'Request denied access',
                 'reason': 'Google rejected oauth2 token: A bad error occurred'}, 401
     assert expected == result
@@ -157,7 +157,7 @@ def test_authorize_token_validation_success_register(verification_token):
             self.endpoint = 'registration'
 
     with app.app_context():
-        result = _verify_token(MockRequest())
+        result = verify_token(MockRequest())
         assert result is None
         assert g.access_token == "Token-Here"
 
@@ -183,7 +183,7 @@ def test_authorize_token_validation_success(monkeypatch, verification_token):
     monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
 
     with app.app_context():
-        result = _verify_token(MockRequest())
+        result = verify_token(MockRequest())
         assert result is None
         assert g.access_token == "Token-Here"
         assert g.user == mock_user
@@ -211,7 +211,7 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
     monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
 
     with app.app_context():
-        result = _verify_token(MockRequest())
+        result = verify_token(MockRequest())
 
     expected = {'message': 'Request denied access',
                 'reason': 'User is not yet registered with this application; please '

@@ -4,9 +4,8 @@ current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 filename="pylint-$current_time.txt"
 
 echo "Running pylint for source files..."
-pylint ./server --ignore venv --ignore tests \
-  --load-plugins pylint_flask_sqlalchemy \
-  --disable cyclic-import | tee ./reports/backend/style_bug_checker/$filename
+pylint ./server/backend/ --load-plugins pylint_flask_sqlalchemy \
+	--disable R0401 | tee ./reports/backend/style_bug_checker/$filename
 
 echo "Running pylint errors for test files..."
 pylint ./server/tests --load-plugins pylint_flask_sqlalchemy \

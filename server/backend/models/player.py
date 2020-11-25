@@ -3,10 +3,10 @@ Module responsible for mapping players to all of their puzzles,
 as well as adding players to a new puzzle.
 """
 from sqlalchemy import func
-from server.server import db
-from server.models.user import User
-from server.models.sudoku_puzzle import Puzzle
-from server.models.puzzle_exception import PuzzleException
+from backend import db
+from backend.models.user import User
+from backend.models.sudoku_puzzle import Puzzle
+from backend.models.puzzle_exception import PuzzleException
 
 MAX_PLAYERS_PER_PUZZLE = 4
 

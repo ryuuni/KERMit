@@ -3,11 +3,11 @@ Setup/teardown method for integration tests; creates the database tables
 before tests run, along with several records, and deletes records upon completion.
 """
 import pytest
-from server.server import app, db
-from server.config import IntegrationTestingConfig
-from server.models.user import User
-from server.models.sudoku_puzzle import Puzzle
-from server.models.player import PuzzlePlayer
+from backend import app, db
+from backend.config import IntegrationTestingConfig
+from backend.models.user import User
+from backend.models.sudoku_puzzle import Puzzle
+from backend.models.player import PuzzlePlayer
 
 
 @pytest.fixture(scope='module')

@@ -1,0 +1,1943 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 36 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header FAILED [  2%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header FAILED [  5%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid FAILED [  8%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error FAILED [ 11%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 FAILED [ 13%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 FAILED [ 16%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists FAILED [ 19%]
+server/tests/integration/test_authentication.py::test_successful_user_registration FAILED [ 22%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle PASSED [ 25%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles PASSED [ 27%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 PASSED [ 30%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration FAILED [ 33%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles FAILED [ 36%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle FAILED [ 38%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid FAILED [ 41%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small PASSED [ 44%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large PASSED [ 47%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large PASSED [ 50%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small PASSED [ 52%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user FAILED [ 55%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid FAILED [ 58%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle FAILED [ 61%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle FAILED [ 63%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist FAILED [ 66%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid FAILED [ 69%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached FAILED [ 72%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet FAILED [ 75%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value FAILED [ 77%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with FAILED [ 80%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low FAILED [ 83%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high FAILED [ 86%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high FAILED [ 88%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low FAILED [ 91%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece FAILED [ 94%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece FAILED [ 97%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete FAILED [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_registration_missing_header _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_registration_missing_header(test_client, init_db):
+        """
+        Test when a request is made to /register that is missing the request header
+        that contains the Google Access token.
+        """
+        response = test_client.post('/register')
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+server/tests/integration/test_authentication.py:55: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_registration_malformed_header ______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_registration_malformed_header(test_client, init_db):
+        """
+        Test when a request is made to /register that has mal-formatted request header
+        that contains the Google Access token.
+        """
+        response = test_client.post('/register', headers={'Authorization': '2342351231asdb'})
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+server/tests/integration/test_authentication.py:68: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+_________________ test_registration_verification_token_invalid _________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_error = None
+
+    def test_registration_verification_token_invalid(test_client, init_db, verification_error):
+        """
+        Test when a request is made to /register that has a bad token.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:81: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_registration_user_info_error _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None, user_info_error = None
+
+    def test_registration_user_info_error(test_client, init_db, verification_true, user_info_error):
+        """
+        Test when a request is made to /register, but the user info Google endpoint returned an error.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:91: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_register_token_valid_missing_info1 ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba6882dbe0>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_register_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
+        """
+        Test when verification of the token succeeds, but user information collection fails
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "id": "103207744267402488580",
+                "verified_email": True,
+                "name": "Jane Doe",
+                "given_name": "Jane",
+                "family_name": "Doe",
+                "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8"
+                           "WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+                "locale": "en",
+                "hd": "columbia.edu"
+            }
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:117: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_register_token_valid_missing_info2 ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba688757c0>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_register_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
+        """
+        Test when verification of the token succeeds, but user information collection fails
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "email": "janedoe@columbia.edu",
+                "verified_email": True,
+                "name": "Jane Doe",
+                "given_name": "Jane",
+                "family_name": "Doe",
+                "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2"
+                           "my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+                "locale": "en",
+                "hd": "columbia.edu"
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:145: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_registration_user_id_already_exists ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba6886e400>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):
+        """
+        Make sure that if the user id already exists, there is no need to re-register them.
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "id": "12345",  # this user already exists
+                "email": "janedoe@columbia.edu",
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 500 == 200
+E         +500
+E         -200
+
+server/tests/integration/test_authentication.py:165: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_successful_user_registration _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None, user_info = None
+
+    def test_successful_user_registration(test_client, init_db, verification_true, user_info):
+        """
+        Make sure that a valid request to register a user is successful.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 500 == 200
+E         +500
+E         -200
+
+server/tests/integration/test_authentication.py:174: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+________________ test_attempt_to_use_game_without_registration _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fba68716460>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):
+        """
+        Test that attempts to interact with the game without registering fail.
+        """
+        def mock_verification(*args, **kwargs):
+            return {
+                "issued_to": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+                "audience": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+                "user_id": "111111111",
+                "scope": "https://www.googleapis.com/auth/userinfo.email",
+                "expires_in": 3588,
+                "email": "unregistered_user@gmail.com",
+                "verified_email": True,
+                "access_type": "offline"
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
+>       response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:38: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_______________________ test_get_all_puzzles_no_puzzles ________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_all_puzzles_no_puzzles(test_client, init_db, verification_true):
+        """
+        Test the response when the user makes a request to get their puzzles, but they don't have any.
+        """
+>       response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:38: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_________________________ test_get_nonexistent_puzzle __________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
+        """
+        Test the response when a user makes a request for a puzzle that doesn't exist.
+        """
+>       response = test_client.get('/puzzles/10', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:103: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+__________________________ test_save_new_puzzle_valid __________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_save_new_puzzle_valid(test_client, init_db, verification_true):
+        """
+        Test the response when a user makes a valid request to create a new sudoku puzzle
+        """
+        response = test_client.post('/puzzles',
+                                    data=dict(difficulty=0.5, size=3),
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 500 == 200
+E         +500
+E         -200
+
+server/tests/integration/test_sudoku_endpoints.py:65: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Exception occurred while creating new puzzle: '_AppCtxGlobals' object has no attribute 'user'
+________________________ test_get_all_puzzles_for_user _________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
+        """
+        Test response for valid request to get all puzzzles associated with user.
+        """
+>       response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:38: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+____________________________ test_get_puzzle_valid _____________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_puzzle_valid(test_client, init_db, verification_true):
+        """
+        An attempt to get a puzzle with a valid id that is associated with the requesting user should
+        be successful.
+        """
+>       response = test_client.get('/puzzles/3', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:103: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+___________________ test_attempt_to_get_unaffiliated_puzzle ____________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db, verification_true):
+        """
+        An attempting to get a puzzle with a valid id, but that is not associated with the requesting
+        user should not return the puzzle.
+        """
+>       response = test_client.get('/puzzles/1', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:194: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:103: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+____________ test_attempt_to_add_player_to_puzzle_already_in_puzzle ____________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):
+        """
+        Attempt to add player that is already in the puzzle should not re-add the player.
+        """
+>       response = test_client.post('/puzzles/3', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:204: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:123: in post
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+____________ test_attempt_to_add_player_to_puzzle_that_doesnt_exist ____________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db, verification_true):
+        """
+        Attempt by a player to add themselves to a puzzle that doesn't exist should not be successful.
+        """
+>       response = test_client.post('/puzzles/10', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:215: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:123: in post
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+__________________ test_attempt_to_add_player_to_puzzle_valid __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verification_true):
+        """
+        Attempt to add player to puzzle that is a valid request should be successful
+        """
+>       response = test_client.post('/puzzles/1', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:123: in post
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_______________ test_attempt_to_join_puzzle_max_players_reached ________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verification_true):
+        """
+        Attempt to add player to puzzle that is a valid request should be successful.
+        """
+        # add three more players to puzzle with id = 2; now the board has 4 players
+        puzzle_player = PuzzlePlayer(1, 2)
+        puzzle_player.save(autocommit=True)
+        puzzle_player = PuzzlePlayer(3, 2)
+        puzzle_player.save(autocommit=True)
+        puzzle_player = PuzzlePlayer(4, 2)
+        puzzle_player.save(autocommit=True)
+    
+>       response = test_client.post('/puzzles/2', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:246: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:123: in post
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+__________________ test_attempt_add_piece_valid_no_value_yet ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board
+        that is associated with the user.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = None
+        piece.save(autocommit=True)
+    
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:263: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_________________ test_attempt_add_piece_valid_override_value __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_valid_override_value(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board that
+        is associated with the user.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = 8
+        piece.save(autocommit=True)
+    
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_____________ test_attempt_add_piece_player_is_not_affiliated_with _____________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_player_is_not_affiliated_with(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board
+        that is NOT associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/2/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:312: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+___________________ test_attempt_add_piece_invalid_piece_low ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_true):
+        """
+        Attempt to add a INVALID number to a valid position on a sudoku board that
+        is associated with the user.
+        """
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = None
+        piece.save(autocommit=True)
+    
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=50
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:335: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+__________________ test_attempt_add_piece_invalid_piece_high ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification_true):
+        """
+        Attempt to add a INVALID number to a valid position on a sudoku board
+        that is associated with the user.
+        """
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = None
+        piece.save(autocommit=True)
+    
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=0
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:360: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_________________ test_attempt_add_piece_invalid_position_high _________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_position_high(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to an INVALID position on a sudoku board
+        that is associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=100,
+                y_coordinate=100,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_________________ test_attempt_add_piece_invalid_position_low __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_position_low(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to an INVALID position on a sudoku
+        board that is associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=-1,
+                y_coordinate=-1,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:401: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:175: in post
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+__________________________ test_attempt_remove_piece ___________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_remove_piece(test_client, init_db, verification_true):
+        """
+        Attempt to delete a non-static value from a position on the puzzle should be OK.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = 8
+        piece.save(autocommit=True)
+    
+>       response = test_client.delete(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:427: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1031: in delete
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:219: in delete
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_______________________ test_attempt_remove_static_piece _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_remove_static_piece(test_client, init_db, verification_true):
+        """
+        Attempt to delete a static value from a position on the puzzle should fail.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = True
+        piece.value = 12
+        piece.save(autocommit=True)
+    
+>       response = test_client.delete(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:454: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1031: in delete
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:219: in delete
+    if not self.player_associated_with_puzzle(puzzle_id):
+server/backend/resources/sudoku.py:255: in player_associated_with_puzzle
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+_____________________ test_get_puzzle_solution_incomplete ______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true):
+        """
+        Assert that it is possible to obtain the puzzle solution via the solution endpoint.
+        ## TEST IN PROGRESS  -- THIS PROBABLY SHOULD BE BETTER ##
+        """
+>       response = test_client.get('/puzzles/3/solution',
+                                   headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:477: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:275: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_authentication.py::test_registration_missing_header
+FAILED server/tests/integration/test_authentication.py::test_registration_malformed_header
+FAILED server/tests/integration/test_authentication.py::test_registration_verification_token_invalid
+FAILED server/tests/integration/test_authentication.py::test_registration_user_info_error
+FAILED server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1
+FAILED server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2
+FAILED server/tests/integration/test_authentication.py::test_registration_user_id_already_exists
+FAILED server/tests/integration/test_authentication.py::test_successful_user_registration
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete
+================== 29 failed, 7 passed, 4 warnings in 40.89s ===================

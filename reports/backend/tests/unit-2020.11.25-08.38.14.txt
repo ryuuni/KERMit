@@ -1,0 +1,170 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 96 items
+
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header PASSED [  1%]
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header2 PASSED [  2%]
+server/tests/unit/test_authentication.py::test_authorize_token_malformed_header PASSED [  3%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_error PASSED [  4%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register PASSED [  5%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success PASSED [  6%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_not_registered PASSED [  7%]
+server/tests/unit/test_authentication.py::test_register PASSED           [  8%]
+server/tests/unit/test_authentication.py::test_register_missing_info_email PASSED [  9%]
+server/tests/unit/test_authentication.py::test_register_missing_info_id PASSED [ 10%]
+server/tests/unit/test_authentication.py::test_register_error_googleauth PASSED [ 11%]
+server/tests/unit/test_authentication.py::test_register_exception PASSED [ 12%]
+server/tests/unit/test_authentication.py::test_register_no_user_yet PASSED [ 13%]
+server/tests/unit/test_authentication.py::test_register_exception_db PASSED [ 14%]
+server/tests/unit/test_google_auth.py::test_validate_token PASSED        [ 15%]
+server/tests/unit/test_google_auth.py::test_get_user_information PASSED  [ 16%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard_no_leaders PASSED [ 17%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard PASSED       [ 18%]
+server/tests/unit/test_player.py::test_save_commit FAILED                [ 19%]
+server/tests/unit/test_player.py::test_save FAILED                       [ 20%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player PASSED [ 21%]
+server/tests/unit/test_player.py::test_find_players_for_puzzle PASSED    [ 22%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_already_too_many_players PASSED [ 23%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_player_doesnt_exist PASSED [ 25%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_ok FAILED    [ 26%]
+server/tests/unit/test_player.py::test_to_player_to_str PASSED           [ 27%]
+server/tests/unit/test_puzzle_exception.py::test_get_message PASSED      [ 28%]
+server/tests/unit/test_puzzle_pieces.py::test_find_all_pieces PASSED     [ 29%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece PASSED           [ 30%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece_none PASSED      [ 31%]
+server/tests/unit/test_puzzle_pieces.py::test_save_autocommit PASSED     [ 32%]
+server/tests/unit/test_puzzle_pieces.py::test_save PASSED                [ 33%]
+server/tests/unit/test_puzzle_pieces.py::test_update_success PASSED      [ 34%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_static PASSED  [ 35%]
+server/tests/unit/test_puzzle_pieces.py::test_get_as_str PASSED          [ 36%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_defaults PASSED [ 37%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_specification PASSED [ 38%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_str PASSED [ 39%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_low PASSED [ 40%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_high PASSED [ 41%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_str PASSED [ 42%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_low PASSED [ 43%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_high PASSED [ 44%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value1 PASSED    [ 45%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value2 PASSED    [ 46%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_all PASSED [ 47%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_static_only PASSED [ 48%]
+server/tests/unit/test_sudoku_puzzle.py::test_recreate_original_puzzle PASSED [ 50%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_null_values PASSED [ 51%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_complete PASSED [ 52%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_incorrect_values PASSED [ 53%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_none PASSED [ 54%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_many_incorrect PASSED [ 55%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_incomplete_puzzle PASSED [ 56%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_none PASSED     [ 57%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_found PASSED    [ 58%]
+server/tests/unit/test_sudoku_puzzle.py::test_save PASSED                [ 59%]
+server/tests/unit/test_sudoku_puzzle.py::test_save_autocommit PASSED     [ 60%]
+server/tests/unit/test_sudoku_puzzle.py::test_attempt_update_complete_puzzle PASSED [ 61%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate1 PASSED [ 62%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate2 PASSED [ 63%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate3 PASSED [ 64%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate4 PASSED [ 65%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value1 PASSED [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value2 PASSED [ 67%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid PASSED        [ 68%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_complete_puzzle PASSED [ 69%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete PASSED [ 70%]
+server/tests/unit/test_sudoku_puzzle.py::test_as_str PASSED              [ 71%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_to_json PASSED   [ 72%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_none PASSED [ 73%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_all PASSED [ 75%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_known_exception PASSED [ 76%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_unknown_exception PASSED [ 77%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one PASSED [ 78%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_retrieved PASSED [ 79%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_associated PASSED [ 80%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_found PASSED [ 81%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_already_joined PASSED [ 82%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle PASSED [ 83%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_known_exception PASSED [ 84%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_unknown_exception PASSED [ 85%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_not_associated PASSED [ 86%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move PASSED [ 87%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_invalid PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_exception PASSED [ 89%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece PASSED [ 90%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece_invalid PASSED [ 91%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated PASSED [ 92%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated_2 PASSED [ 93%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution PASSED [ 94%]
+server/tests/unit/test_user.py::test_create_user PASSED                  [ 95%]
+server/tests/unit/test_user.py::test_user_as_str PASSED                  [ 96%]
+server/tests/unit/test_user.py::test_user_print PASSED                   [ 97%]
+server/tests/unit/test_user.py::test_user_save PASSED                    [ 98%]
+server/tests/unit/test_user.py::test_find_by_g_id PASSED                 [100%]
+
+=================================== FAILURES ===================================
+_______________________________ test_save_commit _______________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe9c9e77760>
+
+    def test_save_commit(monkeypatch):
+        """
+        This test is mostly mocks; tests ensure the relevant classes/method are understood.
+        """
+>       monkeypatch.setattr(db, "session", MockSession)
+E       NameError: name 'db' is not defined
+
+server/tests/unit/test_player.py:56: NameError
+__________________________________ test_save ___________________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe9c9e6b7c0>
+
+    def test_save(monkeypatch):
+        """
+        This test is mostly mocks; tests ensure the relevant classes/method are understood.
+        """
+>       monkeypatch.setattr(db, "session", MockSession)
+E       NameError: name 'db' is not defined
+
+server/tests/unit/test_player.py:66: NameError
+_________________________ test_add_player_to_puzzle_ok _________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fe9c9e4f6d0>
+
+    def test_add_player_to_puzzle_ok(monkeypatch):
+        """
+        A valid attempt to add a player to a puzzle should be successful.
+        """
+        def mock_return_existing_players(*args, **kwargs):
+            """
+            Mock return existing players for the request.
+            """
+            user1 = User('923423', first_name="Tester1",
+                         last_name="Tester1", email='test1@tests.com')
+            user2 = User('12345', first_name="Tester2",
+                         last_name="Tester2", email='tes2t@tests.com')
+            return [user1, user2]
+    
+>       monkeypatch.setattr(db, "session", MockSession)
+E       NameError: name 'db' is not defined
+
+server/tests/unit/test_player.py:147: NameError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/unit/test_player.py::test_save_commit - NameError: name '...
+FAILED server/tests/unit/test_player.py::test_save - NameError: name 'db' is ...
+FAILED server/tests/unit/test_player.py::test_add_player_to_puzzle_ok - NameE...
+=================== 3 failed, 93 passed, 3 warnings in 1.84s ===================

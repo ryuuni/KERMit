@@ -1,7 +1,7 @@
 """
 Unit tests for the Puzzle Exception class.
 """
-from server.models.puzzle_exception import PuzzleException
+from backend.models.puzzle_exception import PuzzleException
 
 
 def test_get_message():

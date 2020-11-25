@@ -2,7 +2,7 @@
 Shared integration tests mocks used in multiple test cases
 """
 import pytest
-from server.resources.google_auth import GoogleAuth
+from backend.google_auth import GoogleAuth
 
 
 @pytest.fixture(scope="function", autouse=False)

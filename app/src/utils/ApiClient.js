@@ -3,7 +3,7 @@ const register = (accessToken) => {
         method: 'POST',
         headers: { Authorization: `Bearer ${accessToken}` },
       };
-      fetch('/register', requestOptions).then(res => res.json()).then(data => {
+      fetch('http://localhost:5000/register', requestOptions).then(res => res.json()).then(data => {
         console.log(data)
       });
 }

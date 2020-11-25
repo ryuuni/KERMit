@@ -3,11 +3,11 @@ Unit tests for the Leaderboard Resource class.
 """
 from flask import g
 import pytest
-from server.server import app
-from server.config import UnitTestingConfig
-from server.models.player import PuzzlePlayer
-from server.models.user import User
-from server.resources.leaderboard import Leaderboard
+from backend import app
+from backend.config import UnitTestingConfig
+from backend.models.player import PuzzlePlayer
+from backend.models.user import User
+from backend.resources.leaderboard import Leaderboard
 
 app.config.from_object(UnitTestingConfig)
 
