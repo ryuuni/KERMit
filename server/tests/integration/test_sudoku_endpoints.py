@@ -5,6 +5,8 @@ of Sudoku puzzles and pieces.
 from backend.google_auth import GoogleAuth
 from backend.models.player import PuzzlePlayer
 from backend.models.puzzle_pieces import PuzzlePiece
+from tests.integration.test_setup import test_client, init_db
+from tests.integration.integration_mocks import verification_error, verification_true
 
 
 def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):

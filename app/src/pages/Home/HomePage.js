@@ -4,8 +4,7 @@ import { Redirect } from "react-router-dom";
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
-// import {socket} from "../../utils/Socket.js";
-// import {socket} from "../../utils/Socket.js";
+import {socket} from "../../utils/Socket.js";
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);

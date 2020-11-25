@@ -1,5 +1,5 @@
 """
-Use to run application, using package
+Use to run server backend application.
 """
 from backend import socketio, app
 

@@ -8,7 +8,7 @@ from backend.models.user import User
 from backend.google_auth import GoogleAuth
 
 
-def _verify_token(incoming_request):
+def verify_token(incoming_request):
     """
     The implementation of verification of token; separated from the method
     above for ease in testing.

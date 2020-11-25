@@ -3,6 +3,8 @@ Integration tests for Google OAuth authentication
 """
 import pytest
 from backend.google_auth import GoogleAuth
+from tests.integration.test_setup import test_client, init_db
+from tests.integration.integration_mocks import verification_error, verification_true
 
 
 @pytest.fixture(scope="function", autouse=False)

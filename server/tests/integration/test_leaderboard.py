@@ -3,6 +3,8 @@ Integration tests for leaderboard endpoints
 """
 from backend.models.player import PuzzlePlayer
 from backend.models.sudoku_puzzle import Puzzle
+from tests.integration.test_setup import test_client, init_db
+from tests.integration.integration_mocks import verification_error, verification_true
 
 
 def test_get_leaders_no_completed_puzzle(test_client, init_db, verification_true):

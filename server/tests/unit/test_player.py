@@ -2,12 +2,12 @@
 Unit tests for the Player class.
 """
 import pytest
+from backend import app, db
 from backend.config import UnitTestingConfig
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.player import PuzzlePlayer
 from backend.models.user import User
 from tests.unit.mock_session import MockSession
-from backend import app
 
 app.config.from_object(UnitTestingConfig)
 
