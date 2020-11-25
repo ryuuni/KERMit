@@ -9,8 +9,10 @@ from backend.models.player import PuzzlePlayer
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.sudoku_puzzle import Puzzle
 from backend.models.user import User
-from backend.resources.sudoku import sudoku_to_dict, SudokuPuzzles, SudokuPuzzle, \
-    SudokuPuzzlePiece, SudokuPuzzleSolution
+from backend.resources.sudoku_solution import SudokuPuzzleSolution
+from backend.resources.sudoku_puzzle_piece import SudokuPuzzlePiece
+from backend.resources.sudoku_puzzle import SudokuPuzzle, sudoku_to_dict
+from backend.resources.sudoku_puzzles import SudokuPuzzles
 from backend.config import UnitTestingConfig
 from tests.unit.mock_session import MockSession
 
@@ -173,7 +175,8 @@ def test_get_sudoku_puzzles_create_one_known_exception(monkeypatch, user):
             """
             return {
                 'difficulty': 0.5,
-                'size': 5
+                'size': 5,
+                'additional_players': ['johnsmith@js.com']
             }
 
     def mock_save(*args, **kwargs):
@@ -219,7 +222,8 @@ def test_get_sudoku_puzzles_create_one_unknown_exception(monkeypatch, user):
             """
             return {
                 'difficulty': 0.5,
-                'size': 5
+                'size': 5,
+                'additional_players': ['johnsmith@js.com']
             }
 
     def mock_save(*args, **kwargs):
@@ -262,7 +266,8 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
             """
             return {
                 'difficulty': 0.5,
-                'size': 5
+                'size': 5,
+                'additional_players': ['johnsmith@js.com']
             }
 
     def mock_save(*args, **kwargs):
@@ -271,10 +276,14 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
     def mock_return_id(*args, **kwargs):
         return 1
 
+    def mock_find_players_by_email(*args, **kwargs):
+        return [], ['johnsmith@js.com']
+
     monkeypatch.setattr(Puzzle, 'save', mock_return_id)
     monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
     monkeypatch.setattr(PuzzlePlayer, 'save', mock_save)
     monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(User, "find_users_by_email", mock_find_players_by_email)
 
     with app.app_context():
         g.user = user
@@ -286,7 +295,8 @@ def test_get_sudoku_puzzles_create_one(monkeypatch, user):
         'message': 'New Sudoku puzzle successfully created',
         'difficulty': 0.5,
         'size': 5,
-        'puzzle_id': 1
+        'puzzle_id': 1,
+        'unregistered_emails': ['johnsmith@js.com']
     }
     assert result == expected
 

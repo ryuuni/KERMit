@@ -1,0 +1,332 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 96 items
+
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header PASSED [  1%]
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header2 PASSED [  2%]
+server/tests/unit/test_authentication.py::test_authorize_token_malformed_header PASSED [  3%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_error FAILED [  4%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register FAILED [  5%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success FAILED [  6%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_not_registered FAILED [  7%]
+server/tests/unit/test_authentication.py::test_register PASSED           [  8%]
+server/tests/unit/test_authentication.py::test_register_missing_info_email PASSED [  9%]
+server/tests/unit/test_authentication.py::test_register_missing_info_id PASSED [ 10%]
+server/tests/unit/test_authentication.py::test_register_error_googleauth PASSED [ 11%]
+server/tests/unit/test_authentication.py::test_register_exception PASSED [ 12%]
+server/tests/unit/test_authentication.py::test_register_no_user_yet PASSED [ 13%]
+server/tests/unit/test_authentication.py::test_register_exception_db PASSED [ 14%]
+server/tests/unit/test_google_auth.py::test_validate_token PASSED        [ 15%]
+server/tests/unit/test_google_auth.py::test_get_user_information PASSED  [ 16%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard_no_leaders PASSED [ 17%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard PASSED       [ 18%]
+server/tests/unit/test_player.py::test_save_commit PASSED                [ 19%]
+server/tests/unit/test_player.py::test_save PASSED                       [ 20%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player PASSED [ 21%]
+server/tests/unit/test_player.py::test_find_players_for_puzzle PASSED    [ 22%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_already_too_many_players PASSED [ 23%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_player_doesnt_exist PASSED [ 25%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_ok PASSED    [ 26%]
+server/tests/unit/test_player.py::test_to_player_to_str PASSED           [ 27%]
+server/tests/unit/test_puzzle_exception.py::test_get_message PASSED      [ 28%]
+server/tests/unit/test_puzzle_pieces.py::test_find_all_pieces PASSED     [ 29%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece PASSED           [ 30%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece_none PASSED      [ 31%]
+server/tests/unit/test_puzzle_pieces.py::test_save_autocommit PASSED     [ 32%]
+server/tests/unit/test_puzzle_pieces.py::test_save PASSED                [ 33%]
+server/tests/unit/test_puzzle_pieces.py::test_update_success PASSED      [ 34%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_static PASSED  [ 35%]
+server/tests/unit/test_puzzle_pieces.py::test_get_as_str PASSED          [ 36%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_defaults PASSED [ 37%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_specification PASSED [ 38%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_str PASSED [ 39%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_low PASSED [ 40%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_high PASSED [ 41%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_str PASSED [ 42%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_low PASSED [ 43%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_high PASSED [ 44%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value1 PASSED    [ 45%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value2 PASSED    [ 46%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_all PASSED [ 47%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_static_only PASSED [ 48%]
+server/tests/unit/test_sudoku_puzzle.py::test_recreate_original_puzzle PASSED [ 50%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_null_values PASSED [ 51%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_complete PASSED [ 52%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_incorrect_values PASSED [ 53%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_none PASSED [ 54%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_many_incorrect PASSED [ 55%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_incomplete_puzzle PASSED [ 56%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_none PASSED     [ 57%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_found PASSED    [ 58%]
+server/tests/unit/test_sudoku_puzzle.py::test_save PASSED                [ 59%]
+server/tests/unit/test_sudoku_puzzle.py::test_save_autocommit PASSED     [ 60%]
+server/tests/unit/test_sudoku_puzzle.py::test_attempt_update_complete_puzzle PASSED [ 61%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate1 PASSED [ 62%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate2 PASSED [ 63%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate3 PASSED [ 64%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate4 PASSED [ 65%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value1 PASSED [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value2 PASSED [ 67%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid PASSED        [ 68%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_complete_puzzle PASSED [ 69%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete PASSED [ 70%]
+server/tests/unit/test_sudoku_puzzle.py::test_as_str PASSED              [ 71%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_to_json PASSED   [ 72%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_none PASSED [ 73%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_all PASSED [ 75%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_known_exception PASSED [ 76%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_unknown_exception PASSED [ 77%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one PASSED [ 78%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_retrieved PASSED [ 79%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_associated PASSED [ 80%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_found PASSED [ 81%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_already_joined PASSED [ 82%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle PASSED [ 83%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_known_exception PASSED [ 84%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_unknown_exception PASSED [ 85%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_not_associated PASSED [ 86%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move PASSED [ 87%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_invalid PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_exception PASSED [ 89%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece PASSED [ 90%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece_invalid PASSED [ 91%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated PASSED [ 92%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution_not_associated_2 PASSED [ 93%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_get_solution PASSED [ 94%]
+server/tests/unit/test_user.py::test_create_user PASSED                  [ 95%]
+server/tests/unit/test_user.py::test_user_as_str PASSED                  [ 96%]
+server/tests/unit/test_user.py::test_user_print PASSED                   [ 97%]
+server/tests/unit/test_user.py::test_user_save PASSED                    [ 98%]
+server/tests/unit/test_user.py::test_find_by_g_id PASSED                 [100%]
+
+=================================== FAILURES ===================================
+____________________ test_authorize_token_validation_error _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11021ab50>
+
+    def test_authorize_token_validation_error(monkeypatch):
+        """
+        Verification of token should fail if header is Authentication info is malformed
+        """
+        class MockRequest:
+            """Mock Request for verification of token."""
+            def __init__(self):
+                self.headers = {'Authorization': 'Bearer Token-Here'}
+    
+        def mock_verify_token(*args, **kwargs):
+            """Mock the verification of the token fails."""
+            return {"error": "some error", "error_description": 'A bad error occurred'}
+    
+        monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
+    
+>       result = verify_token(MockRequest())
+
+server/tests/unit/test_authentication.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+incoming_request = <tests.unit.test_authentication.test_authorize_token_validation_error.<locals>.MockRequest object at 0x11021abe0>
+
+    def verify_token(incoming_request):
+        """
+        The implementation of verification of token; separated from the method
+        above for ease in testing.
+        """
+        if 'Authorization' not in incoming_request.headers:
+            return {'message': 'Request denied access',
+                    'reason': 'Authorization header missing. Please provide an '
+                               'OAuth2 Token with your request'}, 400
+    
+        auth_header = incoming_request.headers.get('Authorization')
+        if 'Bearer ' not in auth_header:
+            return {'message': 'Request denied access',
+                    'reason': "Malformed authorization header provided. Please make sure to "
+                               "specify the header prefix correctly as 'Bearer ' and try again."}, 400
+    
+        # validate the token with Google
+        access_token = auth_header.split("Bearer ")[1]
+    
+>       is_valid, validation = is_valid_token(access_token)
+E       ValueError: too many values to unpack (expected 2)
+
+server/backend/resources/authentication.py:30: ValueError
+_______________ test_authorize_token_validation_success_register _______________
+
+verification_token = None
+
+    def test_authorize_token_validation_success_register(verification_token):
+        """
+        Verification of token should fail if header is Authentication info is malformed
+        """
+        class MockRequest:
+            """Mock Request for verification of token."""
+            def __init__(self):
+                self.headers = {'Authorization': 'Bearer Token-Here'}
+                self.endpoint = 'registration'
+    
+        with app.app_context():
+>           result = verify_token(MockRequest())
+
+server/tests/unit/test_authentication.py:160: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+incoming_request = <tests.unit.test_authentication.test_authorize_token_validation_success_register.<locals>.MockRequest object at 0x11024a640>
+
+    def verify_token(incoming_request):
+        """
+        The implementation of verification of token; separated from the method
+        above for ease in testing.
+        """
+        if 'Authorization' not in incoming_request.headers:
+            return {'message': 'Request denied access',
+                    'reason': 'Authorization header missing. Please provide an '
+                               'OAuth2 Token with your request'}, 400
+    
+        auth_header = incoming_request.headers.get('Authorization')
+        if 'Bearer ' not in auth_header:
+            return {'message': 'Request denied access',
+                    'reason': "Malformed authorization header provided. Please make sure to "
+                               "specify the header prefix correctly as 'Bearer ' and try again."}, 400
+    
+        # validate the token with Google
+        access_token = auth_header.split("Bearer ")[1]
+    
+>       is_valid, validation = is_valid_token(access_token)
+E       ValueError: too many values to unpack (expected 2)
+
+server/backend/resources/authentication.py:30: ValueError
+___________________ test_authorize_token_validation_success ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1101c2df0>
+verification_token = None
+
+    def test_authorize_token_validation_success(monkeypatch, verification_token):
+        """
+        Verification of token should fail if header is Authentication info is malformed
+        """
+        class MockRequest:
+            """
+            Mock Request for verification of token.
+            """
+            def __init__(self):
+                self.headers = {'Authorization': 'Bearer Token-Here'}
+                self.endpoint = 'sudoku'
+    
+        mock_user = User('103207743267402488580', 'Megan', 'Frenkel', 'mmf2171@columbia.edu')
+    
+        def mock_find_user(*args, **kwargs):
+            """Mock find user when there is a user to find."""
+            return mock_user
+    
+        monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
+    
+        with app.app_context():
+>           result = verify_token(MockRequest())
+
+server/tests/unit/test_authentication.py:186: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+incoming_request = <tests.unit.test_authentication.test_authorize_token_validation_success.<locals>.MockRequest object at 0x11021aee0>
+
+    def verify_token(incoming_request):
+        """
+        The implementation of verification of token; separated from the method
+        above for ease in testing.
+        """
+        if 'Authorization' not in incoming_request.headers:
+            return {'message': 'Request denied access',
+                    'reason': 'Authorization header missing. Please provide an '
+                               'OAuth2 Token with your request'}, 400
+    
+        auth_header = incoming_request.headers.get('Authorization')
+        if 'Bearer ' not in auth_header:
+            return {'message': 'Request denied access',
+                    'reason': "Malformed authorization header provided. Please make sure to "
+                               "specify the header prefix correctly as 'Bearer ' and try again."}, 400
+    
+        # validate the token with Google
+        access_token = auth_header.split("Bearer ")[1]
+    
+>       is_valid, validation = is_valid_token(access_token)
+E       ValueError: too many values to unpack (expected 2)
+
+server/backend/resources/authentication.py:30: ValueError
+________________ test_authorize_token_validation_not_registered ________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110328610>
+verification_token = None
+
+    def test_authorize_token_validation_not_registered(monkeypatch, verification_token):
+        """
+        Verification of token should fail if header is Authentication info is malformed
+        """
+        class MockRequest:
+            """
+            Mock Request for verification of token.
+            """
+            def __init__(self):
+                self.headers = {'Authorization': 'Bearer Token-Here'}
+                self.endpoint = 'sudoku'
+    
+        def mock_find_user(*args, **kwargs):
+            """
+            Mock the scenario where the method that attempts to find users cannot find
+            any matching users; the request should be denied.
+            """
+            return None
+    
+        monkeypatch.setattr(User, "find_by_g_id", mock_find_user)
+    
+        with app.app_context():
+>           result = verify_token(MockRequest())
+
+server/tests/unit/test_authentication.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+incoming_request = <tests.unit.test_authentication.test_authorize_token_validation_not_registered.<locals>.MockRequest object at 0x1103283d0>
+
+    def verify_token(incoming_request):
+        """
+        The implementation of verification of token; separated from the method
+        above for ease in testing.
+        """
+        if 'Authorization' not in incoming_request.headers:
+            return {'message': 'Request denied access',
+                    'reason': 'Authorization header missing. Please provide an '
+                               'OAuth2 Token with your request'}, 400
+    
+        auth_header = incoming_request.headers.get('Authorization')
+        if 'Bearer ' not in auth_header:
+            return {'message': 'Request denied access',
+                    'reason': "Malformed authorization header provided. Please make sure to "
+                               "specify the header prefix correctly as 'Bearer ' and try again."}, 400
+    
+        # validate the token with Google
+        access_token = auth_header.split("Bearer ")[1]
+    
+>       is_valid, validation = is_valid_token(access_token)
+E       ValueError: too many values to unpack (expected 2)
+
+server/backend/resources/authentication.py:30: ValueError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/unit/test_authentication.py::test_authorize_token_validation_error
+FAILED server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register
+FAILED server/tests/unit/test_authentication.py::test_authorize_token_validation_success
+FAILED server/tests/unit/test_authentication.py::test_authorize_token_validation_not_registered
+=================== 4 failed, 92 passed, 3 warnings in 3.29s ===================
