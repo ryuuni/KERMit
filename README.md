@@ -4,21 +4,19 @@ By KERMit
 
 Group Members:
 * Megan Frenkel (mmf2171)
-* Riddhima Reddy Narravula (rrn2119
+* Riddhima Reddy Narravula (rrn2119)
 * Emily Jin (ej2332)
 * Kundan Guha (kg2632)
 
 ## Server - Flask API
-
-Documentation of the backend API supporting this Sudoku application is available [here](https://documenter.getpostman.com/view/8320178/TVemA8kq), as well as in the following write-up.
 
 ## I. Setup
 To start up the server, follow this sequence of steps:
 
 #### i. Activate the virtualenv and install dependencies for the project
 
-All dependencies for the server can be found in `./server/requirements.txt`. Create a new virtual python environment
-and install the dependencies by following the commands below:
+All dependencies for the server can be found in `./server/requirements.txt`. Create a new virtual 
+python environment and install the dependencies by following the commands below:
 ```
 $ cd server
 $ python3 -m virtualenv venv        # create the virtualenv
@@ -27,7 +25,8 @@ $ pip install -r requirements.txt   # install all dependencies
 ```
 This should complete without any errors. Nevertheless, some users have reported issues installing
 `psycopg2` using pip in Mac OS (this package is the PostgreSQL database adapter for Python).
-In the case that this happens, this [page](https://stackoverflow.com/a/42264168)  provides a working solution.
+In the case that this happens, this [page](https://stackoverflow.com/a/42264168) 
+provides a working solution.
 
 #### ii. Set environmental variables
 
@@ -65,167 +64,8 @@ for web-socket transports (default Flask development server only supports long-p
 
 ## II. Endpoints
 
-#### i. Registration
-
-This API relies on Google Oauth2 tokens for authentication and each request requires that the Oauth2 token be specified
-in the request header. For example, in a curl command:
-```
---header 'Authorization: Bearer <TOKEN HERE>
-```
-
-To register a new user with their username and password, make a `POST` request to `/register`. For user registration,
-the API will ask Google for user information such as their first and last name and email address to store in the
-backend database for the user, alongside the unique Google identifier for the person and a custom identifier for
-this application. Subsequent requests match the requesting person with their application user based on the unique 
-Google identifer.
-
-If successful, the endpoint will return a message like the following:
-```
-{
-    "message": "User Sally Sue was successfully registered"
-}
-```
-
-To join a puzzle, make a `POST` request to the `/puzzles/<puzzle_id>` endpoint. Upon success, you will see
-a message like:
-
-```
-{
-    'message': "Successfully added Sally Sue (id = 1) to puzzle with id 2."
-}
-````
-
-#### ii. Puzzles
-
-To get ALL puzzles for a specific user make a `GET` request to `/puzzles`. Note that the user doesn't have to be 
-specified; it will be retrieved based on the submitted access token in the header. Here is a sample response:
-
-```
-{
-    "puzzles": [
-        {
-            "puzzle_id": 1,
-            "completed": false,
-            "difficulty": 0.5,
-            "point_value": 90,
-            "pieces": [ 
-                ... // list of puzzle pieces (see example below)
-            ],
-            "players": [
-                {
-                    "id": 2,
-                    "first_name": "Sally",
-                    "last_name": "Sue",
-                    "email": "ss201@columbia.edu"
-                }
-            ]
-        }
-    ]
-}
-```
-
-To see a specific puzzle, make a `GET` request to `/puzzles/<puzzle_id>/`, where `<puzzle_id>` is 
-the id of the puzzle in the database. Here is an example response:
-
-```
-{
-    "puzzle_id": 1,
-    "completed": false,
-    "difficulty": 0.5,
-    "point_value": 90,
-    "pieces": [
-        {
-            "x_coordinate": 0,
-            "y_coordinate": 1,
-            "static_piece": true,
-            "value": 5
-        },
-        {
-            "x_coordinate": 0,
-            "y_coordinate": 2,
-            "static_piece": true,
-            "value": 4
-        },
-        // ... all other pieces....
-    ],
-    "players": [
-        {
-            "id": 2,
-            "first_name": "Sally",
-            "last_name": "Sue",
-            "email": "ss201@columbia.edu"
-        }
-    ]
-}
-```
-
-To get the solution to a puzzle and see any discrepancies between the player puzzle and the solution,
-make a `GET` request to the `/puzzles/<puzzle_id>/solution` endpoint. If successful, you should see
-a response that looks like:
-
-```
-{
-    "solved_puzzle": {
-        "puzzle_id": null,
-        "completed": true,
-        "difficulty": 0.5,
-        "point_value": 90,
-        "pieces": [
-            {
-                "x_coordinate": 0,
-                "y_coordinate": 0,
-                "static_piece": true,
-                "value": 1
-            },
-            ... other pieces go here....  
-        ],
-    "discrepancy": [
-        {
-            "x_coordinate": 0,
-            "y_coordinate": 0
-        },
-            ... all other discrepancies...
-.       ]
-    }
-
-```
-
-#### iii. Puzzle Pieces
-
-To add a number to the puzzle, make a `POST` request to `/puzzles/<puzzle_id>/piece` (specifying the value 
-for `puzzle_id`) with the following request body as JSON:
-```
-{
-    "x_coordinate": 0,
-    "y_coordinate": 0,
-    "value": 2
-}
-```
-Here is a sample successful response:
-```
-{
-    "message": "Successfully saved the submission of 2 at (0, 0) on puzzle_id 1 by Sally Sue (id = 2)"
-}
-```
-
-There are a number of possible requests that are invalid; responses to invalid requests
-will have a `message` and `reason` field explaining what happened.
-
-To delete a submitted value from the puzzle, make a `DELETE` request to `/puzzles/<puzzle_id>/piece` 
-(specifying the value for `puzzle_id`) with the following request body as JSON:
-
-```
-{
-    "x_coordinate": 0,
-    "y_coordinate": 1
-}
-```
-Here is a sample successful response:
-```
-{
-    "message": "Successfully deleted piece at position (0, 1) on puzzle_id 1."
-}
-```
+Documentation of the backend API supporting this Sudoku application is 
+available [here](https://documenter.getpostman.com/view/8320178/TVemA8kq) via Postman.
 
 ## III. Tests/Checks
 
