@@ -3,10 +3,10 @@ Resources for creating, editing, and retrieving Sudoku Puzzle Board/Pieces.
 """
 from flask import g
 from flask_restful import Resource, reqparse
-from server.models.sudoku_puzzle import Puzzle
-from server.models.puzzle_exception import PuzzleException
-from server.models.player import PuzzlePlayer
-from server.server import db, socketio
+from backend.models.sudoku_puzzle import Puzzle
+from backend.models.puzzle_exception import PuzzleException
+from backend.models.player import PuzzlePlayer
+from backend import db, socketio
 
 
 class SudokuPuzzles(Resource):

@@ -3,26 +3,9 @@ Responsible for verification of the OAuth token submitted
 before each request, as well as user registration.
 """
 from flask import g
-from flask import request
 from flask_restful import Resource
-from server.server import app
-from server.models.user import User
-from server.resources.google_auth import GoogleAuth
-
-
-@app.before_request
-def verify_token():
-    """
-    Method to run before all requests; determines if a user has a valid
-    Google OAuth2 token and uses the token to discover who the user making the request is.
-    The user is then loaded in from the database and stored in a special flask object called 'g'.
-    While g is not appropriate for storing data across requests, it provides a global namespace
-    for holding any data you want during a single app context.
-    """
-    # allow the health check endpoint to be unauthenticated
-    if request.endpoint is None or request.endpoint != '/':
-        return None
-    return _verify_token(request)
+from backend.models.user import User
+from backend.google_auth import GoogleAuth
 
 
 def _verify_token(incoming_request):

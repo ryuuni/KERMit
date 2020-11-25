@@ -1,9 +1,8 @@
 """
 Unit tests for the Google Auth class.
 """
-import pytest
 import requests
-from server.resources.google_auth import GoogleAuth
+from backend.google_auth import GoogleAuth
 
 
 class MockResponse:

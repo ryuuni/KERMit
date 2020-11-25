@@ -2,12 +2,9 @@
 Integration tests for Sudoku Puzzle endpoints that impact the creation/editing/checking
 of Sudoku puzzles and pieces.
 """
-from server.resources.google_auth import GoogleAuth
-from server.server import app  # prevent circular imports
-from server.models.player import PuzzlePlayer
-from server.models.puzzle_pieces import PuzzlePiece
-from server.tests.integration.test_setup import test_client, init_db
-from server.tests.integration.integration_mocks import verification_true
+from backend.google_auth import GoogleAuth
+from backend.models.player import PuzzlePlayer
+from backend.models.puzzle_pieces import PuzzlePiece
 
 
 def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):

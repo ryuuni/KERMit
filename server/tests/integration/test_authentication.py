@@ -2,11 +2,7 @@
 Integration tests for Google OAuth authentication
 """
 import pytest
-from server.server import app    # prevent circular inports
-from server.models.user import User
-from server.resources.google_auth import GoogleAuth
-from server.tests.integration.test_setup import test_client, init_db
-from server.tests.integration.integration_mocks import verification_true, verification_error
+from backend.google_auth import GoogleAuth
 
 
 @pytest.fixture(scope="function", autouse=False)

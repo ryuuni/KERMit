@@ -2,12 +2,12 @@
 Unit testing for Sudoku Puzzle class.
 """
 import pytest
-from server.server import app, db    # this dependency is necessary to prevent a circular import
-from server.models.sudoku_puzzle import Puzzle
-from server.models.puzzle_pieces import PuzzlePiece
-from server.models.puzzle_exception import PuzzleException
-from server.config import UnitTestingConfig
-from server.tests.unit.mock_session import MockSession
+from backend.models.sudoku_puzzle import Puzzle
+from backend.models.puzzle_pieces import PuzzlePiece
+from backend.models.puzzle_exception import PuzzleException
+from backend.config import UnitTestingConfig
+from tests.unit.mock_session import MockSession
+from backend import app
 
 app.config.from_object(UnitTestingConfig)
 

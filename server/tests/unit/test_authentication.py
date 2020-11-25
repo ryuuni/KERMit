@@ -3,12 +3,12 @@ Test Google Authentication mechanism
 """
 from flask import g
 import pytest
-from server.config import UnitTestingConfig
-from server.resources.google_auth import GoogleAuth
-from server.server import app, db
-from server.models.user import User
-from server.resources.authentication import Registration, _verify_token
-from server.tests.unit.mock_session import MockSession
+from backend.config import UnitTestingConfig
+from backend.google_auth import GoogleAuth
+from backend import app, db
+from backend.models.user import User
+from backend.resources.authentication import Registration, _verify_token
+from tests.unit.mock_session import MockSession
 
 app.config.from_object(UnitTestingConfig)
 

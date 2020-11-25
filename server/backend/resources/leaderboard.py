@@ -2,7 +2,7 @@
 Resource for handling leaderboard information.
 """
 from flask_restful import Resource, reqparse
-from server.models.player import PuzzlePlayer
+from backend.models.player import PuzzlePlayer
 
 
 class Leaderboard(Resource):

@@ -2,10 +2,10 @@
 Unit tests for User model.
 """
 import pytest
-from server.server import app, db
-from server.models.user import User
-from server.tests.unit.mock_session import MockSession
-from server.config import UnitTestingConfig
+from backend import app, db
+from backend.models.user import User
+from tests.unit.mock_session import MockSession
+from backend.config import UnitTestingConfig
 
 app.config.from_object(UnitTestingConfig)
 

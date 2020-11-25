@@ -2,8 +2,8 @@
 Module responsible for handling individual puzzle pieces (i.e., validation and
 saving a specific value to the database for a given piece).
 """
-from server.server import db  # db object from the file where db connection was initialized
-from server.models.puzzle_exception import PuzzleException
+from backend import db  # db object from the file where db connection was initialized
+from backend.models.puzzle_exception import PuzzleException
 
 
 class PuzzlePiece(db.Model):

@@ -6,9 +6,9 @@ keeps track of whether or not the Sudoku Puzzle has been completed,
 as pieces are incrementally added to the puzzle.
 """
 from sudoku import Sudoku
-from server.models.puzzle_pieces import PuzzlePiece
-from server.models.puzzle_exception import PuzzleException
-from server.server import db
+from backend.models.puzzle_pieces import PuzzlePiece
+from backend.models.puzzle_exception import PuzzleException
+from backend import db
 
 
 class Puzzle(db.Model):

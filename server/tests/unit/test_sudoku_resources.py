@@ -3,16 +3,16 @@ Unit testing for sudoku resources.
 """
 from flask import g
 import pytest
-from server.server import app, db
-from server.models.puzzle_pieces import PuzzlePiece
-from server.models.player import PuzzlePlayer
-from server.models.puzzle_exception import PuzzleException
-from server.models.sudoku_puzzle import Puzzle
-from server.models.user import User
-from server.resources.sudoku import sudoku_to_dict, SudokuPuzzles, SudokuPuzzle, \
+from backend import app, db
+from backend.models.puzzle_pieces import PuzzlePiece
+from backend.models.player import PuzzlePlayer
+from backend.models.puzzle_exception import PuzzleException
+from backend.models.sudoku_puzzle import Puzzle
+from backend.models.user import User
+from backend.resources.sudoku import sudoku_to_dict, SudokuPuzzles, SudokuPuzzle, \
     SudokuPuzzlePiece, SudokuPuzzleSolution
-from server.config import UnitTestingConfig
-from server.tests.unit.mock_session import MockSession
+from backend.config import UnitTestingConfig
+from tests.unit.mock_session import MockSession
 
 app.config.from_object(UnitTestingConfig)
 
