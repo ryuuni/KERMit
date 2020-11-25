@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useRef } from "react"
 import SudokuBoard from '../../components/SudokuBoard/SudokuBoard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 // import { getPuzzleResponse } from '../data/get_puzzle_response'
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
-import { socket } from "../../utils/Socket.js";
+import io from "socket.io-client";
 
 const ONE_SECOND_IN_MILLIS = 1000;
 
@@ -25,6 +25,7 @@ const PuzzlePage = () => {
   const [pieces, setPieces] = useState(null);
   const [solved, setSolved] = useState(false);
   const { accessToken } = useContext(AccessTokenContext);
+  const socket = useRef(null); 
 
   useEffect(() => {
     const getPuzzleSubscription = setInterval(() => getPuzzle({
@@ -38,27 +39,27 @@ const PuzzlePage = () => {
       },
     }), ONE_SECOND_IN_MILLIS);
 
-    if (socket.disconnected) {
-      socket.connect();
+    socket.current = io("ws://127.0.0.1:5000/", {transports: ['websocket']});
+    let currSocket = socket.current;
+    if (currSocket.disconnected) {
+      currSocket.connect();
     }
-    socket.emit('join', {puzzle_id: puzzleId});
-    socket.on("player_joined", data => {
+    currSocket.emit('join', {puzzle_id: puzzleId});
+    currSocket.on("player_joined", data => {
       console.log('player joined:');
       console.log(data);
     });
-    socket.on("puzzle_update", data => {
+    currSocket.on("puzzle_update", data => {
       console.log('puzzle updated:');
       console.log(data);
     });
 
     return () => {
-      socket.emit('leave', {puzzle_id: puzzleId});
-      socket.off('player_joined');
-      socket.off('puzzle_update');
-      socket.disconnect();
+      currSocket.emit('leave', {puzzle_id: puzzleId});
+      currSocket.disconnect();
       clearInterval(getPuzzleSubscription);
     };
-  }, [accessToken, puzzleId]);
+  }, [accessToken, puzzleId, socket]);
 
   return (
     <PageTemplate>
@@ -67,6 +68,7 @@ const PuzzlePage = () => {
         gridState={pieces}
         puzzleId={puzzleId}
         solved={solved}
+        socket={socket.current}
       />
     </PageTemplate>
   );
