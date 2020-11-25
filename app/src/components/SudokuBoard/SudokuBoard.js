@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './SudokuBoard.css'
 import SudokuCell from '../SudokuCell/SudokuCell';
 import AccessTokenContext from '../../context/AccessTokenContext';
+import { socket } from "../../utils/Socket.js";
 
 async function getSolution({ accessToken, puzzleId, onSuccess }) {
   const requestOptions = {
@@ -33,7 +34,8 @@ export default function SudokuBoard(props) {
         'value': value ? Number(value) : null,
       }),
     };
-    await fetch(`/puzzles/${puzzleId}/piece`, requestOptions)
+    await fetch(`http://localhost:5000/puzzles/${puzzleId}/piece`, requestOptions)
+    socket.emit('move', {puzzle_id:puzzleId});
   }, [accessToken]);
 
   if (!props.gridState) {

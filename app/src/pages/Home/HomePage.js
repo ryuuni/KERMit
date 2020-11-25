@@ -6,8 +6,6 @@ import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import AccessTokenContext from '../../context/AccessTokenContext';
 import PageTemplate from '../Template/PageTemplate';
 import Modal from '@material-ui/core/Modal';
-import {socket} from "../../utils/Socket.js";
-
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);

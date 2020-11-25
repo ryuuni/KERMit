@@ -7,7 +7,7 @@ from backend.models.sudoku_puzzle import Puzzle
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.player import PuzzlePlayer
 from backend import db, socketio
-
+from flask_socketio import rooms
 
 class SudokuPuzzles(Resource):
     """
@@ -193,8 +193,6 @@ class SudokuPuzzlePiece(Resource):
 
             )
 
-            # emit the puzzle update to all members of the room
-            socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
             return {
                 'message': f"Successfully saved the submission of {args['value']} at "
                            f"({args['x_coordinate']}, {args['y_coordinate']}) on "

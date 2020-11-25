@@ -5,7 +5,8 @@ and leaving rooms that are 1:1 with puzzles.
 from flask import request
 from flask_socketio import join_room, leave_room, rooms
 from backend import socketio
-
+from backend.models.sudoku_puzzle import Puzzle
+from backend.resources.sudoku import sudoku_to_dict
 
 @socketio.on('connect')
 def client_connect():
@@ -15,7 +16,6 @@ def client_connect():
     """
     print(f"Client with unique session ID {request.sid} has connected...")
 
-
 @socketio.on('disconnect')
 def client_disconnect():
     """
@@ -23,8 +23,7 @@ def client_disconnect():
     from a web socket connection with the server.
     """
     print('Client has been disconnected')
-    socketio.emit('connected', {'data': 'Connected'})
-
+    socketio.emit('disconnect', {'msg': 'Client disconnected'})
 
 @socketio.on('join')
 def on_join(data):
@@ -36,9 +35,18 @@ def on_join(data):
     print("This is the data received: " + str(data))
     puzzle_id = data['puzzle_id']
     join_room(room=puzzle_id)
-    socketio.emit('left', {"msg": f'Player joined room {puzzle_id}'}, room=puzzle_id)
+    socketio.emit('player_joined', {"msg": f'Player joined room {puzzle_id}'}, room=puzzle_id)
     print("These are the rooms for user: " + str(rooms()))
 
+@socketio.on('move')
+def on_move(data):
+    """
+    Handles announcement of a move on the puzzle board for puzzle piece.
+    """
+    print("A move was submitted by a user!")
+    puzzle_id = data['puzzle_id']
+    puzzle = Puzzle.get_puzzle(puzzle_id)
+    socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
 
 @socketio.on('leave')
 def on_leave(data):
@@ -49,5 +57,5 @@ def on_leave(data):
     print(data)
     puzzle_id = data['puzzle_id']
     leave_room(puzzle_id)
-    socketio.emit('left', {"msg": f'Player left room {puzzle_id}'}, room=puzzle_id)
+    socketio.emit('player_left', {"msg": f'Player left room {puzzle_id}'}, room=puzzle_id)
     print(rooms())
