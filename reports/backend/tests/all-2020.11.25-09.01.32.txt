@@ -1,0 +1,8 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 132 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header 

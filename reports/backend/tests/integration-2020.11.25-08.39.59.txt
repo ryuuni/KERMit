@@ -1,0 +1,385 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 36 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header ERROR [  2%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header ERROR [  5%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid ERROR [  8%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error ERROR [ 11%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 ERROR [ 13%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 ERROR [ 16%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists ERROR [ 19%]
+server/tests/integration/test_authentication.py::test_successful_user_registration ERROR [ 22%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle ERROR [ 25%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles ERROR [ 27%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 ERROR [ 30%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration ERROR [ 33%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles ERROR [ 36%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle ERROR [ 38%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid ERROR [ 41%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small ERROR [ 44%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large ERROR [ 47%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large ERROR [ 50%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small ERROR [ 52%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user ERROR [ 55%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid ERROR [ 58%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle ERROR [ 61%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle ERROR [ 63%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist ERROR [ 66%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid ERROR [ 69%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached ERROR [ 72%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet ERROR [ 75%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value ERROR [ 77%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with ERROR [ 80%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low ERROR [ 83%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high ERROR [ 86%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high ERROR [ 88%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low ERROR [ 91%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece ERROR [ 94%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece ERROR [ 97%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete ERROR [100%]
+
+==================================== ERRORS ====================================
+______________ ERROR at setup of test_registration_missing_header ______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 48
+  def test_registration_missing_header(test_client, init_db):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:48
+_____________ ERROR at setup of test_registration_malformed_header _____________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 61
+  def test_registration_malformed_header(test_client, init_db):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:61
+________ ERROR at setup of test_registration_verification_token_invalid ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 75
+  def test_registration_verification_token_invalid(test_client, init_db, verification_error):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:75
+_____________ ERROR at setup of test_registration_user_info_error ______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 85
+  def test_registration_user_info_error(test_client, init_db, verification_true, user_info_error):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:85
+__________ ERROR at setup of test_register_token_valid_missing_info1 ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 97
+  def test_register_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:97
+__________ ERROR at setup of test_register_token_valid_missing_info2 ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 124
+  def test_register_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:124
+__________ ERROR at setup of test_registration_user_id_already_exists __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 151
+  def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:151
+_____________ ERROR at setup of test_successful_user_registration ______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py, line 168
+  def test_successful_user_registration(test_client, init_db, verification_true, user_info):
+E       fixture 'init_db' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, user_info, user_info_error
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_authentication.py:168
+____________ ERROR at setup of test_get_leaders_no_completed_puzzle ____________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py, line 8
+  def test_get_leaders_no_completed_puzzle(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py:8
+_____________ ERROR at setup of test_get_leaders_completed_puzzles _____________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py, line 18
+  def test_get_leaders_completed_puzzles(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py:18
+_________ ERROR at setup of test_get_leaders_completed_puzzles_limit2 __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py, line 41
+  def test_get_leaders_completed_puzzles_limit2(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_leaderboard.py:41
+_______ ERROR at setup of test_attempt_to_use_game_without_registration ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 10
+  def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:10
+______________ ERROR at setup of test_get_all_puzzles_no_puzzles _______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 34
+  def test_get_all_puzzles_no_puzzles(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:34
+________________ ERROR at setup of test_get_nonexistent_puzzle _________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 46
+  def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:46
+_________________ ERROR at setup of test_save_new_puzzle_valid _________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 56
+  def test_save_new_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:56
+_______ ERROR at setup of test_save_new_puzzle_invalid_difficulty_small ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 72
+  def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:72
+_______ ERROR at setup of test_save_new_puzzle_invalid_difficulty_large ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 87
+  def test_save_new_puzzle_invalid_difficulty_large(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:87
+__________ ERROR at setup of test_save_new_puzzle_invalid_size_large ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 102
+  def test_save_new_puzzle_invalid_size_large(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:102
+__________ ERROR at setup of test_save_new_puzzle_invalid_size_small ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 117
+  def test_save_new_puzzle_invalid_size_small(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:117
+_______________ ERROR at setup of test_get_all_puzzles_for_user ________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 132
+  def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:132
+___________________ ERROR at setup of test_get_puzzle_valid ____________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 163
+  def test_get_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:163
+__________ ERROR at setup of test_attempt_to_get_unaffiliated_puzzle ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 187
+  def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:187
+___ ERROR at setup of test_attempt_to_add_player_to_puzzle_already_in_puzzle ___
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 198
+  def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:198
+___ ERROR at setup of test_attempt_to_add_player_to_puzzle_that_doesnt_exist ___
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 209
+  def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:209
+_________ ERROR at setup of test_attempt_to_add_player_to_puzzle_valid _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 221
+  def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:221
+______ ERROR at setup of test_attempt_to_join_puzzle_max_players_reached _______
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 232
+  def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:232
+_________ ERROR at setup of test_attempt_add_piece_valid_no_value_yet __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 250
+  def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:250
+________ ERROR at setup of test_attempt_add_piece_valid_override_value _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 277
+  def test_attempt_add_piece_valid_override_value(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:277
+____ ERROR at setup of test_attempt_add_piece_player_is_not_affiliated_with ____
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 305
+  def test_attempt_add_piece_player_is_not_affiliated_with(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:305
+__________ ERROR at setup of test_attempt_add_piece_invalid_piece_low __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 323
+  def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:323
+_________ ERROR at setup of test_attempt_add_piece_invalid_piece_high __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 348
+  def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:348
+________ ERROR at setup of test_attempt_add_piece_invalid_position_high ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 373
+  def test_attempt_add_piece_invalid_position_high(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:373
+________ ERROR at setup of test_attempt_add_piece_invalid_position_low _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 394
+  def test_attempt_add_piece_invalid_position_low(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:394
+_________________ ERROR at setup of test_attempt_remove_piece __________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 415
+  def test_attempt_remove_piece(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:415
+______________ ERROR at setup of test_attempt_remove_static_piece ______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 442
+  def test_attempt_remove_static_piece(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:442
+____________ ERROR at setup of test_get_puzzle_solution_incomplete _____________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 470
+  def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true):
+E       fixture 'test_client' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:470
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+ERROR server/tests/integration/test_authentication.py::test_registration_missing_header
+ERROR server/tests/integration/test_authentication.py::test_registration_malformed_header
+ERROR server/tests/integration/test_authentication.py::test_registration_verification_token_invalid
+ERROR server/tests/integration/test_authentication.py::test_registration_user_info_error
+ERROR server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1
+ERROR server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2
+ERROR server/tests/integration/test_authentication.py::test_registration_user_id_already_exists
+ERROR server/tests/integration/test_authentication.py::test_successful_user_registration
+ERROR server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle
+ERROR server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles
+ERROR server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete
+======================== 3 warnings, 36 errors in 0.48s ========================

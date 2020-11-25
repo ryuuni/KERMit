@@ -1,0 +1,60 @@
+************* Module server.server
+server/server.py:4:0: E0611: No name 'socketio' in module 'backend' (no-name-in-module)
+server/server.py:4:0: E0611: No name 'app' in module 'backend' (no-name-in-module)
+************* Module server.backend.sockets
+server/backend/sockets.py:7:0: E0611: No name 'socketio' in module 'backend' (no-name-in-module)
+************* Module server.backend.routes
+server/backend/routes.py:5:0: E0611: No name 'app' in module 'backend' (no-name-in-module)
+server/backend/routes.py:5:0: E0611: No name 'api' in module 'backend' (no-name-in-module)
+server/backend/routes.py:6:0: E0611: No name 'resources' in module 'backend' (no-name-in-module)
+server/backend/routes.py:6:0: E0401: Unable to import 'backend.resources.authentication' (import-error)
+server/backend/routes.py:7:0: E0611: No name 'resources' in module 'backend' (no-name-in-module)
+server/backend/routes.py:7:0: E0401: Unable to import 'backend.resources.sudoku' (import-error)
+server/backend/routes.py:9:0: E0611: No name 'resources' in module 'backend' (no-name-in-module)
+server/backend/routes.py:9:0: E0401: Unable to import 'backend.resources.leaderboard' (import-error)
+************* Module server.backend.decorators
+server/backend/decorators.py:5:0: E0611: No name 'app' in module 'backend' (no-name-in-module)
+server/backend/decorators.py:5:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+server/backend/decorators.py:6:0: E0611: No name 'resources' in module 'backend' (no-name-in-module)
+server/backend/decorators.py:6:0: E0401: Unable to import 'backend.resources.authentication' (import-error)
+************* Module server.backend.resources.leaderboard
+server/backend/resources/leaderboard.py:5:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/resources/leaderboard.py:5:0: E0401: Unable to import 'backend.models.player' (import-error)
+************* Module server.backend.resources.authentication
+server/backend/resources/authentication.py:7:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/resources/authentication.py:7:0: E0401: Unable to import 'backend.models.user' (import-error)
+server/backend/resources/authentication.py:8:0: E0611: No name 'google_auth' in module 'backend' (no-name-in-module)
+server/backend/resources/authentication.py:8:0: E0401: Unable to import 'backend.google_auth' (import-error)
+************* Module server.backend.resources.sudoku
+server/backend/resources/sudoku.py:6:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/resources/sudoku.py:6:0: E0401: Unable to import 'backend.models.sudoku_puzzle' (import-error)
+server/backend/resources/sudoku.py:7:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/resources/sudoku.py:7:0: E0401: Unable to import 'backend.models.puzzle_exception' (import-error)
+server/backend/resources/sudoku.py:8:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/resources/sudoku.py:8:0: E0401: Unable to import 'backend.models.player' (import-error)
+server/backend/resources/sudoku.py:9:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+server/backend/resources/sudoku.py:9:0: E0611: No name 'socketio' in module 'backend' (no-name-in-module)
+************* Module server.backend.models.user
+server/backend/models/user.py:6:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+************* Module server.backend.models.sudoku_puzzle
+server/backend/models/sudoku_puzzle.py:9:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/sudoku_puzzle.py:9:0: E0401: Unable to import 'backend.models.puzzle_pieces' (import-error)
+server/backend/models/sudoku_puzzle.py:10:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/sudoku_puzzle.py:10:0: E0401: Unable to import 'backend.models.puzzle_exception' (import-error)
+server/backend/models/sudoku_puzzle.py:11:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+************* Module server.backend.models.player
+server/backend/models/player.py:6:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+server/backend/models/player.py:7:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/player.py:7:0: E0401: Unable to import 'backend.models.user' (import-error)
+server/backend/models/player.py:8:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/player.py:8:0: E0401: Unable to import 'backend.models.sudoku_puzzle' (import-error)
+server/backend/models/player.py:9:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/player.py:9:0: E0401: Unable to import 'backend.models.puzzle_exception' (import-error)
+************* Module server.backend.models.puzzle_pieces
+server/backend/models/puzzle_pieces.py:5:0: E0611: No name 'db' in module 'backend' (no-name-in-module)
+server/backend/models/puzzle_pieces.py:6:0: E0611: No name 'models' in module 'backend' (no-name-in-module)
+server/backend/models/puzzle_pieces.py:6:0: E0401: Unable to import 'backend.models.puzzle_exception' (import-error)
+
+---------------------------------------------------------------------
+Your code has been rated at 5.43/10 (previous run: -23.33/10, +28.76)
+

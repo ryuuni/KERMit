@@ -1,0 +1,10 @@
+************* Module tests.unit.test_player
+server/tests/unit/test_player.py:10:0: C0412: Imports from package backend are not grouped (ungrouped-imports)
+************* Module tests.unit.test_user
+server/tests/unit/test_user.py:8:0: C0412: Imports from package backend are not grouped (ungrouped-imports)
+************* Module tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:10:0: C0412: Imports from package backend are not grouped (ungrouped-imports)
+
+-----------------------------------
+Your code has been rated at 9.97/10
+

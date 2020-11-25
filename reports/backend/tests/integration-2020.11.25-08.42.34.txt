@@ -1,0 +1,571 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.3, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 36 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header FAILED [  2%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header FAILED [  5%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid FAILED [  8%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error FAILED [ 11%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 FAILED [ 13%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 FAILED [ 16%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists FAILED [ 19%]
+server/tests/integration/test_authentication.py::test_successful_user_registration FAILED [ 22%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle PASSED [ 25%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles PASSED [ 27%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 PASSED [ 30%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration FAILED [ 33%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles ERROR [ 36%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle ERROR [ 38%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid ERROR [ 41%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small ERROR [ 44%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large ERROR [ 47%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large ERROR [ 50%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small ERROR [ 52%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user ERROR [ 55%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid ERROR [ 58%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle ERROR [ 61%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle ERROR [ 63%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist ERROR [ 66%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid ERROR [ 69%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached ERROR [ 72%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet ERROR [ 75%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value ERROR [ 77%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with ERROR [ 80%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low ERROR [ 83%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high ERROR [ 86%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high ERROR [ 88%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low ERROR [ 91%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece ERROR [ 94%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece ERROR [ 97%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete ERROR [100%]
+
+==================================== ERRORS ====================================
+______________ ERROR at setup of test_get_all_puzzles_no_puzzles _______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 35
+  def test_get_all_puzzles_no_puzzles(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:35
+________________ ERROR at setup of test_get_nonexistent_puzzle _________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 47
+  def test_get_nonexistent_puzzle(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:47
+_________________ ERROR at setup of test_save_new_puzzle_valid _________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 57
+  def test_save_new_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:57
+_______ ERROR at setup of test_save_new_puzzle_invalid_difficulty_small ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 73
+  def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:73
+_______ ERROR at setup of test_save_new_puzzle_invalid_difficulty_large ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 88
+  def test_save_new_puzzle_invalid_difficulty_large(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:88
+__________ ERROR at setup of test_save_new_puzzle_invalid_size_large ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 103
+  def test_save_new_puzzle_invalid_size_large(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:103
+__________ ERROR at setup of test_save_new_puzzle_invalid_size_small ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 118
+  def test_save_new_puzzle_invalid_size_small(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:118
+_______________ ERROR at setup of test_get_all_puzzles_for_user ________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 133
+  def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:133
+___________________ ERROR at setup of test_get_puzzle_valid ____________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 164
+  def test_get_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:164
+__________ ERROR at setup of test_attempt_to_get_unaffiliated_puzzle ___________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 188
+  def test_attempt_to_get_unaffiliated_puzzle(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:188
+___ ERROR at setup of test_attempt_to_add_player_to_puzzle_already_in_puzzle ___
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 199
+  def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:199
+___ ERROR at setup of test_attempt_to_add_player_to_puzzle_that_doesnt_exist ___
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 210
+  def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:210
+_________ ERROR at setup of test_attempt_to_add_player_to_puzzle_valid _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 222
+  def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:222
+______ ERROR at setup of test_attempt_to_join_puzzle_max_players_reached _______
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 233
+  def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:233
+_________ ERROR at setup of test_attempt_add_piece_valid_no_value_yet __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 251
+  def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:251
+________ ERROR at setup of test_attempt_add_piece_valid_override_value _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 278
+  def test_attempt_add_piece_valid_override_value(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:278
+____ ERROR at setup of test_attempt_add_piece_player_is_not_affiliated_with ____
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 306
+  def test_attempt_add_piece_player_is_not_affiliated_with(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:306
+__________ ERROR at setup of test_attempt_add_piece_invalid_piece_low __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 324
+  def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:324
+_________ ERROR at setup of test_attempt_add_piece_invalid_piece_high __________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 349
+  def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:349
+________ ERROR at setup of test_attempt_add_piece_invalid_position_high ________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 374
+  def test_attempt_add_piece_invalid_position_high(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:374
+________ ERROR at setup of test_attempt_add_piece_invalid_position_low _________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 395
+  def test_attempt_add_piece_invalid_position_low(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:395
+_________________ ERROR at setup of test_attempt_remove_piece __________________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 416
+  def test_attempt_remove_piece(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:416
+______________ ERROR at setup of test_attempt_remove_static_piece ______________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 443
+  def test_attempt_remove_static_piece(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:443
+____________ ERROR at setup of test_get_puzzle_solution_incomplete _____________
+file /Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py, line 471
+  def test_get_puzzle_solution_incomplete(test_client, init_db, verification_true):
+E       fixture 'verification_true' not found
+>       available fixtures: cache, capfd, capfdbinary, caplog, capsys, capsysbinary, class_mocker, doctest_namespace, init_db, mocker, module_mocker, monkeypatch, package_mocker, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, session_mocker, test_client, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/meganfrenkel/Workspace/KERMit/server/tests/integration/test_sudoku_endpoints.py:471
+=================================== FAILURES ===================================
+_______________________ test_registration_missing_header _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_registration_missing_header(test_client, init_db):
+        """
+        Test when a request is made to /register that is missing the request header
+        that contains the Google Access token.
+        """
+        response = test_client.post('/register')
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+server/tests/integration/test_authentication.py:55: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_registration_malformed_header ______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_registration_malformed_header(test_client, init_db):
+        """
+        Test when a request is made to /register that has mal-formatted request header
+        that contains the Google Access token.
+        """
+        response = test_client.post('/register', headers={'Authorization': '2342351231asdb'})
+>       assert response.status_code == 400
+E       assert 500 == 400
+E         +500
+E         -400
+
+server/tests/integration/test_authentication.py:68: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+_________________ test_registration_verification_token_invalid _________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_error = None
+
+    def test_registration_verification_token_invalid(test_client, init_db, verification_error):
+        """
+        Test when a request is made to /register that has a bad token.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:81: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_registration_user_info_error _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None, user_info_error = None
+
+    def test_registration_user_info_error(test_client, init_db, verification_true, user_info_error):
+        """
+        Test when a request is made to /register, but the user info Google endpoint returned an error.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:91: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_register_token_valid_missing_info1 ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa11e813e80>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_register_token_valid_missing_info1(monkeypatch, test_client, init_db, verification_true):
+        """
+        Test when verification of the token succeeds, but user information collection fails
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "id": "103207744267402488580",
+                "verified_email": True,
+                "name": "Jane Doe",
+                "given_name": "Jane",
+                "family_name": "Doe",
+                "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2my8"
+                           "WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+                "locale": "en",
+                "hd": "columbia.edu"
+            }
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:117: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_register_token_valid_missing_info2 ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa11e87b190>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_register_token_valid_missing_info2(monkeypatch, test_client, init_db, verification_true):
+        """
+        Test when verification of the token succeeds, but user information collection fails
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "email": "janedoe@columbia.edu",
+                "verified_email": True,
+                "name": "Jane Doe",
+                "given_name": "Jane",
+                "family_name": "Doe",
+                "picture": "https://lh3.googleusercontent.com/a-/AOh14Gh2"
+                           "my8WQqJudGC0Ft2A1Q-jrnVtxYTyrQkrIj6LNVU=s91-c",
+                "locale": "en",
+                "hd": "columbia.edu"
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 401
+E       assert 500 == 401
+E         +500
+E         -401
+
+server/tests/integration/test_authentication.py:145: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+___________________ test_registration_user_id_already_exists ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa11e885cd0>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_registration_user_id_already_exists(monkeypatch, test_client, init_db, verification_true):
+        """
+        Make sure that if the user id already exists, there is no need to re-register them.
+        """
+        def mock_user_info(*args, **kwargs):
+            return {
+                "id": "12345",  # this user already exists
+                "email": "janedoe@columbia.edu",
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "get_user_information", mock_user_info)
+    
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 500 == 200
+E         +500
+E         -200
+
+server/tests/integration/test_authentication.py:165: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+______________________ test_successful_user_registration _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None, user_info = None
+
+    def test_successful_user_registration(test_client, init_db, verification_true, user_info):
+        """
+        Make sure that a valid request to register a user is successful.
+        """
+        response = test_client.post('/register', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 500 == 200
+E         +500
+E         -200
+
+server/tests/integration/test_authentication.py:174: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Unexpected error occurred getting user info from Google: '_AppCtxGlobals' object has no attribute 'access_token'
+________________ test_attempt_to_use_game_without_registration _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa11e871b50>
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+
+    def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):
+        """
+        Test that attempts to interact with the game without registering fail.
+        """
+        def mock_verification(*args, **kwargs):
+            return {
+                "issued_to": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+                "audience": "984247564103-2vfoopeqjoqtd21tsp3namg9sijus9ai.apps.googleusercontent.com",
+                "user_id": "111111111",
+                "scope": "https://www.googleapis.com/auth/userinfo.email",
+                "expires_in": 3588,
+                "email": "unregistered_user@gmail.com",
+                "verified_email": True,
+                "access_type": "offline"
+            }
+    
+        monkeypatch.setattr(GoogleAuth, "validate_token", mock_verification)
+>       response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku.py:38: in get
+    player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <flask.g of 'backend'>, name = 'user'
+
+    def __getattr__(self, name):
+        if name == "__members__":
+            return dir(self._get_current_object())
+>       return getattr(self._get_current_object(), name)
+E       AttributeError: '_AppCtxGlobals' object has no attribute 'user'
+
+server/venv/lib/python3.8/site-packages/werkzeug/local.py:347: AttributeError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_authentication.py::test_registration_missing_header
+FAILED server/tests/integration/test_authentication.py::test_registration_malformed_header
+FAILED server/tests/integration/test_authentication.py::test_registration_verification_token_invalid
+FAILED server/tests/integration/test_authentication.py::test_registration_user_info_error
+FAILED server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1
+FAILED server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2
+FAILED server/tests/integration/test_authentication.py::test_registration_user_id_already_exists
+FAILED server/tests/integration/test_authentication.py::test_successful_user_registration
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece
+ERROR server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_incomplete
+============= 9 failed, 3 passed, 4 warnings, 24 errors in 38.56s ==============

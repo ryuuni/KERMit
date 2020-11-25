@@ -1,0 +1,15 @@
+************* Module backend.models.puzzle_pieces
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.authentication -> backend.models.user) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.sockets) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.decorators -> backend.resources.authentication -> backend.models.user) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.sudoku -> backend.models.player -> backend.models.user) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.sudoku -> backend.models.player) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.leaderboard -> backend.models.player) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.sudoku) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.sudoku -> backend.models.player -> backend.models.sudoku_puzzle) (cyclic-import)
+server/backend/models/puzzle_pieces.py:1:0: R0401: Cyclic import (backend -> backend.routes -> backend.resources.sudoku -> backend.models.player -> backend.models.sudoku_puzzle -> backend.models.puzzle_pieces) (cyclic-import)
+
+------------------------------------------------------------------
+Your code has been rated at 9.79/10 (previous run: 9.79/10, +0.00)
+
