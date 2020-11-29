@@ -1,0 +1,72 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 45 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header PASSED [  2%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header PASSED [  4%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid PASSED [  6%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error PASSED [  8%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 PASSED [ 11%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 PASSED [ 13%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists PASSED [ 15%]
+server/tests/integration/test_authentication.py::test_successful_user_registration PASSED [ 17%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle PASSED [ 20%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles PASSED [ 22%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 PASSED [ 24%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_negative PASSED [ 26%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_0 PASSED [ 28%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_1 PASSED [ 31%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_value PASSED [ 33%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration PASSED [ 35%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles PASSED [ 37%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle PASSED [ 40%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid PASSED [ 42%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_difficulty PASSED [ 44%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_size PASSED [ 46%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_unregistered_participant PASSED [ 48%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_registered_participant PASSED [ 51%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small PASSED [ 53%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large PASSED [ 55%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large PASSED [ 57%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small PASSED [ 60%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_too_many_additional_players PASSED [ 62%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user PASSED [ 64%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid PASSED [ 66%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle PASSED [ 68%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle PASSED [ 71%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist PASSED [ 73%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid PASSED [ 75%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached PASSED [ 77%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet PASSED [ 80%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value PASSED [ 82%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with PASSED [ 84%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low PASSED [ 86%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high PASSED [ 88%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high PASSED [ 91%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low PASSED [ 93%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece PASSED [ 95%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece PASSED [ 97%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_complete PASSED [100%]
+
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+======================= 45 passed, 4 warnings in 44.11s ========================

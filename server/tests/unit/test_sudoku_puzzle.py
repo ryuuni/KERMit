@@ -7,7 +7,7 @@ from backend.models.sudoku_puzzle import Puzzle
 from backend.models.puzzle_pieces import PuzzlePiece
 from backend.models.puzzle_exception import PuzzleException
 from backend.config import UnitTestingConfig
-from tests.unit.mock_session import MockSession
+from tests.unit.mocks import MockSession
 
 app.config.from_object(UnitTestingConfig)
 
@@ -20,7 +20,7 @@ def incomplete_puzzle():
     puzzle = Puzzle(difficulty_level=0.2, size=2)
     puzzle.id = 1
     puzzle.puzzle_pieces = [
-        PuzzlePiece(1, 0, 0, value=2, static_piece=True),
+        PuzzlePiece(1, 0, 0, value=2, static_piece=False),
         PuzzlePiece(1, 1, 0, value=4, static_piece=True),
         PuzzlePiece(1, 2, 0, value=3, static_piece=True),
         PuzzlePiece(1, 3, 0, value=1, static_piece=True),
@@ -35,7 +35,7 @@ def incomplete_puzzle():
         PuzzlePiece(1, 0, 3, value=3, static_piece=True),
         PuzzlePiece(1, 1, 3, value=1, static_piece=True),
         PuzzlePiece(1, 2, 3, value=None, static_piece=False),
-        PuzzlePiece(1, 3, 3, value=4, static_piece=True)
+        PuzzlePiece(1, 3, 3, value=4, static_piece=False)
     ]
     return puzzle
 
@@ -133,12 +133,35 @@ def test_create_sudoku_puzzle_valid_defaults():
     assert not sudoku.completed
 
 
-def test_create_sudoku_puzzle_valid_specification():
+def test_create_puzzle_valid_specification():
     """
-    Make sure that it is possible to create a sudoku puzzle by specifying difficulty and size.
+    Make sure that it is possible to create a sudoku puzzle by specifying a
+    valid difficulty and size.
     """
     sudoku = Puzzle(difficulty_level=0.6, size=4)
     assert sudoku.difficulty == 0.6
+    assert sudoku.size == 4
+    assert not sudoku.completed
+
+
+def test_create_puzzle_valid_difficulty_upper_bound():
+    """
+    Make sure that it is possible to create a sudoku puzzle by specifying a
+    valid difficulty and size.
+    """
+    sudoku = Puzzle(difficulty_level=0.99, size=4)
+    assert sudoku.difficulty == 0.99
+    assert sudoku.size == 4
+    assert not sudoku.completed
+
+
+def test_create_puzzle_valid_difficulty_lower_bound():
+    """
+    Make sure that it is possible to create a sudoku puzzle by specifying a
+    valid difficulty and size.
+    """
+    sudoku = Puzzle(difficulty_level=0.01, size=4)
+    assert sudoku.difficulty == 0.01
     assert sudoku.size == 4
     assert not sudoku.completed
 
@@ -173,6 +196,34 @@ def test_create_sudoku_puzzle_invalid_difficulty_too_high():
         assert "Difficulty levels must range between" in str(p_exception.value)
 
 
+def test_create_puzzle_valid_size_lower_bound():
+    """
+    Make sure that it is possible to create a sudoku puzzle by specifying a
+    valid difficulty and size.
+    """
+    sudoku = Puzzle(difficulty_level=0.5, size=2)
+    assert sudoku.difficulty == 0.5
+    assert sudoku.size == 2
+    assert not sudoku.completed
+
+
+def test_create_puzzle_valid_size_upper_bound(monkeypatch):
+    """
+    Make sure that it is possible to create a sudoku puzzle by specifying a
+    valid difficulty and size.
+    """
+    def set_pieces_mock(*args):
+        """mock the set puzzles method in order to speed up test"""
+        return
+
+    monkeypatch.setattr(Puzzle, "set_pieces", set_pieces_mock)
+
+    sudoku = Puzzle(difficulty_level=0.5, size=5)
+    assert sudoku.difficulty == 0.5
+    assert sudoku.size == 5
+    assert not sudoku.completed
+
+
 def test_create_sudoku_puzzle_invalid_size_str():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
@@ -183,7 +234,7 @@ def test_create_sudoku_puzzle_invalid_size_str():
         assert "Sudoku puzzle sizes specified must be valid integers" in str(p_exception.value)
 
 
-def test_create_sudoku_puzzle_invalid_size_too_low():
+def test_create_sudoku_puzzle_invalid_size_too_small():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
     that is out of range (too low).
@@ -193,7 +244,7 @@ def test_create_sudoku_puzzle_invalid_size_too_low():
         assert "Valid sizes range from" in str(p_exception.value)
 
 
-def test_create_sudoku_puzzle_invalid_size_too_high():
+def test_create_sudoku_puzzle_invalid_size_too_large():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
     that is out of range (too high).
@@ -234,7 +285,7 @@ def test_get_pieces_as_arr_static_only(incomplete_puzzle):
     puzzle board ONLY
     """
     result = incomplete_puzzle.get_pieces_as_arr(static_only=True)
-    expected = [[2, 4, 3, 1], [1, None, 4, 2], [None, 2, 1, 3], [3, 1, None, 4]]
+    expected = [[None, 4, 3, 1], [1, None, 4, 2], [None, 2, 1, 3], [3, 1, None, None]]
     assert result == expected
 
 
@@ -244,7 +295,7 @@ def test_recreate_original_puzzle(incomplete_puzzle):
     puzzle board ONLY
     """
     result = incomplete_puzzle.recreate_original_puzzle_as_array()
-    expected = [[2, 4, 3, 1], [1, None, 4, 2], [None, 2, 1, 3], [3, 1, None, 4]]
+    expected = [[None, 4, 3, 1], [1, None, 4, 2], [None, 2, 1, 3], [3, 1, None, None]]
     assert result == expected
 
 
@@ -398,7 +449,7 @@ def test_attempt_update_complete_puzzle(monkeypatch, complete_puzzle):
                ' completed puzzles.' in str(p_exception.value)
 
 
-def test_update_invalid_coordinate1(monkeypatch, incomplete_puzzle):
+def test_update_invalid_coordinate_y1(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
@@ -408,7 +459,7 @@ def test_update_invalid_coordinate1(monkeypatch, incomplete_puzzle):
                ' of the puzzle.' in str(p_exception.value)
 
 
-def test_update_invalid_coordinate2(monkeypatch, incomplete_puzzle):
+def test_update_invalid_coordinate_y2(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
@@ -418,7 +469,7 @@ def test_update_invalid_coordinate2(monkeypatch, incomplete_puzzle):
                ' the puzzle.' in str(p_exception.value)
 
 
-def test_update_invalid_coordinate3(monkeypatch, incomplete_puzzle):
+def test_update_invalid_coordinate_x1(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
@@ -428,7 +479,7 @@ def test_update_invalid_coordinate3(monkeypatch, incomplete_puzzle):
                'range of the puzzle.' in str(p_exception.value)
 
 
-def test_update_invalid_coordinate4(monkeypatch, incomplete_puzzle):
+def test_update_invalid_coordinate_x2(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
@@ -438,7 +489,7 @@ def test_update_invalid_coordinate4(monkeypatch, incomplete_puzzle):
                'puzzle.' in str(p_exception.value)
 
 
-def test_update_invalid_value1(monkeypatch, incomplete_puzzle):
+def test_update_invalid_value_too_small(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to provide invalid values to the puzzle.
     """
@@ -447,7 +498,7 @@ def test_update_invalid_value1(monkeypatch, incomplete_puzzle):
         assert 'Invalid value provided (0)' in str(p_exception.value)
 
 
-def test_update_invalid_value2(monkeypatch, incomplete_puzzle):
+def test_update_invalid_value_too_large(monkeypatch, incomplete_puzzle):
     """
     Users should not be able to provide invalid values to the puzzle.
     """
@@ -461,11 +512,44 @@ def test_update_valid(monkeypatch, incomplete_puzzle):
     If user supplies valid piece to valid coordinates on puzzle, update should be successful.
     """
     monkeypatch.setattr(db, "session", MockSession)
-    incomplete_puzzle.update(1, 1, 3)
+    incomplete_puzzle.update(1, 1, 2)
 
     for piece in incomplete_puzzle.puzzle_pieces:
         if piece.x_coordinate == 1 and piece.y_coordinate == 1:
-            assert piece.value == 3
+            assert piece.value == 2
+
+
+def test_update_valid_lower_bounds(monkeypatch, incomplete_puzzle):
+    """
+    If user supplies valid piece to valid coordinates on puzzle, update should be successful.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    incomplete_puzzle.update(0, 0, 1)
+
+    for piece in incomplete_puzzle.puzzle_pieces:
+        if piece.x_coordinate == 0 and piece.y_coordinate == 0:
+            assert piece.value == 1
+
+
+def test_update_valid_upper_bounds(monkeypatch, incomplete_puzzle):
+    """
+    If user supplies valid piece to valid coordinates on puzzle, update should be successful.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    incomplete_puzzle.update(3, 3, 4)
+
+    for piece in incomplete_puzzle.puzzle_pieces:
+        if piece.x_coordinate == 3 and piece.y_coordinate == 3:
+            assert piece.value == 4
+
+
+def test_update_static_piece(incomplete_puzzle):
+    """
+    Test attempt to update a static piece should fail because static pieces
+    cannot be edited.
+    """
+    with pytest.raises(PuzzleException):
+        incomplete_puzzle.update(1, 0, 1)
 
 
 def test_update_valid_complete_puzzle(monkeypatch, incomplete_puzzle):

@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 154 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header ERROR [  0%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header ERROR [  1%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid ERROR [  1%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error ERROR [  2%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 ERROR [  3%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 ERROR [  3%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists ERROR [  4%]
+server/tests/integration/test_authentication.py::test_successful_user_registration ERROR [  5%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle ERROR [  5%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles ERROR [  6%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 ERROR [  7%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_negative ERROR [  7%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_0 ERROR [  8%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_1 ERROR [  9%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_value ERROR [  9%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration ERROR [ 10%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles ERROR [ 11%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle ERROR [ 11%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid ERROR [ 12%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_difficulty ERROR [ 12%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_size ERROR [ 13%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_unregistered_participant 

@@ -2,9 +2,8 @@
 Resource for getting a puzzle by ID and editing a puzzle (i.e, adding players).
 """
 from flask import g
-from flask_restful import Resource
+from flask_restful import Resource, reqparse, inputs
 from backend.models.player import PuzzlePlayer
-from backend.models.puzzle_exception import PuzzleException
 from backend.models.sudoku_puzzle import Puzzle
 
 
@@ -12,6 +11,8 @@ class SudokuPuzzle(Resource):
     """
     Resource for creating and retrieving Sudoku puzzles.
     """
+    def __init__(self):
+        self.parser = reqparse.RequestParser(bundle_errors=True)
 
     @staticmethod
     def get(puzzle_id):
@@ -32,39 +33,42 @@ class SudokuPuzzle(Resource):
             puzzle_players=PuzzlePlayer.find_players_for_puzzle(puzzle_id)
         )
 
-    @staticmethod
-    def post(puzzle_id):
+    def post(self, puzzle_id):
         """
-        Player may add themselves to the puzzle, if they are not already affiliated with
-        the puzzle.
+        Allows changes to be made to puzzles, namely making a specific puzzle
+        hidden from a specific user in the UI.
         """
         # find all puzzles associated with the player making the request
         player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
 
         # if the requested puzzle doesn't exist for the user, then return error
-        if any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
-            return {
-                'message': f"{g.user.as_str()} is already is associated "
-                           f"with puzzle {puzzle_id}."
-            }
+        puzzle_to_edit = None
+        for puzzle in player_puzzles:
+            if puzzle.puzzle_id == puzzle_id:
+                puzzle_to_edit = puzzle
 
-        # try to add the user to the puzzle
+        if not puzzle_to_edit:
+            return {'message': f"Puzzle requested does not exist or is not associated "
+                               f"with user {g.user.as_str()}"}, 404  # not found
+
+        # parse the visibility
+        self.parser.add_argument('hidden', type=inputs.boolean, required=True,
+                                 help='Set the visibility of the puzzle for a specific user; '
+                                      'True will set the puzzle as hidden.')
+        args = self.parser.parse_args()
         try:
-            PuzzlePlayer.add_player_to_puzzle(puzzle_id, g.user)
+            puzzle_to_edit.update_visibility(args['hidden'])
 
             # send back successful message
             return {
-                'message': f"Successfully added {g.user.as_str()} to "
-                           f"puzzle with id {puzzle_id}."
+                'message': f"Successfully updated the visibility of puzzle "
+                           f"{puzzle_to_edit.puzzle_id} for player {g.user.id} "
+                           f"to hidden = {args['hidden']}"
             }
-
-        except PuzzleException as p_exception:
-            return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
-                    'reason': p_exception.get_message()}, 400
 
         except Exception as exception:  # pylint: disable=broad-except
             print(f"{exception}")
-            return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
+            return {'message': "Attempt to edit the visibility of puzzle failed",
                     'reason': 'Unknown error occurred.'}, 500
 
 

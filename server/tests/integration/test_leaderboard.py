@@ -56,3 +56,74 @@ def test_get_leaders_completed_puzzles_limit2(test_client, init_db, verification
         'players': [{'first_name': 'foo', 'last_name': 'bar', 'score': 45},
                     {'first_name': 'integration', 'last_name': 'tester', 'score': 45}]
     }
+
+
+def test_get_leaders_completed_puzzles_invalid_limit_negative(test_client,
+                                                              init_db, verification_true):
+    """
+    Test the response when a valid request is made for a top leaderboard players, the limit
+    on players is provided, but it is invalid. As a result, the default should be used.
+
+    Important: This test relies on the test_get_leaders_completed_puzzles()
+    test to complete, meaning that the ordering is important.
+    """
+    response = test_client.get('/leaderboard',
+                               query_string={'limit': '-100'},
+                               headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'players': [{'first_name': 'foo', 'last_name': 'bar', 'score': 45},
+                    {'first_name': 'integration', 'last_name': 'tester', 'score': 45}]
+    }
+
+
+def test_get_leaders_completed_puzzles_invalid_limit_0(test_client, init_db, verification_true):
+    """
+    Test the response when a valid request is made for a top leaderboard players, the limit
+    on players is provided, but it is invalid. As a result, the default should be used.
+
+    Important: This test relies on the test_get_leaders_completed_puzzles()
+    test to complete, meaning that the ordering is important.
+    """
+    response = test_client.get('/leaderboard',
+                               query_string={'limit': '0'},
+                               headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'players': [{'first_name': 'foo', 'last_name': 'bar', 'score': 45},
+                    {'first_name': 'integration', 'last_name': 'tester', 'score': 45}]
+    }
+
+
+def test_get_leaders_completed_puzzles_invalid_limit_1(test_client, init_db, verification_true):
+    """
+    Test the response when a valid request is made for a top leaderboard players, the limit
+    on players is provided, but it is invalid. As a result, the default should be used.
+
+    Important: This test relies on the test_get_leaders_completed_puzzles()
+    test to complete, meaning that the ordering is important.
+    """
+    response = test_client.get('/leaderboard',
+                               query_string={'limit': '1'},
+                               headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'players': [{'first_name': 'foo', 'last_name': 'bar', 'score': 45}]
+    }
+
+
+def test_get_leaders_completed_puzzles_invalid_value(test_client, init_db, verification_true):
+    """
+    Test the response when a valid request is made for a top leaderboard players, the limit
+    on players is provided, but it is invalid. As a result, the default should be used.
+
+    Important: This test relies on the test_get_leaders_completed_puzzles()
+    test to complete, meaning that the ordering is important.
+    """
+    response = test_client.get('/leaderboard',
+                               query_string={'limit': 'str'},
+                               headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 400
+    assert response.json == {
+        'message': {'limit': 'Limit results by specifying a numeric value > 0.'}
+    }

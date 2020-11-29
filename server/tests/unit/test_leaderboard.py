@@ -53,7 +53,7 @@ def test_get_leaderboard_no_leaders(monkeypatch, user1):
     assert result == expected
 
 
-def test_get_leaderboard(monkeypatch, user1):
+def test_get_leaderboard_leaders_exist(monkeypatch, user1):
     """
     Test get leaderboard where there are several top players in the database.
     """
