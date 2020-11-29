@@ -51,8 +51,7 @@ class SudokuPuzzlePiece(Resource):
             puzzle.update(
                 x_coord=args['x_coordinate'],
                 y_coord=args['y_coordinate'],
-                value=args['value'],
-
+                value=args['value']
             )
 
             return {

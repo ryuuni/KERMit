@@ -1,0 +1,46 @@
+************* Module tests.unit.test_player
+server/tests/unit/test_player.py:10:0: E0611: No name 'mock_session' in module 'tests.unit' (no-name-in-module)
+server/tests/unit/test_player.py:10:0: E0401: Unable to import 'tests.unit.mock_session' (import-error)
+************* Module tests.unit.test_user
+server/tests/unit/test_user.py:8:0: E0611: No name 'mock_session' in module 'tests.unit' (no-name-in-module)
+server/tests/unit/test_user.py:8:0: E0401: Unable to import 'tests.unit.mock_session' (import-error)
+************* Module tests.unit.test_authentication
+server/tests/unit/test_authentication.py:11:0: E0611: No name 'mock_session' in module 'tests.unit' (no-name-in-module)
+server/tests/unit/test_authentication.py:11:0: E0401: Unable to import 'tests.unit.mock_session' (import-error)
+************* Module tests.unit.test_sudoku_resources
+server/tests/unit/test_sudoku_resources.py:16:0: W0401: Wildcard import tests.unit.mocks (wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import pytest from wildcard import (unused-wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import user from wildcard import (unused-wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import mock_no_puzzles_for_player from wildcard import (unused-wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import mock_single_puzzles_for_player from wildcard import (unused-wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import mock_get_puzzle from wildcard import (unused-wildcard-import)
+server/tests/unit/test_sudoku_resources.py:16:0: W0614: Unused import mock_save from wildcard import (unused-wildcard-import)
+************* Module tests.unit.test_solution_puzzle_solution
+server/tests/unit/test_solution_puzzle_solution.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0401: Wildcard import tests.unit.mocks (wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import pytest from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import MockSession from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import user from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import mock_no_puzzles_for_player from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import mock_single_puzzles_for_player from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import mock_get_puzzle from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import mock_save from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import PuzzlePiece from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import PuzzlePlayer from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import PuzzleException from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import Puzzle from wildcard import (unused-wildcard-import)
+server/tests/unit/test_solution_puzzle_solution.py:5:0: W0614: Unused import User from wildcard import (unused-wildcard-import)
+************* Module tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:10:0: E0611: No name 'mock_session' in module 'tests.unit' (no-name-in-module)
+server/tests/unit/test_sudoku_puzzle.py:10:0: E0401: Unable to import 'tests.unit.mock_session' (import-error)
+server/tests/unit/test_sudoku_puzzle.py:527:4: W0104: Statement seems to have no effect (pointless-statement)
+server/tests/unit/test_sudoku_puzzle.py:552:43: W0612: Unused variable 'p_exception' (unused-variable)
+************* Module tests.unit.test_puzzle_pieces
+server/tests/unit/test_puzzle_pieces.py:9:0: E0611: No name 'mock_session' in module 'tests.unit' (no-name-in-module)
+server/tests/unit/test_puzzle_pieces.py:9:0: E0401: Unable to import 'tests.unit.mock_session' (import-error)
+************* Module tests.unit.mocks
+server/tests/unit/mocks.py:96:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.48/10 (previous run: 9.96/10, -0.48)
+

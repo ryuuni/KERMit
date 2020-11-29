@@ -1,0 +1,12 @@
+************* Module tests.unit.test_sudoku_resources
+server/tests/unit/test_sudoku_resources.py:1:0: C0302: Too many lines in module (1300/1000) (too-many-lines)
+server/tests/unit/test_sudoku_resources.py:70:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.unit.test_sudoku_puzzle
+server/tests/unit/test_sudoku_puzzle.py:527:4: W0104: Statement seems to have no effect (pointless-statement)
+server/tests/unit/test_sudoku_puzzle.py:552:43: W0612: Unused variable 'p_exception' (unused-variable)
+************* Module tests.integration.test_leaderboard
+server/tests/integration/test_leaderboard.py:61:0: C0301: Line too long (103/100) (line-too-long)
+
+-------------------------------------------------------------------
+Your code has been rated at 9.96/10 (previous run: 10.00/10, -0.04)
+

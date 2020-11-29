@@ -7,7 +7,7 @@ from backend.config import UnitTestingConfig
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.player import PuzzlePlayer
 from backend.models.user import User
-from tests.unit.mock_session import MockSession
+from tests.unit.mocks import MockSession
 
 app.config.from_object(UnitTestingConfig)
 

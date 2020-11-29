@@ -8,7 +8,7 @@ from backend.google_auth import GoogleAuth
 from backend import app, db
 from backend.models.user import User
 from backend.resources.authentication import Registration, verify_token
-from tests.unit.mock_session import MockSession
+from tests.unit.mocks import MockSession
 
 app.config.from_object(UnitTestingConfig)
 
@@ -219,7 +219,7 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
     assert expected == result
 
 
-def test_register(get_user):
+def test_register_already_registered(get_user):
     """
     Test register a user where the authentication of the token is successful.
     """
@@ -368,7 +368,7 @@ def test_register_exception(get_user):
     assert result == expected
 
 
-def test_register_no_user_yet(monkeypatch):
+def test_register_user_not_registered(monkeypatch):
     """
     If data is successfully retrieved from google for the user, they should be able to successfully
     register with the puzzle game.

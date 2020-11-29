@@ -1,0 +1,32 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 96 items
+
+server/tests/unit/test_authentication.py ..............                  [ 14%]
+server/tests/unit/test_google_auth.py ..                                 [ 16%]
+server/tests/unit/test_leaderboard.py ..                                 [ 18%]
+server/tests/unit/test_player.py ........                                [ 27%]
+server/tests/unit/test_puzzle_exception.py .                             [ 28%]
+server/tests/unit/test_puzzle_pieces.py ........                         [ 36%]
+server/tests/unit/test_sudoku_puzzle.py ................................ [ 69%]
+..                                                                       [ 71%]
+server/tests/unit/test_sudoku_resources.py ......................        [ 94%]
+server/tests/unit/test_user.py .....                                     [100%]
+
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+======================== 96 passed, 3 warnings in 1.54s ========================

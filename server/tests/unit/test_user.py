@@ -5,7 +5,7 @@ import pytest
 from backend import app, db
 from backend.config import UnitTestingConfig
 from backend.models.user import User
-from tests.unit.mock_session import MockSession
+from tests.unit.mocks import MockSession
 
 app.config.from_object(UnitTestingConfig)
 
@@ -65,24 +65,16 @@ def test_find_by_g_id(monkeypatch, user):
             pass
 
         def filter_by(self, *args, **kwargs):
-            """
-            Mock filter by method
-            """
+            """Mock filter by method"""
             class Results():
-                """
-                Mock results class for mimicking base query results
-                """
+                """ Mock results class for mimicking base query results"""
                 def first(self):
-                    """
-                    Mock get first result
-                    """
+                    """Mock get first result"""
                     return user
             return Results()
 
         def join(self, *args, **kwargs):
-            """
-            Mock join method, does nothing
-            """
+            """ Mock join method, does nothing"""
             return
 
     monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
