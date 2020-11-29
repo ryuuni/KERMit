@@ -1,0 +1,11 @@
+************* Module backend.routes
+server/backend/routes.py:5:0: W0611: Unused app imported from backend (unused-import)
+************* Module backend.resources.sudoku_puzzle_piece
+server/backend/resources/sudoku_puzzle_piece.py:7:0: W0611: Unused socketio imported from backend (unused-import)
+server/backend/resources/sudoku_puzzle_piece.py:11:0: W0611: Unused sudoku_to_dict imported from backend.resources.sudoku_puzzle (unused-import)
+************* Module backend.models.player
+server/backend/models/player.py:39:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+
+-------------------------------------------------------------------
+Your code has been rated at 9.93/10 (previous run: 10.00/10, -0.07)
+

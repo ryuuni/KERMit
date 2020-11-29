@@ -44,7 +44,4 @@ def verify_oauth_token():
     While g is not appropriate for storing data across requests, it provides a global namespace
     for holding any data you want during a single backend context.
     """
-    # allow the health check endpoint to be unauthenticated
-    if request.endpoint is None:
-        return None
     return verify_token(request)

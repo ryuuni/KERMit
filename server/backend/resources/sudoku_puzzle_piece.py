@@ -3,12 +3,9 @@ Resource for handling edits to individual puzzle pieces.
 """
 from flask import g
 from flask_restful import Resource, reqparse
-
-from backend import socketio
 from backend.models.player import PuzzlePlayer
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.sudoku_puzzle import Puzzle
-from backend.resources.sudoku_puzzle import sudoku_to_dict
 
 
 class SudokuPuzzlePiece(Resource):
@@ -74,10 +71,9 @@ class SudokuPuzzlePiece(Resource):
         """
         Deletes the current value currently stored in the puzzle
         """
-
         if not self.player_associated_with_puzzle(puzzle_id):
             return {'message': f'Puzzle requested does not exist or '
-                               f'is not associated with {g.user.as_str()}.'}, 404
+                               f'is not associated with {g.user.as_str()}'}, 404
 
         args = self.parser.parse_args()
         try:
@@ -87,10 +83,6 @@ class SudokuPuzzlePiece(Resource):
                 y_coord=args['y_coordinate'],
                 value=None
             )
-
-            # emit the puzzle update to all members of the room
-            socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
-
             return {'message': f"Successfully deleted piece at position ({args['x_coordinate']}, "
                                f"{args['y_coordinate']}) on puzzle_id {puzzle_id}."}
 

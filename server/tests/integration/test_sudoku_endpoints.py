@@ -9,6 +9,17 @@ from tests.integration.test_setup import test_client, init_db
 from tests.integration.integration_mocks import verification_error, verification_true
 
 
+def test_cors_preflight(test_client, init_db):
+    """
+    Test headers returned from cors preflight check response.
+    """
+    response = test_client.options('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert "Access-Control-Allow-Origin: *" in str(response.headers)
+    assert "Access-Control-Allow-Headers: *" in str(response.headers)
+    assert "Access-Control-Allow-Methods: *" in str(response.headers)
+    assert response.status_code == 200
+
+
 def test_attempt_to_use_game_without_registration(monkeypatch, test_client, init_db):
     """
     Test that attempts to interact with the game without registering fail.

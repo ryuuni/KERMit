@@ -1,9 +1,8 @@
 """
 Unit testing for sudoku resources.
 """
-from flask import g
+from flask import g, request
 from backend import app, db
-from backend.models.puzzle_pieces import PuzzlePiece
 from backend.models.player import PuzzlePlayer
 from backend.models.puzzle_exception import PuzzleException
 from backend.models.sudoku_puzzle import Puzzle
@@ -13,10 +12,21 @@ from backend.resources.sudoku_puzzle import SudokuPuzzle, sudoku_to_dict
 from backend.resources.sudoku_puzzles import SudokuPuzzles
 from backend.resources.sudoku_player import SudokuPlayer
 from backend.config import UnitTestingConfig
+from backend.decorators import handle_cors
 from tests.unit.mocks import MockSession, user, mock_save, mock_get_puzzle, \
     mock_single_puzzles_for_player, mock_no_puzzles_for_player
 
 app.config.from_object(UnitTestingConfig)
+
+
+def raise_exception(*args, **kwargs):
+    """Use to mock an unknown exception being raised in the route handling"""
+    raise Exception("A very bad and unknown exception!")
+
+
+def raise_known_exception(*args, **kwargs):
+    """Use to mock an known exception, a PuzzleException, being raised in the route handling"""
+    raise PuzzleException("A bad, but known exception!")
 
 
 def test_sudoku_to_json():
@@ -199,11 +209,8 @@ def test_sudoku_puzzles_create_known_exception(monkeypatch, user, mock_save):
                 'additional_players': ['johnsmith@js.com']
             }
 
-    def raise_exception(*args, **kwargs):
-        raise PuzzleException("A bad exception!")
-
     monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
-    monkeypatch.setattr(PuzzlePlayer, 'save', raise_exception)
+    monkeypatch.setattr(PuzzlePlayer, 'save', raise_known_exception)
 
     with app.app_context():
         g.user = user
@@ -212,7 +219,7 @@ def test_sudoku_puzzles_create_known_exception(monkeypatch, user, mock_save):
         result = puzzles_resource.post()
 
     expected = ({'message': 'Failed to create new Sudoku Puzzle',
-                 'reason': "A bad exception!"}, 400)
+                 'reason': "A bad, but known exception!"}, 400)
     assert result == expected
 
 
@@ -241,9 +248,6 @@ def test_get_sudoku_puzzles_create_one_unknown_exception(monkeypatch, user, mock
                 'size': 5,
                 'additional_players': ['johnsmith@js.com']
             }
-
-    def raise_exception(*args, **kwargs):
-        raise Exception("A generic bad exception!")
 
     monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
     monkeypatch.setattr(PuzzlePlayer, 'save', raise_exception)
@@ -508,10 +512,7 @@ def test_set_puzzle_visibility_exception(monkeypatch, mock_single_puzzles_for_pl
             """Mock the parsing function by returning known dict"""
             return {'hidden': True}
 
-    def throw_exception(*args, **kwargs):
-        raise PuzzleException("A bad but known exception!")
-
-    monkeypatch.setattr(PuzzlePlayer, 'update_visibility', throw_exception)
+    monkeypatch.setattr(PuzzlePlayer, 'update_visibility', raise_exception)
 
     with app.app_context():
         puzzles_resource = SudokuPuzzle()
@@ -644,10 +645,7 @@ def test_join_sudoku_puzzle_known_exception(monkeypatch, user, mock_no_puzzles_f
     If an attempt is made to join a puzzle, but an Puzzle Exception is thrown, the response should
     follow a known format.
     """
-    def mock_add_player(*args, **kwargs):
-        raise PuzzleException("A bad but known exception!")
-
-    monkeypatch.setattr(PuzzlePlayer, 'add_player_to_puzzle', mock_add_player)
+    monkeypatch.setattr(PuzzlePlayer, 'add_player_to_puzzle', raise_known_exception)
 
     with app.app_context():
         player_resource = SudokuPlayer()
@@ -655,7 +653,7 @@ def test_join_sudoku_puzzle_known_exception(monkeypatch, user, mock_no_puzzles_f
         result = player_resource.post(1)
 
     expected = ({'message': 'Attempt to add Jane Doe (id = 1) to puzzle 1 failed.',
-                 'reason': 'A bad but known exception!'}, 400)
+                 'reason': 'A bad, but known exception!'}, 400)
     assert result == expected
 
 
@@ -860,9 +858,6 @@ def test_get_sudoku_puzzles_add_move_exception(monkeypatch, user, mock_single_pu
                 'value': 1
             }
 
-    def raise_exception(*args, **kwargs):
-        raise Exception("A very bad and unknown exception!")
-
     monkeypatch.setattr(Puzzle, 'update', raise_exception)
     monkeypatch.setattr(db, "session", MockSession)
 
@@ -896,10 +891,7 @@ def test_get_sudoku_puzzles_delete_piece(monkeypatch, user, mock_single_puzzles_
             """
             Mock the parsing function by returning known dict
             """
-            return {
-                'x_coordinate': 0,
-                'y_coordinate': 1
-            }
+            return {'x_coordinate': 0, 'y_coordinate': 1}
 
     monkeypatch.setattr(db, "session", MockSession)
 
@@ -917,26 +909,17 @@ def test_get_sudoku_puzzles_delete_piece_invalid(monkeypatch, user, mock_single_
                                                  mock_get_puzzle):
     """
     If a player attempts to make a move on a puzzle that they are associated with,
-    the attempt should be successful.
+    the attempt should be successful, unless the piece is static.
     """
     class MockParser:
-        """
-        Mock the parsing function of the endpoint.
-        """
+        """ Mock the parsing function of the endpoint."""
         def add_argument(self, *args, **kwargs):
-            """
-            Mock add argument, do nothing.
-            """
+            """ Mock add argument, do nothing."""
             return
 
         def parse_args(self):
-            """
-            Mock the parsing function by returning known dict
-            """
-            return {
-                'x_coordinate': 1,
-                'y_coordinate': 1
-            }
+            """ Mock the parsing function by returning known dict """
+            return {'x_coordinate': 1,'y_coordinate': 1}
 
     monkeypatch.setattr(db, "session", MockSession)
 
@@ -949,4 +932,61 @@ def test_get_sudoku_puzzles_delete_piece_invalid(monkeypatch, user, mock_single_
     expected = ({'message': 'Attempt to delete piece at (1, 1) on puzzle_id 1 by user Jane Doe '
                             '(id = 1) was unsuccessful',
                  'reason': 'Changes can only be made to non-static puzzle pieces.'}, 400)
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_delete_piece_not_associated(monkeypatch, user):
+    """
+    If a player attempts to delete a puzzle entry on a puzzle that they are not associated
+    with then it should be unsuccessful.
+    """
+    class MockParser:
+        """ Mock the parsing function of the endpoint."""
+        def add_argument(self, *args, **kwargs):
+            """ Mock add argument, do nothing."""
+            return
+
+        def parse_args(self):
+            """ Mock the parsing function by returning known dict """
+            return {'x_coordinate': 0,'y_coordinate': 1}
+
+    monkeypatch.setattr(SudokuPuzzlePiece, "player_associated_with_puzzle", lambda x, y: False)
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.delete(1)
+
+    expected = {'message': 'Puzzle requested does not exist or '
+                           'is not associated with Jane Doe (id = 1)'}, 404
+    assert result == expected
+
+
+def test_get_sudoku_puzzles_delete_piece_exception(monkeypatch, user,
+                                                   mock_single_puzzles_for_player, mock_get_puzzle):
+    """
+    If a player attempts to delete a puzzle entry on a puzzle that they are not associated
+    with then it should be unsuccessful.
+    """
+    class MockParser:
+        """ Mock the parsing function of the endpoint."""
+        def add_argument(self, *args, **kwargs):
+            """ Mock add argument, do nothing."""
+            return
+
+        def parse_args(self):
+            """ Mock the parsing function by returning known dict """
+            return {'x_coordinate': 0,'y_coordinate': 1}
+
+    monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(Puzzle, 'get_puzzle', lambda x: raise_exception)
+
+    with app.app_context():
+        g.user = user
+        puzzle_piece_resource = SudokuPuzzlePiece()
+        puzzle_piece_resource.parser = MockParser()
+        result = puzzle_piece_resource.delete(1)
+
+    expected = ({'message': 'Unexpected error occurred while deleting value from puzzle'}, 500)
     assert result == expected

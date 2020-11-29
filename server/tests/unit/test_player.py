@@ -49,6 +49,19 @@ class MockBaseQuery:
         return MockResults()
 
 
+@pytest.fixture
+def find_player_mock(monkeypatch):
+    """
+    Mock find player by g_id from the database with a predefined user.
+    """
+    def mock_find_player(*args):
+        user = User('923423', first_name="Tester", last_name="Tester", email='test@tests.com')
+        user.id = 1
+        return user
+
+    monkeypatch.setattr(User, "find_by_g_id", mock_find_player)
+
+
 def test_save_commit(monkeypatch):
     """
     This test is mostly mocks; tests ensure the relevant classes/method are understood.
@@ -69,19 +82,47 @@ def test_save(monkeypatch):
     assert True  # just want to make sure we can get here
 
 
-def test_find_all_puzzles_for_player(monkeypatch):
+def test_find_all_puzzles_for_player(monkeypatch, find_player_mock):
     """
     This test is mostly mocks; tests ensure the relevant classes/method are understood.
     """
-    def mock_find_player(*args):
-        user = User('923423', first_name="Tester", last_name="Tester", email='test@tests.com')
-        user.id = 1
-        return user
-
-    monkeypatch.setattr(User, "find_by_g_id", mock_find_player)
     monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
 
     result = PuzzlePlayer.find_all_puzzles_for_player('923423')
+    expected = []
+    assert result == expected
+
+
+def test_find_all_puzzles_for_player_hidden_only(monkeypatch, find_player_mock):
+    """
+    This test is mostly mocks; tests sure that hidden only is OK to use.
+    """
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+
+    result = PuzzlePlayer.find_all_puzzles_for_player('923423', hidden_only=True)
+    expected = []
+    assert result == expected
+
+
+def test_find_all_puzzles_for_player_visible_only(monkeypatch, find_player_mock):
+    """
+    This test is mostly mocks; tests sure that visible only is OK to use.
+    """
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+
+    result = PuzzlePlayer.find_all_puzzles_for_player('923423', visible_only=True)
+    expected = []
+    assert result == expected
+
+
+def test_find_all_puzzles_for_player_visible_and_hidden(monkeypatch, find_player_mock):
+    """
+    This test is mostly mocks; tests that using hidden and visible (an expected choice)
+    still results in a reasonable output without error.
+    """
+    monkeypatch.setattr('flask_sqlalchemy._QueryProperty.__get__', MockBaseQuery)
+
+    result = PuzzlePlayer.find_all_puzzles_for_player('923423', hidden_only=True, visible_only=True)
     expected = []
     assert result == expected
 
