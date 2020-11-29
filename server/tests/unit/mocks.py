@@ -2,6 +2,7 @@
 Mock Session class for testing.
 """
 import pytest
+from backend.google_auth import GoogleAuth
 from backend.models.puzzle_pieces import PuzzlePiece
 from backend.models.player import PuzzlePlayer
 from backend.models.puzzle_exception import PuzzleException
@@ -102,3 +103,42 @@ def mock_save(monkeypatch):
         return 1
     monkeypatch.setattr(Puzzle, 'save', save_mock)
     monkeypatch.setattr(PuzzlePlayer, 'save', save_mock)
+
+
+@pytest.fixture
+def verification_token(monkeypatch):
+    """
+    Mock verification of token that is valid.
+    """
+    def mock_verify_token(*args, **kwargs):
+        """
+        Return the content expected when a token is successfully verified.
+        """
+        return {
+            "issued_to": "407408718192.apps.googleusercontent.com",
+            "audience": "407408718192.apps.googleusercontent.com",
+            "user_id": "103207743267402488580",
+            "scope": "https://www.googleapis.com/auth/userinfo.email "
+                     "https://www.googleapis.com/auth/userinfo.profile openid",
+            "expires_in": 3590,
+            "email": "mmf2171@columbia.edu",
+            "verified_email": True,
+            "access_type": "offline"
+        }
+    monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
+
+
+@pytest.fixture
+def mock_find_by_g_id(monkeypatch):
+    """
+    Mock the User.find_by_g_id() function.
+    """
+    def mock_find_user(*args, **kwargs):
+        """
+        Mock the find user method, providing back a user that can be
+        used in further testing.
+        """
+        return User(g_id="103207743267472488580", first_name='Jane',
+                    last_name='Doe', email='janedoe@columbia.edu')
+
+    monkeypatch.setattr(User, 'find_by_g_id', mock_find_user)

@@ -27,7 +27,7 @@ def client_connect():
         return False
 
     is_valid, validation = is_valid_token(oauth_token)
-    if is_valid:
+    if not is_valid:
         print(f"Supplied oauth token is not valid: {validation['error_description']}")
         return False
 
@@ -42,7 +42,7 @@ def client_disconnect():
     from a web socket connection with the server.
     """
     print(f'Client with session ID {request.sid} has been disconnected')
-    socketio.emit('disconnect', {'msg': 'Client disconnected'})
+    socketio.emit('disconnect', {'msg': 'Client disconnected'}, room=request.sid)
 
 
 @socketio.on('join')
@@ -84,6 +84,9 @@ def on_move(data):
     Handles announcement of a move on the puzzle board for puzzle piece.
     """
     print("A move was submitted by a user!")
+    if 'puzzle_id' not in data.keys():
+        return
+
     puzzle_id = data['puzzle_id']
     puzzle = Puzzle.get_puzzle(puzzle_id)
     socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
@@ -96,6 +99,9 @@ def on_message(data):
     puzzle board. Emits the message to all people who are currently in the puzzle
     "room" at the time.
     """
+    if 'puzzle_id' not in data.keys():
+        return
+
     print("A new message was sent by a user!")
     socketio.emit('message_update', data, room=data['puzzle_id'])
 
@@ -108,6 +114,9 @@ def on_lock(data):
     to all currently members of the puzzle to prevent others from acting on that
     piece at the same time.
     """
+    if 'puzzle_id' not in data.keys():
+        return
+
     print(f"A new lock should be created; client with "
           f"session ID {request.sid} is making a move.")
     socketio.emit('lock_update_add', data, room=data['puzzle_id'])
@@ -120,6 +129,9 @@ def on_lock_remove(data):
     time, the frontend can emit "add_lock" events; this event allows events to be
     removed, but routing the remove event to all members of the current room.
     """
+    if 'puzzle_id' not in data.keys():
+        return
+
     print("A new lock should be removed, based on user completing their submission.")
     socketio.emit('lock_update_remove', data, room=data['puzzle_id'])
 
@@ -130,6 +142,9 @@ def on_leave(data):
     Called upon when a client emits an event to leave a puzzle room.
     Expects that data should be in format {puzzle_id: <puzzle_id>}.
     """
+    if 'puzzle_id' not in data.keys():
+        return
+
     puzzle_id = data['puzzle_id']
     leave_room(puzzle_id)
     socketio.emit('player_left', {"msg": f'Player left room {puzzle_id}'}, room=puzzle_id)

@@ -42,7 +42,12 @@ class PuzzlePlayer(db.Model):
         default, only puzzle-player relationships that are not hidden are returned.
         """
         user = User.find_by_g_id(g_id)
+
         query = cls.query.filter_by(player_id=user.id)
+        if hidden_only and visible_only:
+            # This is sort of a nonsense case, but could in theory happen; in this case, get
+            # everything.
+            return query.all()
         if hidden_only:
             return query.filter_by(hidden=True).all()
         if visible_only:
