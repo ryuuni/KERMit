@@ -20,6 +20,7 @@ class PuzzlePlayer(db.Model):
 
     player_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     puzzle_id = db.Column(db.Integer, db.ForeignKey('sudoku_puzzles.id'), primary_key=True)
+    hidden = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, player_id, puzzle_id):
         self.player_id = player_id
@@ -35,12 +36,23 @@ class PuzzlePlayer(db.Model):
             db.session.commit()
 
     @classmethod
-    def find_all_puzzles_for_player(cls, g_id):
+    def find_all_puzzles_for_player(cls, g_id, hidden_only=False, visible_only=False):
         """
-        Find all puzzles for a specific player based on the player's username.
+        Find all puzzles for a specific player based on the player's username. By
+        default, only puzzle-player relationships that are not hidden are returned.
         """
         user = User.find_by_g_id(g_id)
-        return cls.query.filter_by(player_id=user.id).all()
+
+        query = cls.query.filter_by(player_id=user.id)
+        if hidden_only and visible_only:
+            # This is sort of a nonsense case, but could in theory happen; in this case, get
+            # everything.
+            return query.all()
+        if hidden_only:
+            return query.filter_by(hidden=True).all()
+        if visible_only:
+            return query.filter_by(hidden=False).all()
+        return query.all()
 
     @classmethod
     def find_players_for_puzzle(cls, puzzle_id):
@@ -70,7 +82,7 @@ class PuzzlePlayer(db.Model):
         )
 
     @classmethod
-    def add_player_to_puzzle(cls, puzzle_id, user):
+    def add_player_to_puzzle(cls, puzzle_id, user, autocommit=True):
         """
         Adds a new player to the puzzle based on their Google identifier.
         """
@@ -85,7 +97,17 @@ class PuzzlePlayer(db.Model):
                                   f"players affiliated with puzzle {puzzle_id}")
 
         puzzle_player = PuzzlePlayer(user.id, puzzle_id)
-        puzzle_player.save(autocommit=True)
+        puzzle_player.save(autocommit)
+
+    def update_visibility(self, hidden, autocommit=True):
+        """
+        Sets a puzzle as "hidden" so that it no longer is returned
+        to users and displayed in the UI. This is done a per-user basis,
+        so a puzzle can be hidden from one player and not another.
+        """
+        self.hidden = hidden
+        if autocommit:
+            db.session.commit()
 
     def __str__(self):
         return f"PuzzlePlayer(player_id={self.player_id}, puzzle_id={self.puzzle_id})"

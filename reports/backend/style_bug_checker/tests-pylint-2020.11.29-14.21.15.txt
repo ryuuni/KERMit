@@ -1,0 +1,11 @@
+************* Module tests.unit.test_player
+server/tests/unit/test_player.py:53:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module tests.unit.test_user
+server/tests/unit/test_user.py:134:11: W0143: Comparing against a callable, did you omit the parenthesis? (comparison-with-callable)
+************* Module tests.unit.test_sudoku_resources
+server/tests/unit/test_sudoku_resources.py:22:0: C0116: Missing function or method docstring (missing-function-docstring)
+server/tests/unit/test_sudoku_resources.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-------------------------------------------------------------------
+Your code has been rated at 9.98/10 (previous run: 10.00/10, -0.02)
+

@@ -39,16 +39,20 @@ const PuzzlePage = () => {
       },
     }), ONE_SECOND_IN_MILLIS);
 
-    socket.current = io("ws://127.0.0.1:5000/", {transports: ['websocket']});
+    socket.current = io("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
+
     let currSocket = socket.current;
+
     if (currSocket.disconnected) {
-      currSocket.connect();
+      currSocket.connect({query: {auth: accessToken}});
     }
-    currSocket.emit('join', {puzzle_id: puzzleId});
+    currSocket.emit('join', {puzzle_id: puzzleId, token: accessToken});
+
     currSocket.on("player_joined", data => {
       console.log('player joined:');
       console.log(data);
     });
+
     currSocket.on("puzzle_update", data => {
       console.log('puzzle updated:');
       console.log(data);

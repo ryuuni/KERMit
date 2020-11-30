@@ -8,48 +8,10 @@ from backend.google_auth import GoogleAuth
 from backend import app, db
 from backend.models.user import User
 from backend.resources.authentication import Registration, verify_token
-from tests.unit.mock_session import MockSession
+from tests.unit.mocks import MockSession, verification_token, mock_find_by_g_id
 
 app.config.from_object(UnitTestingConfig)
 
-
-@pytest.fixture
-def get_user(monkeypatch):
-    """
-    Mock the User.find_by_g_id() function.
-    """
-    def mock_find_user(*args, **kwargs):
-        """
-        Mock the find user method, providing back a user that can be
-        used in further testing.
-        """
-        return User(g_id="103207743267472488580", first_name='Jane',
-                    last_name='Doe', email='janedoe@columbia.edu')
-
-    monkeypatch.setattr(User, 'find_by_g_id', mock_find_user)
-
-
-@pytest.fixture
-def verification_token(monkeypatch):
-    """
-    Mock verification of token that is valid.
-    """
-    def mock_verify_token(*args, **kwargs):
-        """
-        Return the content expected when a token is successfully verified.
-        """
-        return {
-            "issued_to": "407408718192.apps.googleusercontent.com",
-            "audience": "407408718192.apps.googleusercontent.com",
-            "user_id": "103207743267402488580",
-            "scope": "https://www.googleapis.com/auth/userinfo.email "
-                     "https://www.googleapis.com/auth/userinfo.profile openid",
-            "expires_in": 3590,
-            "email": "mmf2171@columbia.edu",
-            "verified_email": True,
-            "access_type": "offline"
-        }
-    monkeypatch.setattr(GoogleAuth, "validate_token", mock_verify_token)
 
 
 class MockGoogleAuth:
@@ -219,7 +181,7 @@ def test_authorize_token_validation_not_registered(monkeypatch, verification_tok
     assert expected == result
 
 
-def test_register(get_user):
+def test_register_already_registered(mock_find_by_g_id):
     """
     Test register a user where the authentication of the token is successful.
     """
@@ -233,7 +195,7 @@ def test_register(get_user):
     assert result == expected
 
 
-def test_register_missing_info_email(get_user):
+def test_register_missing_info_email(mock_find_by_g_id):
     """
     If user information retrieved from Google is missing the user's email, request should fail.
     """
@@ -270,7 +232,7 @@ def test_register_missing_info_email(get_user):
     assert result == expected
 
 
-def test_register_missing_info_id(get_user):
+def test_register_missing_info_id(mock_find_by_g_id):
     """
     If user information retrieved from Google is missing the user's id, request should fail.
     """
@@ -307,7 +269,7 @@ def test_register_missing_info_id(get_user):
     assert result == expected
 
 
-def test_register_error_googleauth(get_user):
+def test_register_error_googleauth(mock_find_by_g_id):
     """
     If user information could not be retrieved from Google for any reason, request should fail.
     """
@@ -344,7 +306,7 @@ def test_register_error_googleauth(get_user):
     assert result == expected
 
 
-def test_register_exception(get_user):
+def test_register_exception(mock_find_by_g_id):
     """
     If any exception is raised, the user should not be able to register.
     """
@@ -368,7 +330,7 @@ def test_register_exception(get_user):
     assert result == expected
 
 
-def test_register_no_user_yet(monkeypatch):
+def test_register_user_not_registered(monkeypatch):
     """
     If data is successfully retrieved from google for the user, they should be able to successfully
     register with the puzzle game.

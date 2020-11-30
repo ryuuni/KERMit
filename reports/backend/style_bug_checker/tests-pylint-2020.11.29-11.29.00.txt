@@ -1,0 +1,6 @@
+************* Module tests.unit.test_solution_puzzle_solution
+server/tests/unit/test_solution_puzzle_solution.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.99/10 (previous run: 9.48/10, +0.51)
+

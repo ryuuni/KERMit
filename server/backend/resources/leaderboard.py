@@ -12,14 +12,15 @@ class Leaderboard(Resource):
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('limit', type=int)
+        self.parser.add_argument('limit', type=int,
+                                 help='Limit results by specifying a numeric value > 0.',)
 
     def get(self):
         """
         Returns the top 10 users with the highest scores.
         """
         args = self.parser.parse_args()
-        n_results = args['limit'] if args['limit'] is not None and args['limit'] < 1 else 10
+        n_results = args['limit'] if (args['limit'] is not None and args['limit'] > 0) else 10
 
         top_players = PuzzlePlayer.get_top_players(n_results)
         if not top_players:
