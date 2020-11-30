@@ -24,6 +24,7 @@ const PuzzlePage = () => {
   const [pieces, setPieces] = useState(null);
   const [solved, setSolved] = useState(false);
   const [isMultiplayerGame, setIsMultiplayerGame] = useState(false);
+  const [messages, setMessages] = useState([]);
   const { accessToken } = useContext(CurrentUserContext);
   const socket = useRef(null); 
 
@@ -34,6 +35,10 @@ const PuzzlePage = () => {
     ));
     setSolved(completed);
     setIsMultiplayerGame(players.length > 1);
+  }, []);
+
+  const addMessage = useCallback((data) => {
+    setMessages(oldMessages => [...oldMessages, data]);
   }, []);
 
   useEffect(() => {  
@@ -57,6 +62,12 @@ const PuzzlePage = () => {
       updatePuzzle({pieces, completed})
     });
 
+    currSocket.on("message_update", (data) => {
+      console.log('got message:');
+      console.log(data);
+      addMessage(data);
+    })
+
     getPuzzle({
       accessToken,
       puzzleId,
@@ -67,7 +78,7 @@ const PuzzlePage = () => {
       currSocket.emit('leave', {puzzle_id: puzzleId});
       currSocket.disconnect();
     };
-  }, [accessToken, puzzleId, socket, updatePuzzle]);
+  }, [accessToken, puzzleId, socket, updatePuzzle, addMessage]);
 
   return (
     <PageTemplate>
@@ -78,7 +89,7 @@ const PuzzlePage = () => {
         solved={solved}
         ref={socket}
       />
-      {isMultiplayerGame && <Chat /> }
+      {isMultiplayerGame && <Chat messages={messages} puzzleId={puzzleId} ref={socket}/> }
     </PageTemplate>
   );
 }
