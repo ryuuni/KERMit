@@ -90,7 +90,6 @@ def on_move(data):
     puzzle_id = int(data['puzzle_id'])
     puzzle = Puzzle.get_puzzle(puzzle_id)
     socketio.emit('puzzle_update', sudoku_to_dict(puzzle), room=puzzle_id)
-    return True
 
 
 @socketio.on('message')
