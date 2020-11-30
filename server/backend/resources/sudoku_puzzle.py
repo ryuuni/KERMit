@@ -38,8 +38,8 @@ class SudokuPuzzle(Resource):
         Allows changes to be made to puzzles, namely making a specific puzzle
         hidden from a specific user in the UI.
         """
-        # find all puzzles associated with the player making the request
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+        # find all puzzles associated with the player making the request (visible and hidden)
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g_id=g.user.g_id)
 
         # if the requested puzzle doesn't exist for the user, then return error
         puzzle_to_edit = None

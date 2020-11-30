@@ -1,0 +1,44 @@
+Name                                                Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------------
+server/backend/__init__.py                             17      0      0      0   100%
+server/backend/config.py                               22      0      0      0   100%
+server/backend/decorators.py                           19      0      2      0   100%
+server/backend/google_auth.py                          11      0      0      0   100%
+server/backend/models/__init__.py                       0      0      0      0   100%
+server/backend/models/player.py                        48      0     12      0   100%
+server/backend/models/puzzle_exception.py               6      0      0      0   100%
+server/backend/models/puzzle_pieces.py                 38      0      8      0   100%
+server/backend/models/sudoku_puzzle.py                127      0     53      0   100%
+server/backend/models/user.py                          36      0      4      0   100%
+server/backend/resources/__init__.py                    0      0      0      0   100%
+server/backend/resources/authentication.py             48      0     19      0   100%
+server/backend/resources/leaderboard.py                15      0      4      0   100%
+server/backend/resources/sudoku_player.py              18      0      5      0   100%
+server/backend/resources/sudoku_puzzle.py              38      0     15      0   100%
+server/backend/resources/sudoku_puzzle_piece.py        43      0     11      0   100%
+server/backend/resources/sudoku_puzzles.py             41      0     12      0   100%
+server/backend/resources/sudoku_solution.py            13      0      3      0   100%
+server/backend/routes.py                               15      0      0      0   100%
+server/backend/sockets.py                              75      0     24      0   100%
+server/tests/__init__.py                                0      0      0      0   100%
+server/tests/integration/__init__.py                    0      0      0      0   100%
+server/tests/integration/integration_mocks.py          12      0      0      0   100%
+server/tests/integration/test_authentication.py        55      0      0      0   100%
+server/tests/integration/test_leaderboard.py           39      0      0      0   100%
+server/tests/integration/test_setup.py                 37      0      0      0   100%
+server/tests/integration/test_sudoku_endpoints.py     208      0      2      0   100%
+server/tests/unit/__init__.py                           0      0      0      0   100%
+server/tests/unit/mocks.py                             61      3      0      0    95%   18-20
+server/tests/unit/test_authentication.py              154      1      6      0    99%   358
+server/tests/unit/test_google_auth.py                  24      0      0      0   100%
+server/tests/unit/test_leaderboard.py                  50      2      0      0    96%   34, 73
+server/tests/unit/test_player.py                      104      0      0      0   100%
+server/tests/unit/test_puzzle_exception.py              5      0      0      0   100%
+server/tests/unit/test_puzzle_pieces.py                75      3      0      0    96%   57, 96, 135
+server/tests/unit/test_sockets.py                     114      0      4      0   100%
+server/tests/unit/test_sudoku_puzzle.py               246     19     20      0    93%   176, 186, 196, 206, 244, 254, 264, 274, 284, 294, 416, 445, 488, 498, 508, 518, 528, 538, 547
+server/tests/unit/test_sudoku_puzzle_solution.py       27      0      0      0   100%
+server/tests/unit/test_sudoku_resources.py            412     13     16      0    97%   200, 240, 275, 313, 357, 406, 692, 696, 888, 918, 947, 951, 976
+server/tests/unit/test_user.py                         60      2      4      0    97%   78, 131
+-----------------------------------------------------------------------------------------------
+TOTAL                                                2313     43    224      0    98%

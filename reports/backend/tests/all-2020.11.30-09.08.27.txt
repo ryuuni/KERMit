@@ -1,0 +1,195 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 204 items
+
+server/tests/integration/test_authentication.py ........                 [  3%]
+server/tests/integration/test_leaderboard.py .......                     [  7%]
+server/tests/integration/test_sudoku_endpoints.py .......F..F......FFF.. [ 18%]
+..............                                                           [ 25%]
+server/tests/unit/test_authentication.py ..............                  [ 31%]
+server/tests/unit/test_google_auth.py ..                                 [ 32%]
+server/tests/unit/test_leaderboard.py ..                                 [ 33%]
+server/tests/unit/test_player.py ................                        [ 41%]
+server/tests/unit/test_puzzle_exception.py .                             [ 42%]
+server/tests/unit/test_puzzle_pieces.py ........                         [ 46%]
+server/tests/unit/test_sockets.py .....................                  [ 56%]
+server/tests/unit/test_sudoku_puzzle.py ................................ [ 72%]
+..............                                                           [ 78%]
+server/tests/unit/test_sudoku_puzzle_solution.py ...                     [ 80%]
+server/tests/unit/test_sudoku_resources.py ............................. [ 94%]
+..                                                                       [ 95%]
+server/tests/unit/test_user.py .........                                 [100%]
+
+=================================== FAILURES ===================================
+_____________ test_save_new_puzzle_valid_unregistered_participant ______________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_save_new_puzzle_valid_unregistered_participant(test_client, init_db, verification_true):
+        """
+        Test the response when a user makes a valid request to create a new sudoku puzzle,
+        with an additional specified user that does not exist (isn't registered with
+        the application.
+        """
+        data = dict(difficulty=0.5, size=3, additional_players=['not_registered.com', 'another.com'])
+        response = test_client.post('/puzzles',
+                                    data=data,
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+        assert response.status_code == 200
+>       assert response.json == {
+            'message': 'New Sudoku puzzle successfully created',
+            'difficulty': 0.5,
+            'size': 3,
+            'puzzle_id': 4,
+            'unregistered_emails': ['not_registered.com', 'another.com']
+        }
+E       AssertionError: assert {'difficulty'...size': 3, ...} == {'difficulty'...size': 3, ...}
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'unregistered_emails': ['another.com', 'not_registered.com']} != {'unregistered_emails': ['not_registered.com', 'another.com']}
+E         Use -v to get the full diff
+
+server/tests/integration/test_sudoku_endpoints.py:121: AssertionError
+______________ test_save_new_puzzle_valid_registered_participant _______________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_save_new_puzzle_valid_registered_participant(test_client, init_db, verification_true):
+        """
+        Test the response when a user makes a valid request to create a new sudoku puzzle,
+        with an additional specified user that does exist (is registered with
+        the application).
+        """
+        data = dict(difficulty=0.5, size=3, additional_players=['princess@princessbride.com'])
+        response = test_client.post('/puzzles', data=data,
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+        assert response.status_code == 200
+>       assert response.json == {
+            'message': 'New Sudoku puzzle successfully created',
+            'difficulty': 0.5,
+            'size': 3,
+            'puzzle_id': 5,
+            'unregistered_emails': []
+        }
+E       AssertionError: assert {'difficulty'...size': 3, ...} == {'difficulty'...size': 3, ...}
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'puzzle_id': 7} != {'puzzle_id': 5}
+E         Use -v to get the full diff
+
+server/tests/integration/test_sudoku_endpoints.py:178: AssertionError
+_____________________ test_set_visibility_of_puzzle_hidden _____________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_set_visibility_of_puzzle_hidden(test_client, init_db, verification_true):
+        """
+        Make sure that it is possible to set a puzzle to have hidden visibility.
+        """
+        response = test_client.post('/puzzles/3', data=dict(hidden=True),
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+        assert response.status_code == 200
+        assert response.json == {'message': 'Successfully updated the visibility of puzzle 3 '
+                                            'for player 5 to hidden = True'}
+    
+        # make sure that when the puzzle is not visible it does not show up
+        # in requests to get all puzzles
+        response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert len(response.json['puzzles']) == 2
+E       AssertionError: assert 4 == 2
+E        +  where 4 = len([{'completed': False, 'difficulty': 0.5, 'pieces': [{'static_piece': False, 'value': None, 'x_coordinate': 0, 'y_coord...d': 3, 'last_name': 'Bride'}, {'email': 'jb@biden2020.com', 'first_name': 'Joe', 'id': 5, 'last_name': 'Biden'}], ...}])
+
+server/tests/integration/test_sudoku_endpoints.py:291: AssertionError
+___________________ test_set_visibility_of_puzzle_not_hidden ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_set_visibility_of_puzzle_not_hidden(test_client, init_db, verification_true):
+        """
+        Make sure that it is possible to set a puzzle to have unhidden visibility.
+        """
+        response = test_client.post('/puzzles/3', data=dict(hidden=False),
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+        assert response.status_code == 200
+        assert response.json == {
+            'message': 'Successfully updated the visibility of puzzle 3 for '
+                       'player 5 to hidden = False'
+        }
+        # make sure that when the puzzle is reset to visible it does show up
+        # in requests to get all puzzles
+        response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert len(response.json['puzzles']) == 3
+E       AssertionError: assert 5 == 3
+E        +  where 5 = len([{'completed': False, 'difficulty': 0.5, 'pieces': [{'static_piece': False, 'value': None, 'x_coordinate': 0, 'y_coord...d': 3, 'last_name': 'Bride'}, {'email': 'jb@biden2020.com', 'first_name': 'Joe', 'id': 5, 'last_name': 'Biden'}], ...}])
+
+server/tests/integration/test_sudoku_endpoints.py:308: AssertionError
+________________________ test_get_all_puzzles_for_user _________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
+        """
+        Test response for valid request to get all puzzzles associated with user.
+        """
+        response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+        expected = {'puzzles': [
+            {'puzzle_id': 3, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+            {'puzzle_id': 4, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+            {'puzzle_id': 5, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 3, 'first_name': 'Princess', 'last_name': 'Bride',
+                 'email': 'princess@princessbride.com'},
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]}]}
+    
+        # not testing pieces in this test; just that puzzles are returned. Otherwise,
+        # this is a pretty hefty response to compare
+        response.json['puzzles'][0].pop('pieces')
+        response.json['puzzles'][1].pop('pieces')
+        response.json['puzzles'][2].pop('pieces')
+    
+        assert response.status_code == 200
+>       assert response.json == expected
+E       AssertionError: assert {'puzzles': [...den'}], ...}]} == {'puzzles': [...e': 90, ...}]}
+E         Differing items:
+E         {'puzzles': [{'completed': False, 'difficulty': 0.5, 'players': [{'email': 'jb@biden2020.com', 'first_name': 'Joe', 'i...': 3, 'last_name': 'Bride'}, {'email': 'jb@biden2020.com', 'first_name': 'Joe', 'id': 5, 'last_name': 'Biden'}], ...}]} != {'puzzles': [{'completed': False, 'difficulty': 0.5, 'players': [{'email': 'jb@biden2020.com', 'first_name': 'Joe', 'i...'Bride'}, {'email': 'jb@biden2020.com', 'first_name': 'Joe', 'id': 5, 'last_name': 'Biden'}], 'point_value': 90, ...}]}
+E         Use -v to get the full diff
+
+server/tests/integration/test_sudoku_endpoints.py:333: AssertionError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_unregistered_participant
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_registered_participant
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_hidden
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_not_hidden
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user
+================== 5 failed, 199 passed, 4 warnings in 57.94s ==================

@@ -176,6 +176,16 @@ def test_create_sudoku_puzzle_invalid_difficulty_str():
         assert "Sudoku puzzle difficulty specified must be a float value" in str(p_exception.value)
 
 
+def test_create_sudoku_puzzle_invalid_difficulty_null():
+    """
+    Make sure that it is NOT possible to create a sudoku puzzle
+    by specifying invalid difficulty level that is not of type float.
+    """
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=None, size=4)
+        assert "Sudoku puzzle difficulty specified must be a float value" in str(p_exception.value)
+
+
 def test_create_sudoku_puzzle_invalid_difficulty_too_low():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by
@@ -192,7 +202,7 @@ def test_create_sudoku_puzzle_invalid_difficulty_too_high():
     invalid difficulty level that is out of range (too high).
     """
     with pytest.raises(PuzzleException) as p_exception:
-        Puzzle(difficulty_level=1.1, size=4)
+        Puzzle(difficulty_level=1.0, size=4)
         assert "Difficulty levels must range between" in str(p_exception.value)
 
 
@@ -234,6 +244,16 @@ def test_create_sudoku_puzzle_invalid_size_str():
         assert "Sudoku puzzle sizes specified must be valid integers" in str(p_exception.value)
 
 
+def test_create_sudoku_puzzle_invalid_size_float():
+    """
+    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
+    that is not of type int.
+    """
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.3, size=1.5)
+        assert "Sudoku puzzle sizes specified must be valid integers" in str(p_exception.value)
+
+
 def test_create_sudoku_puzzle_invalid_size_too_small():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
@@ -244,6 +264,16 @@ def test_create_sudoku_puzzle_invalid_size_too_small():
         assert "Valid sizes range from" in str(p_exception.value)
 
 
+def test_create_sudoku_puzzle_invalid_size_too_small_boundary():
+    """
+    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
+    that is out of range (too low).
+    """
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.5, size=1)
+        assert "Valid sizes range from" in str(p_exception.value)
+
+
 def test_create_sudoku_puzzle_invalid_size_too_large():
     """
     Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
@@ -251,6 +281,16 @@ def test_create_sudoku_puzzle_invalid_size_too_large():
     """
     with pytest.raises(PuzzleException) as p_exception:
         Puzzle(difficulty_level=0.5, size=10)
+        assert "Valid sizes range from" in str(p_exception.value)
+
+
+def test_create_sudoku_puzzle_invalid_size_too_large_boundary():
+    """
+    Make sure that it is NOT possible to create a sudoku puzzle by specifying invalid size
+    that is out of range (too high).
+    """
+    with pytest.raises(PuzzleException) as p_exception:
+        Puzzle(difficulty_level=0.5, size=6)
         assert "Valid sizes range from" in str(p_exception.value)
 
 
@@ -454,8 +494,8 @@ def test_update_invalid_coordinate_y1(monkeypatch, incomplete_puzzle):
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
     with pytest.raises(PuzzleException) as p_exception:
-        incomplete_puzzle.update(1, 6, 1)
-        assert 'Coordinates provided (1, 6) are outside the range' \
+        incomplete_puzzle.update(1, 5, 1)
+        assert 'Coordinates provided (1, 5) are outside the range' \
                ' of the puzzle.' in str(p_exception.value)
 
 
@@ -474,8 +514,8 @@ def test_update_invalid_coordinate_x1(monkeypatch, incomplete_puzzle):
     Users should not be able to make moves to coordinates outside the range of the puzzle.
     """
     with pytest.raises(PuzzleException) as p_exception:
-        incomplete_puzzle.update(6, 1, 1)
-        assert 'Coordinates provided (6, 1) are outside the ' \
+        incomplete_puzzle.update(5, 1, 1)
+        assert 'Coordinates provided (5, 1) are outside the ' \
                'range of the puzzle.' in str(p_exception.value)
 
 
@@ -579,6 +619,19 @@ def test_set_puzzle_complete(monkeypatch, incomplete_puzzle):
 
 
 def test_as_str(incomplete_puzzle):
-    """Test that overriden str method works correctly"""
+    """Test that overridden str method works correctly"""
     assert str(incomplete_puzzle) == 'SudokuPuzzle(id=1, difficulty=0.2,' \
                                      ' completed=False, point_value=30, size=2)'
+
+
+def test_set_puzzle_complete_empty_puzzle(monkeypatch, incomplete_puzzle):
+    """
+    Test the update method on an empty puzzle, with no pieces. This is mostly
+    to complete branch coverage, it wouldn't make much sense otherwise.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(Puzzle, "compare_with_solved_board", lambda x: [])
+
+    incomplete_puzzle.puzzle_pieces = []
+    incomplete_puzzle.update(2, 3, 2)
+    assert incomplete_puzzle.completed

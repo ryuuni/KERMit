@@ -123,7 +123,45 @@ def test_save_new_puzzle_valid_unregistered_participant(test_client, init_db, ve
         'difficulty': 0.5,
         'size': 3,
         'puzzle_id': 4,
-        'unregistered_emails': ['not_registered.com', 'another.com']
+        'unregistered_emails': ['another.com', 'not_registered.com']
+    }
+
+
+def test_save_new_puzzle_duplicate_additional_players(test_client, init_db, verification_true):
+    """
+    Test the response/processing when a request is made that contains duplicate player
+    emails. This should process the duplicate email once.
+    """
+    data = dict(difficulty=0.5, size=3, additional_players=['duplicates.com', 'duplicates.com'])
+    response = test_client.post('/puzzles',
+                                data=data,
+                                headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 3,
+        'puzzle_id': 5,
+        'unregistered_emails': ['duplicates.com']
+    }
+
+
+def test_save_new_puzzle_user_added_themselves_as_additional_player(test_client,
+                                                                    init_db, verification_true):
+    """
+    Test processing when a user adds themselves as an additional player.
+    """
+    data = dict(difficulty=0.5, size=3, additional_players=['jb@biden2020.com', 'tester.com'])
+    response = test_client.post('/puzzles',
+                                data=data,
+                                headers={'Authorization': 'Bearer 2342351231asdb'})
+    assert response.status_code == 200
+    assert response.json == {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 3,
+        'puzzle_id': 6,
+        'unregistered_emails': ['tester.com']
     }
 
 
@@ -141,10 +179,10 @@ def test_save_new_puzzle_valid_registered_participant(test_client, init_db, veri
         'message': 'New Sudoku puzzle successfully created',
         'difficulty': 0.5,
         'size': 3,
-        'puzzle_id': 5,
+        'puzzle_id': 7,
         'unregistered_emails': []
     }
-    assert len(PuzzlePlayer.find_players_for_puzzle(5)) == 2
+    assert len(PuzzlePlayer.find_players_for_puzzle(7)) == 2
 
 
 def test_save_new_puzzle_invalid_difficulty_small(test_client, init_db, verification_true):
@@ -250,7 +288,7 @@ def test_set_visibility_of_puzzle_hidden(test_client, init_db, verification_true
     # make sure that when the puzzle is not visible it does not show up
     # in requests to get all puzzles
     response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
-    assert len(response.json['puzzles']) == 2
+    assert len(response.json['puzzles']) == 4
 
 
 def test_set_visibility_of_puzzle_not_hidden(test_client, init_db, verification_true):
@@ -267,7 +305,7 @@ def test_set_visibility_of_puzzle_not_hidden(test_client, init_db, verification_
     # make sure that when the puzzle is reset to visible it does show up
     # in requests to get all puzzles
     response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
-    assert len(response.json['puzzles']) == 3
+    assert len(response.json['puzzles']) == 5
 
 
 def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
@@ -276,20 +314,28 @@ def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
     """
     response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
     expected = {'puzzles': [
-        {'puzzle_id': 3, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
-            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
-        {'puzzle_id': 4, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
-            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
-        {'puzzle_id': 5, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
-            {'id': 3, 'first_name': 'Princess', 'last_name': 'Bride',
-             'email': 'princess@princessbride.com'},
-            {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]}]}
+        {'puzzle_id': 3, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
+         'players': [
+             {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 4, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
+         'players': [
+             {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 5, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
+         'players': [
+             {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 6, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
+         'players': [
+             {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+        {'puzzle_id': 7, 'completed': False, 'difficulty': 0.5, 'point_value': 90,
+         'players': [{'id': 3, 'first_name': 'Princess', 'last_name': 'Bride',
+                      'email': 'princess@princessbride.com'},
+                     {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden',
+                      'email': 'jb@biden2020.com'}]}]}
 
     # not testing pieces in this test; just that puzzles are returned. Otherwise,
     # this is a pretty hefty response to compare
-    response.json['puzzles'][0].pop('pieces')
-    response.json['puzzles'][1].pop('pieces')
-    response.json['puzzles'][2].pop('pieces')
+    for puzzle in response.json['puzzles']:
+        puzzle.pop('pieces')
 
     assert response.status_code == 200
     assert response.json == expected

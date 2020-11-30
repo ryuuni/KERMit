@@ -36,7 +36,7 @@ class PuzzlePlayer(db.Model):
             db.session.commit()
 
     @classmethod
-    def find_all_puzzles_for_player(cls, g_id, hidden_only=False, visible_only=False):
+    def find_all_puzzles_for_player(cls, g_id, hidden=True):
         """
         Find all puzzles for a specific player based on the player's username. By
         default, only puzzle-player relationships that are not hidden are returned.
@@ -44,15 +44,9 @@ class PuzzlePlayer(db.Model):
         user = User.find_by_g_id(g_id)
 
         query = cls.query.filter_by(player_id=user.id)
-        if hidden_only and visible_only:
-            # This is sort of a nonsense case, but could in theory happen; in this case, get
-            # everything.
+        if hidden:
             return query.all()
-        if hidden_only:
-            return query.filter_by(hidden=True).all()
-        if visible_only:
-            return query.filter_by(hidden=False).all()
-        return query.all()
+        return query.filter_by(hidden=False).all()
 
     @classmethod
     def find_players_for_puzzle(cls, puzzle_id):
@@ -69,6 +63,9 @@ class PuzzlePlayer(db.Model):
         """
         Get the top players by cumulative score.
         """
+        if not isinstance(n_results, int) or n_results <= 0:
+            return []
+
         return (
             User.query
             .with_entities(User.first_name, User.last_name,
