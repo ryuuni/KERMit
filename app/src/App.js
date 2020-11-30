@@ -14,10 +14,12 @@ import {
 
 function App(props) {
   const [accessToken, setAccessToken] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const isLoggedIn = accessToken !== '';
 
   return (
-    <AccessTokenContext.Provider value={{ accessToken, setAccessToken, isLoggedIn }}>
+    <AccessTokenContext.Provider value={{ accessToken, setAccessToken, userName, setUserName, userEmail, setUserEmail, isLoggedIn }}>
       <Router>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <div data-testid="app">
