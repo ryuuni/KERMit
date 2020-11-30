@@ -10,6 +10,6 @@ fi
 current_time=$(date "+%Y.%m.%d-%H.%M.%S")
 filename="$run_type-$current_time.txt"
 
-coverage run -m --omit "server/venv/*" pytest ./server/tests/$1 2>&1 | tee ./reports/backend/tests/$filename
+coverage run -m --branch --omit "server/venv/*" pytest ./server/tests/$1 2>&1 | tee ./reports/backend/tests/$filename
 coverage report -m | tee ./reports/backend/coverage/$filename
 

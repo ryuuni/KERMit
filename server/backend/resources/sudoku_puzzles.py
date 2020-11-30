@@ -43,7 +43,7 @@ class SudokuPuzzles(Resource):
         by default, returns only the "visible" and not hidden puzzles.
         """
         # based on the user, find all of their active puzzles
-        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id, visible_only=True)
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id, hidden=False)
 
         if not player_puzzles:
             return {
@@ -87,10 +87,11 @@ class SudokuPuzzles(Resource):
 
             # add any subsequent users that the player requested to add to their puzzle
             players_registered, players_unregistered = User.find_users_by_email(
-                emails=additional_emails if additional_emails else []
+                emails=set(additional_emails) if additional_emails else []
             )
             for player in players_registered:
-                PuzzlePlayer.add_player_to_puzzle(puzzle_id, player, autocommit=False)
+                if player.id != g.user.id:
+                    PuzzlePlayer.add_player_to_puzzle(puzzle_id, player, autocommit=False)
 
             # now commit all changes as a single transaction
             db.session.commit()

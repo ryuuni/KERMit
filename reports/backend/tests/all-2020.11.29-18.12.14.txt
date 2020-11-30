@@ -1,0 +1,2914 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 200 items
+
+server/tests/integration/test_authentication.py ........                 [  4%]
+server/tests/integration/test_leaderboard.py .......                     [  7%]
+server/tests/integration/test_sudoku_endpoints.py ................FFF.FF [ 18%]
+FFFFFFFFFFFF                                                             [ 24%]
+server/tests/unit/test_authentication.py ..............                  [ 31%]
+server/tests/unit/test_google_auth.py ..                                 [ 32%]
+server/tests/unit/test_leaderboard.py ..                                 [ 33%]
+server/tests/unit/test_player.py ...............                         [ 41%]
+server/tests/unit/test_puzzle_exception.py .                             [ 41%]
+server/tests/unit/test_puzzle_pieces.py ........                         [ 45%]
+server/tests/unit/test_sockets.py .....................                  [ 56%]
+server/tests/unit/test_sudoku_puzzle.py ................................ [ 72%]
+.............                                                            [ 78%]
+server/tests/unit/test_sudoku_puzzle_solution.py ...                     [ 80%]
+server/tests/unit/test_sudoku_resources.py ............................. [ 94%]
+..                                                                       [ 95%]
+server/tests/unit/test_user.py .........                                 [100%]
+
+=================================== FAILURES ===================================
+___________________ test_set_visibility_of_puzzle_not_hidden ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_set_visibility_of_puzzle_not_hidden(test_client, init_db, verification_true):
+        """
+        Make sure that it is possible to set a puzzle to have unhidden visibility.
+        """
+        response = test_client.post('/puzzles/3', data=dict(hidden=False),
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <Response streamed [404 NOT FOUND]>.status_code
+
+server/tests/integration/test_sudoku_endpoints.py:262: AssertionError
+________________________ test_get_all_puzzles_for_user _________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_all_puzzles_for_user(test_client, init_db, verification_true):
+        """
+        Test response for valid request to get all puzzzles associated with user.
+        """
+        response = test_client.get('/puzzles', headers={'Authorization': 'Bearer 2342351231asdb'})
+        expected = {'puzzles': [
+            {'puzzle_id': 3, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+            {'puzzle_id': 4, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]},
+            {'puzzle_id': 5, 'completed': False, 'difficulty': 0.5, 'point_value': 90, 'players': [
+                {'id': 3, 'first_name': 'Princess', 'last_name': 'Bride',
+                 'email': 'princess@princessbride.com'},
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}]}]}
+    
+        # not testing pieces in this test; just that puzzles are returned. Otherwise,
+        # this is a pretty hefty response to compare
+        response.json['puzzles'][0].pop('pieces')
+        response.json['puzzles'][1].pop('pieces')
+>       response.json['puzzles'][2].pop('pieces')
+E       IndexError: list index out of range
+
+server/tests/integration/test_sudoku_endpoints.py:292: IndexError
+____________________________ test_get_puzzle_valid _____________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_puzzle_valid(test_client, init_db, verification_true):
+        """
+        An attempt to get a puzzle with a valid id that is associated with the requesting user should
+        be successful.
+        """
+        response = test_client.get('/puzzles/3', headers={'Authorization': 'Bearer 2342351231asdb'})
+        expected = {
+            'puzzle_id': 3,
+            'completed': False,
+            'difficulty': 0.5,
+            'point_value': 90,
+            'pieces': ['some pieces would go here'],
+            'players': [
+                {'id': 5, 'first_name': 'Joe', 'last_name': 'Biden', 'email': 'jb@biden2020.com'}
+            ]
+        }
+    
+        # cannot test for pieces easily; this is randomly created by the Sudoku library for each round
+>       response.json.pop('pieces')
+E       KeyError: 'pieces'
+
+server/tests/integration/test_sudoku_endpoints.py:316: KeyError
+____________ test_attempt_to_add_player_to_puzzle_already_in_puzzle ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x10d73b9a0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2'>>
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+args = (<sqlalchemy.dialects.postgresql.psycopg2.PGCompiler_psycopg2 object at 0x10daaa490>, [{'player_id': 5, 'puzzle_id': 3}])
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x10db2f4f0>
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def _execute_context(
+        self, dialect, constructor, statement, parameters, *args
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.ResultProxy`.
+    
+        """
+    
+        try:
+            try:
+                conn = self.__connection
+            except AttributeError:
+                # escape "except AttributeError" before revalidating
+                # to prevent misleading stacktraces in Py3K
+                conn = None
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(dialect, self, conn, *args)
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if context.compiled:
+            context.pre_exec()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self.engine.logger.info(statement)
+            if not self.engine.hide_parameters:
+                self.engine.logger.info(
+                    "%r",
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self.engine.logger.info(
+                    "[SQL parameters hidden due to hide_parameters=True]"
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x10d73b9a0>
+cursor = <cursor object at 0x10da054f0; closed: -1>
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "puzzle_players_pkey"
+E       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py:593: UniqueViolation
+
+The above exception was the direct cause of the following exception:
+
+puzzle_id = 3
+
+    @staticmethod
+    def post(puzzle_id):
+        """
+        Player may add themselves to the puzzle, if they are not already affiliated with
+        the puzzle.
+        """
+        # find all puzzles associated with the player making the request
+        player_puzzles = PuzzlePlayer.find_all_puzzles_for_player(g.user.g_id)
+    
+        # if the requested puzzle doesn't exist for the user, then return error
+        if any(puzzle.puzzle_id == puzzle_id for puzzle in player_puzzles):
+            return {
+                'message': f"{g.user.as_str()} is already is associated "
+                           f"with puzzle {puzzle_id}."
+            }
+    
+        # try to add the user to the puzzle
+        try:
+>           PuzzlePlayer.add_player_to_puzzle(puzzle_id, g.user)
+
+server/backend/resources/sudoku_player.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'backend.models.player.PuzzlePlayer'>, puzzle_id = 3
+user = <User 5>, autocommit = True
+
+    @classmethod
+    def add_player_to_puzzle(cls, puzzle_id, user, autocommit=True):
+        """
+        Adds a new player to the puzzle based on their Google identifier.
+        """
+        # check if puzzle exists; in order to exist, it must be associated with at least 1 player
+        existing_players = PuzzlePlayer.find_players_for_puzzle(puzzle_id)
+    
+        if not existing_players:
+            raise PuzzleException("You cannot join a puzzle if the puzzle does not exist and "
+                                  "have at least 1 player.")
+        if len(existing_players) >= MAX_PLAYERS_PER_PUZZLE:
+            raise PuzzleException(f"There are already {MAX_PLAYERS_PER_PUZZLE} "
+                                  f"players affiliated with puzzle {puzzle_id}")
+    
+        puzzle_player = PuzzlePlayer(user.id, puzzle_id)
+>       puzzle_player.save(autocommit)
+
+server/backend/models/player.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <PuzzlePlayer (transient 4524789424)>, autocommit = True
+
+    def save(self, autocommit=True):
+        """
+        Save a new puzzle-player paring to the database. Autocommit if specified.
+        """
+        db.session.add(self)
+    
+        if autocommit:
+>           db.session.commit()
+
+server/backend/models/player.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.scoping.scoped_session object at 0x10d48b460>, args = ()
+kwargs = {}
+
+    def do(self, *args, **kwargs):
+>       return getattr(self.registry(), name)(*args, **kwargs)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/scoping.py:163: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SignallingSession object at 0x10d5feb80>
+
+    def commit(self):
+        """Flush pending changes and commit the current transaction.
+    
+        If no transaction is in progress, this method raises an
+        :exc:`~sqlalchemy.exc.InvalidRequestError`.
+    
+        By default, the :class:`.Session` also expires all database
+        loaded state on all ORM-managed attributes after transaction commit.
+        This so that subsequent operations load the most recent
+        data from the database.   This behavior can be disabled using
+        the ``expire_on_commit=False`` option to :class:`.sessionmaker` or
+        the :class:`.Session` constructor.
+    
+        If a subtransaction is in effect (which occurs when begin() is called
+        multiple times), the subtransaction will be closed, and the next call
+        to ``commit()`` will operate on the enclosing transaction.
+    
+        When using the :class:`.Session` in its default mode of
+        ``autocommit=False``, a new transaction will
+        be begun immediately after the commit, but note that the newly begun
+        transaction does *not* use any connection resources until the first
+        SQL is actually emitted.
+    
+        .. seealso::
+    
+            :ref:`session_committing`
+    
+        """
+        if self.transaction is None:
+            if not self.autocommit:
+                self.begin()
+            else:
+                raise sa_exc.InvalidRequestError("No transaction is begun.")
+    
+>       self.transaction.commit()
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1042: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+
+    def commit(self):
+        self._assert_active(prepared_ok=True)
+        if self._state is not PREPARED:
+>           self._prepare_impl()
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:504: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+
+    def _prepare_impl(self):
+        self._assert_active()
+        if self._parent is None or self.nested:
+            self.session.dispatch.before_commit(self.session)
+    
+        stx = self.session.transaction
+        if stx is not self:
+            for subtransaction in stx._iterate_self_and_parents(upto=self):
+                subtransaction.commit()
+    
+        if not self.session._flushing:
+            for _flush_guard in range(100):
+                if self.session._is_clean():
+                    break
+>               self.session.flush()
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:483: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SignallingSession object at 0x10d5feb80>
+objects = None
+
+    def flush(self, objects=None):
+        """Flush all the object changes to the database.
+    
+        Writes out all pending object creations, deletions and modifications
+        to the database as INSERTs, DELETEs, UPDATEs, etc.  Operations are
+        automatically ordered by the Session's unit of work dependency
+        solver.
+    
+        Database operations will be issued in the current transactional
+        context and do not affect the state of the transaction, unless an
+        error occurs, in which case the entire transaction is rolled back.
+        You may flush() as often as you like within a transaction to move
+        changes from Python to the database's transaction buffer.
+    
+        For ``autocommit`` Sessions with no active manual transaction, flush()
+        will create a transaction on the fly that surrounds the entire set of
+        operations into the flush.
+    
+        :param objects: Optional; restricts the flush operation to operate
+          only on elements that are in the given collection.
+    
+          This feature is for an extremely narrow set of use cases where
+          particular objects may need to be operated upon before the
+          full flush() occurs.  It is not intended for general use.
+    
+        """
+    
+        if self._flushing:
+            raise sa_exc.InvalidRequestError("Session is already flushing")
+    
+        if self._is_clean():
+            return
+        try:
+            self._flushing = True
+>           self._flush(objects)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SignallingSession object at 0x10d5feb80>
+objects = None
+
+    def _flush(self, objects=None):
+    
+        dirty = self._dirty_states
+        if not dirty and not self._deleted and not self._new:
+            self.identity_map._modified.clear()
+            return
+    
+        flush_context = UOWTransaction(self)
+    
+        if self.dispatch.before_flush:
+            self.dispatch.before_flush(self, flush_context, objects)
+            # re-establish "dirty states" in case the listeners
+            # added
+            dirty = self._dirty_states
+    
+        deleted = set(self._deleted)
+        new = set(self._new)
+    
+        dirty = set(dirty).difference(deleted)
+    
+        # create the set of all objects we want to operate upon
+        if objects:
+            # specific list passed in
+            objset = set()
+            for o in objects:
+                try:
+                    state = attributes.instance_state(o)
+    
+                except exc.NO_STATE as err:
+                    util.raise_(
+                        exc.UnmappedInstanceError(o),
+                        replace_context=err,
+                    )
+                objset.add(state)
+        else:
+            objset = None
+    
+        # store objects whose fate has been decided
+        processed = set()
+    
+        # put all saves/updates into the flush context.  detect top-level
+        # orphans and throw them into deleted.
+        if objset:
+            proc = new.union(dirty).intersection(objset).difference(deleted)
+        else:
+            proc = new.union(dirty).difference(deleted)
+    
+        for state in proc:
+            is_orphan = _state_mapper(state)._is_orphan(state)
+    
+            is_persistent_orphan = is_orphan and state.has_identity
+    
+            if (
+                is_orphan
+                and not is_persistent_orphan
+                and state._orphaned_outside_of_session
+            ):
+                self._expunge_states([state])
+            else:
+                _reg = flush_context.register_object(
+                    state, isdelete=is_persistent_orphan
+                )
+                assert _reg, "Failed to add object to the flush context!"
+                processed.add(state)
+    
+        # put all remaining deletes into the flush context.
+        if objset:
+            proc = deleted.intersection(objset).difference(processed)
+        else:
+            proc = deleted.difference(processed)
+        for state in proc:
+            _reg = flush_context.register_object(state, isdelete=True)
+            assert _reg, "Failed to add object to the flush context!"
+    
+        if not flush_context.has_work:
+            return
+    
+        flush_context.transaction = transaction = self.begin(
+            subtransactions=True
+        )
+        try:
+            self._warn_on_events = True
+            try:
+                flush_context.execute()
+            finally:
+                self._warn_on_events = False
+    
+            self.dispatch.after_flush(self, flush_context)
+    
+            flush_context.finalize_flush_changes()
+    
+            if not objects and self.identity_map._modified:
+                len_ = len(self.identity_map._modified)
+    
+                statelib.InstanceState._commit_all_states(
+                    [
+                        (state, state.dict)
+                        for state in self.identity_map._modified
+                    ],
+                    instance_dict=self.identity_map,
+                )
+                util.warn(
+                    "Attribute history events accumulated on %d "
+                    "previously clean instances "
+                    "within inner-flush event handlers have been "
+                    "reset, and will not result in database updates. "
+                    "Consider using set_committed_value() within "
+                    "inner-flush event handlers to avoid this warning." % len_
+                )
+    
+            # useful assertions:
+            # if not objects:
+            #    assert not self.identity_map._modified
+            # else:
+            #    assert self.identity_map._modified == \
+            #            self.identity_map._modified.difference(objects)
+    
+            self.dispatch.after_flush_postexec(self, flush_context)
+    
+            transaction.commit()
+    
+        except:
+            with util.safe_reraise():
+>               transaction.rollback(_capture_exception=True)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2678: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.util.langhelpers.safe_reraise object at 0x10daf1d30>
+type_ = None, value = None, traceback = None
+
+    def __exit__(self, type_, value, traceback):
+        # see #2703 for notes
+        if type_ is None:
+            exc_type, exc_value, exc_tb = self._exc_info
+            self._exc_info = None  # remove potential circular references
+            if not self.warn_only:
+>               compat.raise_(
+                    exc_value,
+                    with_traceback=exc_tb,
+                )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def raise_(
+        exception, with_traceback=None, replace_context=None, from_=False
+    ):
+        r"""implement "raise" with cause support.
+    
+        :param exception: exception to raise
+        :param with_traceback: will call exception.with_traceback()
+        :param replace_context: an as-yet-unsupported feature.  This is
+         an exception object which we are "replacing", e.g., it's our
+         "cause" but we don't want it printed.    Basically just what
+         ``__suppress_context__`` does but we don't want to suppress
+         the enclosing context, if any.  So for now we make it the
+         cause.
+        :param from\_: the cause.  this actually sets the cause and doesn't
+         hope to hide it someday.
+    
+        """
+        if with_traceback is not None:
+            exception = exception.with_traceback(with_traceback)
+    
+        if from_ is not False:
+            exception.__cause__ = from_
+        elif replace_context is not None:
+            # no good solution here, we would like to have the exception
+            # have only the context of replace_context.__context__ so that the
+            # intermediary exception does not change, but we can't figure
+            # that out.
+            exception.__cause__ = replace_context
+    
+        try:
+>           raise exception
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SignallingSession object at 0x10d5feb80>
+objects = None
+
+    def _flush(self, objects=None):
+    
+        dirty = self._dirty_states
+        if not dirty and not self._deleted and not self._new:
+            self.identity_map._modified.clear()
+            return
+    
+        flush_context = UOWTransaction(self)
+    
+        if self.dispatch.before_flush:
+            self.dispatch.before_flush(self, flush_context, objects)
+            # re-establish "dirty states" in case the listeners
+            # added
+            dirty = self._dirty_states
+    
+        deleted = set(self._deleted)
+        new = set(self._new)
+    
+        dirty = set(dirty).difference(deleted)
+    
+        # create the set of all objects we want to operate upon
+        if objects:
+            # specific list passed in
+            objset = set()
+            for o in objects:
+                try:
+                    state = attributes.instance_state(o)
+    
+                except exc.NO_STATE as err:
+                    util.raise_(
+                        exc.UnmappedInstanceError(o),
+                        replace_context=err,
+                    )
+                objset.add(state)
+        else:
+            objset = None
+    
+        # store objects whose fate has been decided
+        processed = set()
+    
+        # put all saves/updates into the flush context.  detect top-level
+        # orphans and throw them into deleted.
+        if objset:
+            proc = new.union(dirty).intersection(objset).difference(deleted)
+        else:
+            proc = new.union(dirty).difference(deleted)
+    
+        for state in proc:
+            is_orphan = _state_mapper(state)._is_orphan(state)
+    
+            is_persistent_orphan = is_orphan and state.has_identity
+    
+            if (
+                is_orphan
+                and not is_persistent_orphan
+                and state._orphaned_outside_of_session
+            ):
+                self._expunge_states([state])
+            else:
+                _reg = flush_context.register_object(
+                    state, isdelete=is_persistent_orphan
+                )
+                assert _reg, "Failed to add object to the flush context!"
+                processed.add(state)
+    
+        # put all remaining deletes into the flush context.
+        if objset:
+            proc = deleted.intersection(objset).difference(processed)
+        else:
+            proc = deleted.difference(processed)
+        for state in proc:
+            _reg = flush_context.register_object(state, isdelete=True)
+            assert _reg, "Failed to add object to the flush context!"
+    
+        if not flush_context.has_work:
+            return
+    
+        flush_context.transaction = transaction = self.begin(
+            subtransactions=True
+        )
+        try:
+            self._warn_on_events = True
+            try:
+>               flush_context.execute()
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2638: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x10daf1850>
+
+    def execute(self):
+        postsort_actions = self._generate_actions()
+    
+        # sort = topological.sort(self.dependencies, postsort_actions)
+        # print "--------------"
+        # print "\ndependencies:", self.dependencies
+        # print "\ncycles:", self.cycles
+        # print "\nsort:", list(sort)
+        # print "\nCOUNT OF POSTSORT ACTIONS", len(postsort_actions)
+    
+        # execute
+        if self.cycles:
+            for set_ in topological.sort_as_subsets(
+                self.dependencies, postsort_actions
+            ):
+                while set_:
+                    n = set_.pop()
+                    n.execute_aggregate(self, set_)
+        else:
+            for rec in topological.sort(self.dependencies, postsort_actions):
+>               rec.execute(self)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py:422: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = SaveUpdateAll(mapped class PuzzlePlayer->puzzle_players)
+uow = <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x10daf1850>
+
+    def execute(self, uow):
+>       persistence.save_obj(
+            self.mapper,
+            uow.states_for_mapper_hierarchy(self.mapper, False, False),
+            uow,
+        )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py:586: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+base_mapper = <Mapper at 0x10d56d5b0; PuzzlePlayer>
+states = <generator object UOWTransaction.states_for_mapper_hierarchy at 0x10da78d60>
+uowtransaction = <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x10daf1850>
+single = False
+
+    def save_obj(base_mapper, states, uowtransaction, single=False):
+        """Issue ``INSERT`` and/or ``UPDATE`` statements for a list
+        of objects.
+    
+        This is called within the context of a UOWTransaction during a
+        flush operation, given a list of states to be flushed.  The
+        base mapper in an inheritance hierarchy handles the inserts/
+        updates for all descendant mappers.
+    
+        """
+    
+        # if batch=false, call _save_obj separately for each object
+        if not single and not base_mapper.batch:
+            for state in _sort_states(base_mapper, states):
+                save_obj(base_mapper, [state], uowtransaction, single=True)
+            return
+    
+        states_to_update = []
+        states_to_insert = []
+        cached_connections = _cached_connection_dict(base_mapper)
+    
+        for (
+            state,
+            dict_,
+            mapper,
+            connection,
+            has_identity,
+            row_switch,
+            update_version_id,
+        ) in _organize_states_for_save(base_mapper, states, uowtransaction):
+            if has_identity or row_switch:
+                states_to_update.append(
+                    (state, dict_, mapper, connection, update_version_id)
+                )
+            else:
+                states_to_insert.append((state, dict_, mapper, connection))
+    
+        for table, mapper in base_mapper._sorted_tables.items():
+            if table not in mapper._pks_by_table:
+                continue
+            insert = _collect_insert_commands(table, states_to_insert)
+    
+            update = _collect_update_commands(
+                uowtransaction, table, states_to_update
+            )
+    
+            _emit_update_statements(
+                base_mapper,
+                uowtransaction,
+                cached_connections,
+                mapper,
+                table,
+                update,
+            )
+    
+>           _emit_insert_statements(
+                base_mapper,
+                uowtransaction,
+                cached_connections,
+                mapper,
+                table,
+                insert,
+            )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py:239: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+base_mapper = <Mapper at 0x10d56d5b0; PuzzlePlayer>
+uowtransaction = <sqlalchemy.orm.unitofwork.UOWTransaction object at 0x10daf1850>
+cached_connections = {<sqlalchemy.engine.base.Connection object at 0x10db2f190>: <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>}
+mapper = <Mapper at 0x10d56d5b0; PuzzlePlayer>
+table = Table('puzzle_players', MetaData(bind=None), Column('player_id', Integer(), ForeignKey('users.id'), table=<puzzle_play...False), Column('hidden', Boolean(), table=<puzzle_players>, nullable=False, default=ColumnDefault(False)), schema=None)
+insert = <generator object _collect_insert_commands at 0x10da78ac0>
+bookkeeping = True
+
+    def _emit_insert_statements(
+        base_mapper,
+        uowtransaction,
+        cached_connections,
+        mapper,
+        table,
+        insert,
+        bookkeeping=True,
+    ):
+        """Emit INSERT statements corresponding to value lists collected
+        by _collect_insert_commands()."""
+    
+        cached_stmt = base_mapper._memo(("insert", table), table.insert)
+    
+        for (
+            (connection, pkeys, hasvalue, has_all_pks, has_all_defaults),
+            records,
+        ) in groupby(
+            insert,
+            lambda rec: (
+                rec[4],  # connection
+                set(rec[2]),  # parameter keys
+                bool(rec[5]),  # whether we have "value" parameters
+                rec[6],
+                rec[7],
+            ),
+        ):
+    
+            statement = cached_stmt
+    
+            if (
+                not bookkeeping
+                or (
+                    has_all_defaults
+                    or not base_mapper.eager_defaults
+                    or not connection.dialect.implicit_returning
+                )
+                and has_all_pks
+                and not hasvalue
+            ):
+    
+                records = list(records)
+                multiparams = [rec[2] for rec in records]
+    
+>               c = cached_connections[connection].execute(statement, multiparams)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py:1083: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+object_ = <sqlalchemy.sql.dml.Insert object at 0x10daaa2b0>
+multiparams = ([{'player_id': 5, 'puzzle_id': 3}],), params = {}
+meth = <bound method ClauseElement._execute_on_connection of <sqlalchemy.sql.dml.Insert object at 0x10daaa2b0>>
+
+    def execute(self, object_, *multiparams, **params):
+        r"""Executes a SQL statement construct and returns a
+        :class:`_engine.ResultProxy`.
+    
+        :param object: The statement to be executed.  May be
+         one of:
+    
+         * a plain string
+         * any :class:`_expression.ClauseElement` construct that is also
+           a subclass of :class:`.Executable`, such as a
+           :func:`_expression.select` construct
+         * a :class:`.FunctionElement`, such as that generated
+           by :data:`.func`, will be automatically wrapped in
+           a SELECT statement, which is then executed.
+         * a :class:`.DDLElement` object
+         * a :class:`.DefaultGenerator` object
+         * a :class:`.Compiled` object
+    
+        :param \*multiparams/\**params: represent bound parameter
+         values to be used in the execution.   Typically,
+         the format is either a collection of one or more
+         dictionaries passed to \*multiparams::
+    
+             conn.execute(
+                 table.insert(),
+                 {"id":1, "value":"v1"},
+                 {"id":2, "value":"v2"}
+             )
+    
+         ...or individual key/values interpreted by \**params::
+    
+             conn.execute(
+                 table.insert(), id=1, value="v1"
+             )
+    
+         In the case that a plain SQL string is passed, and the underlying
+         DBAPI accepts positional bind parameters, a collection of tuples
+         or individual values in \*multiparams may be passed::
+    
+             conn.execute(
+                 "INSERT INTO table (id, value) VALUES (?, ?)",
+                 (1, "v1"), (2, "v2")
+             )
+    
+             conn.execute(
+                 "INSERT INTO table (id, value) VALUES (?, ?)",
+                 1, "v1"
+             )
+    
+         Note above, the usage of a question mark "?" or other
+         symbol is contingent upon the "paramstyle" accepted by the DBAPI
+         in use, which may be any of "qmark", "named", "pyformat", "format",
+         "numeric".   See `pep-249 <http://www.python.org/dev/peps/pep-0249/>`_
+         for details on paramstyle.
+    
+         To execute a textual SQL statement which uses bound parameters in a
+         DBAPI-agnostic way, use the :func:`_expression.text` construct.
+    
+        """
+        if isinstance(object_, util.string_types[0]):
+            return self._execute_text(object_, multiparams, params)
+        try:
+            meth = object_._execute_on_connection
+        except AttributeError as err:
+            util.raise_(
+                exc.ObjectNotExecutableError(object_), replace_context=err
+            )
+        else:
+>           return meth(self, multiparams, params)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1011: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.sql.dml.Insert object at 0x10daaa2b0>
+connection = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+multiparams = ([{'player_id': 5, 'puzzle_id': 3}],), params = {}
+
+    def _execute_on_connection(self, connection, multiparams, params):
+        if self.supports_execution:
+>           return connection._execute_clauseelement(self, multiparams, params)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/sql/elements.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+elem = <sqlalchemy.sql.dml.Insert object at 0x10daaa2b0>
+multiparams = ([{'player_id': 5, 'puzzle_id': 3}],), params = {}
+
+    def _execute_clauseelement(self, elem, multiparams, params):
+        """Execute a sql.ClauseElement object."""
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_execute:
+                elem, multiparams, params = fn(self, elem, multiparams, params)
+    
+        distilled_params = _distill_params(multiparams, params)
+        if distilled_params:
+            # ensure we don't retain a link to the view object for keys()
+            # which links to the values, which we don't want to cache
+            keys = list(distilled_params[0].keys())
+        else:
+            keys = []
+    
+        dialect = self.dialect
+        if "compiled_cache" in self._execution_options:
+            key = (
+                dialect,
+                elem,
+                tuple(sorted(keys)),
+                self.schema_for_object.hash_key,
+                len(distilled_params) > 1,
+            )
+            compiled_sql = self._execution_options["compiled_cache"].get(key)
+            if compiled_sql is None:
+                compiled_sql = elem.compile(
+                    dialect=dialect,
+                    column_keys=keys,
+                    inline=len(distilled_params) > 1,
+                    schema_translate_map=self.schema_for_object
+                    if not self.schema_for_object.is_default
+                    else None,
+                )
+                self._execution_options["compiled_cache"][key] = compiled_sql
+        else:
+            compiled_sql = elem.compile(
+                dialect=dialect,
+                column_keys=keys,
+                inline=len(distilled_params) > 1,
+                schema_translate_map=self.schema_for_object
+                if not self.schema_for_object.is_default
+                else None,
+            )
+    
+>       ret = self._execute_context(
+            dialect,
+            dialect.execution_ctx_cls._init_compiled,
+            compiled_sql,
+            distilled_params,
+            compiled_sql,
+            distilled_params,
+        )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x10d73b9a0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2'>>
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+args = (<sqlalchemy.dialects.postgresql.psycopg2.PGCompiler_psycopg2 object at 0x10daaa490>, [{'player_id': 5, 'puzzle_id': 3}])
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x10db2f4f0>
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def _execute_context(
+        self, dialect, constructor, statement, parameters, *args
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.ResultProxy`.
+    
+        """
+    
+        try:
+            try:
+                conn = self.__connection
+            except AttributeError:
+                # escape "except AttributeError" before revalidating
+                # to prevent misleading stacktraces in Py3K
+                conn = None
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(dialect, self, conn, *args)
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if context.compiled:
+            context.pre_exec()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self.engine.logger.info(statement)
+            if not self.engine.hide_parameters:
+                self.engine.logger.info(
+                    "%r",
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self.engine.logger.info(
+                    "[SQL parameters hidden due to hide_parameters=True]"
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+    
+            if self._has_events or self.engine._has_events:
+                self.dispatch.after_cursor_execute(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+            if context.compiled:
+                context.post_exec()
+    
+            if context.is_crud or context.is_text:
+                result = context._setup_crud_result_proxy()
+            else:
+                result = context.get_result_proxy()
+                if result._metadata is None:
+                    result._soft_close()
+    
+            if context.should_autocommit and self._root.__transaction is None:
+                self._root._commit_impl(autocommit=True)
+    
+            # for "connectionless" execution, we have to close this
+            # Connection after the statement is complete.
+            if self.should_close_with_result:
+                # ResultProxy already exhausted rows / has no rows.
+                # close us now
+                if result._soft_closed:
+                    self.close()
+                else:
+                    # ResultProxy will close this Connection when no more
+                    # rows to fetch.
+                    result._autoclose_connection = True
+    
+        except BaseException as e:
+>           self._handle_dbapi_exception(
+                e, statement, parameters, cursor, context
+            )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1316: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+e = UniqueViolation('duplicate key value violates unique constraint "puzzle_players_pkey"\nDETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.\n')
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+cursor = <cursor object at 0x10da054f0; closed: -1>
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def _handle_dbapi_exception(
+        self, e, statement, parameters, cursor, context
+    ):
+        exc_info = sys.exc_info()
+    
+        if context and context.exception is None:
+            context.exception = e
+    
+        is_exit_exception = not isinstance(e, Exception)
+    
+        if not self._is_disconnect:
+            self._is_disconnect = (
+                isinstance(e, self.dialect.dbapi.Error)
+                and not self.closed
+                and self.dialect.is_disconnect(
+                    e,
+                    self.__connection if not self.invalidated else None,
+                    cursor,
+                )
+            ) or (is_exit_exception and not self.closed)
+    
+            if context:
+                context.is_disconnect = self._is_disconnect
+    
+        invalidate_pool_on_disconnect = not is_exit_exception
+    
+        if self._reentrant_error:
+            util.raise_(
+                exc.DBAPIError.instance(
+                    statement,
+                    parameters,
+                    e,
+                    self.dialect.dbapi.Error,
+                    hide_parameters=self.engine.hide_parameters,
+                    dialect=self.dialect,
+                    ismulti=context.executemany
+                    if context is not None
+                    else None,
+                ),
+                with_traceback=exc_info[2],
+                from_=e,
+            )
+        self._reentrant_error = True
+        try:
+            # non-DBAPI error - if we already got a context,
+            # or there's no string statement, don't wrap it
+            should_wrap = isinstance(e, self.dialect.dbapi.Error) or (
+                statement is not None
+                and context is None
+                and not is_exit_exception
+            )
+    
+            if should_wrap:
+                sqlalchemy_exception = exc.DBAPIError.instance(
+                    statement,
+                    parameters,
+                    e,
+                    self.dialect.dbapi.Error,
+                    hide_parameters=self.engine.hide_parameters,
+                    connection_invalidated=self._is_disconnect,
+                    dialect=self.dialect,
+                    ismulti=context.executemany
+                    if context is not None
+                    else None,
+                )
+            else:
+                sqlalchemy_exception = None
+    
+            newraise = None
+    
+            if (
+                self._has_events or self.engine._has_events
+            ) and not self._execution_options.get(
+                "skip_user_error_events", False
+            ):
+                # legacy dbapi_error event
+                if should_wrap and context:
+                    self.dispatch.dbapi_error(
+                        self, cursor, statement, parameters, context, e
+                    )
+    
+                # new handle_error event
+                ctx = ExceptionContextImpl(
+                    e,
+                    sqlalchemy_exception,
+                    self.engine,
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    self._is_disconnect,
+                    invalidate_pool_on_disconnect,
+                )
+    
+                for fn in self.dispatch.handle_error:
+                    try:
+                        # handler returns an exception;
+                        # call next handler in a chain
+                        per_fn = fn(ctx)
+                        if per_fn is not None:
+                            ctx.chained_exception = newraise = per_fn
+                    except Exception as _raised:
+                        # handler raises an exception - stop processing
+                        newraise = _raised
+                        break
+    
+                if self._is_disconnect != ctx.is_disconnect:
+                    self._is_disconnect = ctx.is_disconnect
+                    if sqlalchemy_exception:
+                        sqlalchemy_exception.connection_invalidated = (
+                            ctx.is_disconnect
+                        )
+    
+                # set up potentially user-defined value for
+                # invalidate pool.
+                invalidate_pool_on_disconnect = (
+                    ctx.invalidate_pool_on_disconnect
+                )
+    
+            if should_wrap and context:
+                context.handle_dbapi_exception(e)
+    
+            if not self._is_disconnect:
+                if cursor:
+                    self._safe_close_cursor(cursor)
+                with util.safe_reraise(warn_only=True):
+                    self._autorollback()
+    
+            if newraise:
+                util.raise_(newraise, with_traceback=exc_info[2], from_=e)
+            elif should_wrap:
+>               util.raise_(
+                    sqlalchemy_exception, with_traceback=exc_info[2], from_=e
+                )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1510: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def raise_(
+        exception, with_traceback=None, replace_context=None, from_=False
+    ):
+        r"""implement "raise" with cause support.
+    
+        :param exception: exception to raise
+        :param with_traceback: will call exception.with_traceback()
+        :param replace_context: an as-yet-unsupported feature.  This is
+         an exception object which we are "replacing", e.g., it's our
+         "cause" but we don't want it printed.    Basically just what
+         ``__suppress_context__`` does but we don't want to suppress
+         the enclosing context, if any.  So for now we make it the
+         cause.
+        :param from\_: the cause.  this actually sets the cause and doesn't
+         hope to hide it someday.
+    
+        """
+        if with_traceback is not None:
+            exception = exception.with_traceback(with_traceback)
+    
+        if from_ is not False:
+            exception.__cause__ = from_
+        elif replace_context is not None:
+            # no good solution here, we would like to have the exception
+            # have only the context of replace_context.__context__ so that the
+            # intermediary exception does not change, but we can't figure
+            # that out.
+            exception.__cause__ = replace_context
+    
+        try:
+>           raise exception
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py:182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.engine.base.Connection object at 0x10daf1fa0>
+dialect = <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x10d73b9a0>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2'>>
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+args = (<sqlalchemy.dialects.postgresql.psycopg2.PGCompiler_psycopg2 object at 0x10daaa490>, [{'player_id': 5, 'puzzle_id': 3}])
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x10db2f4f0>
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def _execute_context(
+        self, dialect, constructor, statement, parameters, *args
+    ):
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.ResultProxy`.
+    
+        """
+    
+        try:
+            try:
+                conn = self.__connection
+            except AttributeError:
+                # escape "except AttributeError" before revalidating
+                # to prevent misleading stacktraces in Py3K
+                conn = None
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+            context = constructor(dialect, self, conn, *args)
+        except BaseException as e:
+            self._handle_dbapi_exception(
+                e, util.text_type(statement), parameters, None, None
+            )
+    
+        if context.compiled:
+            context.pre_exec()
+    
+        cursor, statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        if not context.executemany:
+            parameters = parameters[0]
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                statement, parameters = fn(
+                    self,
+                    cursor,
+                    statement,
+                    parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self.engine.logger.info(statement)
+            if not self.engine.hide_parameters:
+                self.engine.logger.info(
+                    "%r",
+                    sql_util._repr_params(
+                        parameters, batches=10, ismulti=context.executemany
+                    ),
+                )
+            else:
+                self.engine.logger.info(
+                    "[SQL parameters hidden due to hide_parameters=True]"
+                )
+    
+        evt_handled = False
+        try:
+            if context.executemany:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor, statement, parameters, context
+                    )
+            elif not parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, statement, context
+                    )
+            else:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(cursor, statement, parameters, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, statement, parameters, context
+                    )
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py:1276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.dialects.postgresql.psycopg2.PGDialect_psycopg2 object at 0x10d73b9a0>
+cursor = <cursor object at 0x10da054f0; closed: -1>
+statement = 'INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)'
+parameters = {'hidden': False, 'player_id': 5, 'puzzle_id': 3}
+context = <sqlalchemy.dialects.postgresql.psycopg2.PGExecutionContext_psycopg2 object at 0x10db5f6d0>
+
+    def do_execute(self, cursor, statement, parameters, context=None):
+>       cursor.execute(statement, parameters)
+E       sqlalchemy.exc.IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E       
+E       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E       (Background on this error at: http://sqlalche.me/e/13/gkpj)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py:593: IntegrityError
+
+During handling of the above exception, another exception occurred:
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_already_in_puzzle(test_client, init_db, verification_true):
+        """
+        Attempt to add player that is already in the puzzle should not re-add the player.
+        """
+>       response = test_client.post('/puzzles/3/player',
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:337: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1950: in full_dispatch_request
+    rv = self.dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1936: in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:468: in wrapper
+    resp = resource(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask/views.py:89: in view
+    return self.dispatch_request(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:583: in dispatch_request
+    resp = meth(*args, **kwargs)
+server/backend/resources/sudoku_player.py:47: in post
+    return {'message': f"Attempt to add {g.user.as_str()} to puzzle {puzzle_id} failed.",
+server/backend/models/user.py:76: in as_str
+    return f"{self.first_name} {self.last_name} (id = {self.id})"
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/attributes.py:287: in __get__
+    return self.impl.get(instance_state(instance), dict_)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/attributes.py:718: in get
+    value = state._load_expired(state, passive)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/state.py:652: in _load_expired
+    self.manager.deferred_scalar_loader(self, toload)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/loading.py:1006: in load_scalar_attributes
+    result = load_on_ident(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/loading.py:200: in load_on_ident
+    return load_on_pk_identity(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/loading.py:286: in load_on_pk_identity
+    return q.one()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3490: in one
+    ret = self.one_or_none()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3459: in one_or_none
+    ret = list(self)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3535: in __iter__
+    return self._execute_and_instances(context)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3556: in _execute_and_instances
+    conn = self._get_bind_args(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3571: in _get_bind_args
+    return fn(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3550: in _connection_from_session
+    conn = self.session.connection(**kw)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1138: in connection
+    return self._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1146: in _connection_for_bind
+    return self.transaction._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:409: in _connection_for_bind
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+----------------------------- Captured stdout call -----------------------------
+(psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+
+[SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+[parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+(Background on this error at: http://sqlalche.me/e/13/gkpj)
+____________ test_attempt_to_add_player_to_puzzle_that_doesnt_exist ____________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_that_doesnt_exist(test_client, init_db, verification_true):
+        """
+        Attempt by a player to add themselves to a puzzle that doesn't exist should not be successful.
+        """
+>       response = test_client.post('/puzzles/10/player',
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:349: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3535: in __iter__
+    return self._execute_and_instances(context)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3556: in _execute_and_instances
+    conn = self._get_bind_args(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3571: in _get_bind_args
+    return fn(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3550: in _connection_from_session
+    conn = self.session.connection(**kw)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1138: in connection
+    return self._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1146: in _connection_for_bind
+    return self.transaction._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:409: in _connection_for_bind
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+__________________ test_attempt_to_add_player_to_puzzle_valid __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_add_player_to_puzzle_valid(test_client, init_db, verification_true):
+        """
+        Attempt to add player to puzzle that is a valid request should be successful
+        """
+>       response = test_client.post('/puzzles/1/player',
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:362: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3535: in __iter__
+    return self._execute_and_instances(context)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3556: in _execute_and_instances
+    conn = self._get_bind_args(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3571: in _get_bind_args
+    return fn(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3550: in _connection_from_session
+    conn = self.session.connection(**kw)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1138: in connection
+    return self._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1146: in _connection_for_bind
+    return self.transaction._connection_for_bind(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:409: in _connection_for_bind
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_______________ test_attempt_to_join_puzzle_max_players_reached ________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_to_join_puzzle_max_players_reached(test_client, init_db, verification_true):
+        """
+        Attempt to add player to puzzle that is a valid request should be successful.
+        """
+        # add three more players to puzzle with id = 2; now the board has 4 players
+        puzzle_player = PuzzlePlayer(1, 2)
+>       puzzle_player.save(autocommit=True)
+
+server/tests/integration/test_sudoku_endpoints.py:376: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/player.py:36: in save
+    db.session.commit()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/scoping.py:163: in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1042: in commit
+    self.transaction.commit()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:502: in commit
+    self._assert_active(prepared_ok=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = True, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+__________________ test_attempt_add_piece_valid_no_value_yet ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_valid_no_value_yet(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board
+        that is associated with the user.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:395: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_________________ test_attempt_add_piece_valid_override_value __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_valid_override_value(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board that
+        is associated with the user.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:422: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_____________ test_attempt_add_piece_player_is_not_affiliated_with _____________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_player_is_not_affiliated_with(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to a valid position on a sudoku board
+        that is NOT associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/2/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:449: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+___________________ test_attempt_add_piece_invalid_piece_low ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_piece_low(test_client, init_db, verification_true):
+        """
+        Attempt to add a INVALID number to a valid position on a sudoku board that
+        is associated with the user.
+        """
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:467: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+__________________ test_attempt_add_piece_invalid_piece_high ___________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_piece_high(test_client, init_db, verification_true):
+        """
+        Attempt to add a INVALID number to a valid position on a sudoku board
+        that is associated with the user.
+        """
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:492: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_________________ test_attempt_add_piece_invalid_position_high _________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_position_high(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to an INVALID position on a sudoku board
+        that is associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=100,
+                y_coordinate=100,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:517: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_________________ test_attempt_add_piece_invalid_position_low __________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_add_piece_invalid_position_low(test_client, init_db, verification_true):
+        """
+        Attempt to add a valid number to an INVALID position on a sudoku
+        board that is associated with the user.
+        """
+>       response = test_client.post(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=-1,
+                y_coordinate=-1,
+                value=2
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+
+server/tests/integration/test_sudoku_endpoints.py:538: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1016: in post
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+__________________________ test_attempt_remove_piece ___________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_remove_piece(test_client, init_db, verification_true):
+        """
+        Attempt to delete a non-static value from a position on the puzzle should be OK.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:559: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+_______________________ test_attempt_remove_static_piece _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_remove_static_piece(test_client, init_db, verification_true):
+        """
+        Attempt to delete a static value from a position on the puzzle should fail.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+>       piece = PuzzlePiece.get_piece(3, 0, 0)
+
+server/tests/integration/test_sudoku_endpoints.py:586: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/backend/models/puzzle_pieces.py:46: in get_piece
+    piece = cls.query.filter_by(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+______________________ test_get_puzzle_solution_complete _______________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_get_puzzle_solution_complete(test_client, init_db, verification_true):
+        """
+        Assert that it is possible to obtain the puzzle solution via the solution endpoint.
+        """
+>       response = test_client.get('/puzzles/3/solution',
+                                   headers={'Authorization': 'Bearer 2342351231asdb'})
+
+server/tests/integration/test_sudoku_endpoints.py:613: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1006: in get
+    return self.open(*args, **kw)
+server/venv/lib/python3.8/site-packages/flask/testing.py:222: in open
+    return Client.open(
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:970: in open
+    response = self.run_wsgi_app(environ.copy(), buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:861: in run_wsgi_app
+    rv = run_wsgi_app(self.application, environ, buffered=buffered)
+server/venv/lib/python3.8/site-packages/werkzeug/test.py:1096: in run_wsgi_app
+    app_rv = app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2464: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask_socketio/__init__.py:45: in __call__
+    return super(_SocketIOMiddleware, self).__call__(environ,
+server/venv/lib/python3.8/site-packages/engineio/middleware.py:74: in __call__
+    return self.wsgi_app(environ, start_response)
+server/venv/lib/python3.8/site-packages/flask/app.py:2450: in wsgi_app
+    response = self.handle_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1867: in handle_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:2447: in wsgi_app
+    response = self.full_dispatch_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:1952: in full_dispatch_request
+    rv = self.handle_user_exception(e)
+server/venv/lib/python3.8/site-packages/flask_restful/__init__.py:272: in error_router
+    return original_handler(e)
+server/venv/lib/python3.8/site-packages/flask_cors/extension.py:165: in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+server/venv/lib/python3.8/site-packages/flask/app.py:1821: in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+server/venv/lib/python3.8/site-packages/flask/_compat.py:38: in reraise
+    raise value.with_traceback(tb)
+server/venv/lib/python3.8/site-packages/flask/app.py:1948: in full_dispatch_request
+    rv = self.preprocess_request()
+server/venv/lib/python3.8/site-packages/flask/app.py:2242: in preprocess_request
+    rv = func()
+server/backend/decorators.py:47: in verify_oauth_token
+    return verify_token(request)
+server/backend/resources/authentication.py:39: in verify_token
+    user = User.find_by_g_id(validation['user_id'])
+server/backend/models/user.py:33: in find_by_g_id
+    return cls.query.filter_by(g_id=g_id).first()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3429: in first
+    ret = list(self[0:1])
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3203: in __getitem__
+    return list(res)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/query.py:3534: in __iter__
+    self.session._autoflush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:1618: in _autoflush
+    self.flush()
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2536: in flush
+    self._flush(objects)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:2632: in _flush
+    flush_context.transaction = transaction = self.begin(
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:953: in begin
+    self.transaction = self.transaction._begin(nested=nested)
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:317: in _begin
+    self._assert_active()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <sqlalchemy.orm.session.SessionTransaction object at 0x10da2edc0>
+prepared_ok = False, rollback_ok = False, deactive_ok = False
+closed_msg = 'This transaction is closed'
+
+    def _assert_active(
+        self,
+        prepared_ok=False,
+        rollback_ok=False,
+        deactive_ok=False,
+        closed_msg="This transaction is closed",
+    ):
+        if self._state is COMMITTED:
+            raise sa_exc.InvalidRequestError(
+                "This session is in 'committed' state; no further "
+                "SQL can be emitted within this transaction."
+            )
+        elif self._state is PREPARED:
+            if not prepared_ok:
+                raise sa_exc.InvalidRequestError(
+                    "This session is in 'prepared' state; no further "
+                    "SQL can be emitted within this transaction."
+                )
+        elif self._state is DEACTIVE:
+            if not deactive_ok and not rollback_ok:
+                if self._rollback_exception:
+>                   raise sa_exc.InvalidRequestError(
+                        "This Session's transaction has been rolled back "
+                        "due to a previous exception during flush."
+                        " To begin a new transaction with this Session, "
+                        "first issue Session.rollback()."
+                        " Original exception was: %s"
+                        % self._rollback_exception,
+                        code="7s2a",
+E                       sqlalchemy.exc.InvalidRequestError: This Session's transaction has been rolled back due to a previous exception during flush. To begin a new transaction with this Session, first issue Session.rollback(). Original exception was: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "puzzle_players_pkey"
+E                       DETAIL:  Key (player_id, puzzle_id)=(5, 3) already exists.
+E                       
+E                       [SQL: INSERT INTO puzzle_players (player_id, puzzle_id, hidden) VALUES (%(player_id)s, %(puzzle_id)s, %(hidden)s)]
+E                       [parameters: {'player_id': 5, 'puzzle_id': 3, 'hidden': False}]
+E                       (Background on this error at: http://sqlalche.me/e/13/gkpj) (Background on this error at: http://sqlalche.me/e/13/7s2a)
+
+server/venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py:289: InvalidRequestError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_not_hidden
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_complete
+================= 17 failed, 183 passed, 4 warnings in 58.77s ==================

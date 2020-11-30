@@ -1,0 +1,7 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collected 200 items
+
+server/tests/integration/test_authentication.py 
