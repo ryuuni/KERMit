@@ -1,13 +1,13 @@
 import {createContext} from 'react'
 
-const AccessTokenContext = createContext({
+const CurrentUserContext = createContext({
   accessToken: '',
   userName: '',
   userEmail: '',
   isLoggedIn: false,
   setAccessToken: () => {},
   setUserName: () => {}, 
-  setUserEMail: () => {},
+  setUserEmail: () => {},
 });
 
-export default AccessTokenContext;
+export default CurrentUserContext;

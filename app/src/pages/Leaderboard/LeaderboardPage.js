@@ -2,7 +2,7 @@ import './LeaderboardPage.css';
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from '@material-ui/core/styles';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
 import Endpoint from '../../utils/Endpoint'
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const LeaderboardPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [topPlayers, setTopPlayers] = useState([]);
-  const { accessToken } = useContext(AccessTokenContext);
+  const { accessToken } = useContext(CurrentUserContext);
 
   useEffect(() => {
     const requestOptions = {

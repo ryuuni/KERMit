@@ -1,11 +1,11 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
 import GoogleBtn from '../GoogleBtn/GoogleBtn';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import { useContext } from 'react';
 
 const Header = () => {
-  const { isLoggedIn } = useContext(AccessTokenContext);
+  const { isLoggedIn } = useContext(CurrentUserContext);
 
   return (
     <div className="header">

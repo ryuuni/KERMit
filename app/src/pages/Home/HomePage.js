@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Redirect } from "react-router-dom";
 import CreatePuzzleModalContent from '../../components/CreatePuzzleModalContent/CreatePuzzleModalContent';
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
 import Modal from '@material-ui/core/Modal';
 import Endpoint from '../../utils/Endpoint';
@@ -13,7 +13,7 @@ const HomePage = () => {
   const [puzzles, setPuzzles] = useState([]);
   const [redirect, setRedirect] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const { accessToken } = useContext(AccessTokenContext);
+  const { accessToken } = useContext(CurrentUserContext);
 
   const redirectToPuzzle = useCallback(puzzleId => {
     setRedirect(`/puzzle/${puzzleId}`);

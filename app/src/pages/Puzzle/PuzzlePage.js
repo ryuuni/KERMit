@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext, useRef, useCallback } from "react"
 import SudokuBoard from '../../components/SudokuBoard/SudokuBoard';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import Chat from '../../components/Chat/Chat';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
 // import { getPuzzleResponse } from '../data/get_puzzle_response'
 // import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
@@ -22,15 +23,17 @@ const PuzzlePage = () => {
   const { puzzleId } = useParams();
   const [pieces, setPieces] = useState(null);
   const [solved, setSolved] = useState(false);
-  const { accessToken } = useContext(AccessTokenContext);
+  const [isMultiplayerGame, setIsMultiplayerGame] = useState(false);
+  const { accessToken } = useContext(CurrentUserContext);
   const socket = useRef(null); 
 
-  const updatePuzzle = useCallback(({pieces, completed}) => {
+  const updatePuzzle = useCallback(({pieces, completed, players}) => {
     setPieces(
       pieces.sort((pieceA, pieceB) =>
         (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
     ));
     setSolved(completed);
+    setIsMultiplayerGame(players.length > 1);
   }, []);
 
   useEffect(() => {  
@@ -75,6 +78,7 @@ const PuzzlePage = () => {
         solved={solved}
         ref={socket}
       />
+      {isMultiplayerGame && <Chat /> }
     </PageTemplate>
   );
 }
