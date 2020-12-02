@@ -393,6 +393,97 @@ def test_create_puzzle_registered_others(monkeypatch, user, mock_save):
     assert result == expected
 
 
+def test_create_puzzle_registered_duplicates(monkeypatch, user, mock_save):
+    """
+    A valid request to create a puzzle should be successful. If there are duplicate
+    users specified in additional players, system should process only distinct values.
+    """
+    class MockParser:
+        """Mock the parsing function of the endpoint."""
+        def add_argument(self, *args, **kwargs):
+            """Mock add argument, do nothing."""
+            return
+
+        def parse_args(self):
+            """Mock the parsing function by returning known dict"""
+            return {
+                'difficulty': 0.5,
+                'size': 5,
+                'additional_players': ['johnsmith@js.com',
+                                       'paulrevere@independence.com', 'paulrevere@independence.com']
+            }
+
+    def mock_find_players_by_email(*args, **kwargs):
+        """Helper mock"""
+        user1 = User(g_id='923423', first_name="Jane", last_name="Doe", email='johnsmith@js.com')
+        return [user1], ['paulrevere@independence.com']
+
+    monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
+    monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(User, "find_users_by_email", mock_find_players_by_email)
+    monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", lambda x: [user])
+
+    with app.app_context():
+        g.user = user
+        puzzles_resource = SudokuPuzzles()
+        puzzles_resource.parser = MockParser()
+        result = puzzles_resource.post()
+
+    expected = {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 5,
+        'puzzle_id': 1,
+        'unregistered_emails': ['paulrevere@independence.com']
+    }
+    assert result == expected
+
+
+def test_create_puzzle_self_added_as_additional_player(monkeypatch, user, mock_save):
+    """
+    A valid request to create a puzzle should be successful. If the username of
+    the person is specified (it does not need to be), it should not be considered
+    an additional player.
+    """
+    class MockParser:
+        """Mock the parsing function of the endpoint."""
+        def add_argument(self, *args, **kwargs):
+            """Mock add argument, do nothing."""
+            return
+
+        def parse_args(self):
+            """Mock the parsing function by returning known dict"""
+            return {
+                'difficulty': 0.5,
+                'size': 5,
+                'additional_players': ['janedoe1@tests.com']
+            }
+
+    def mock_find_players_by_email(*args, **kwargs):
+        """Helper mock"""
+        return [user], []
+
+    monkeypatch.setattr(Puzzle, 'set_pieces', lambda x: None)  # to speed up tests
+    monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(User, "find_users_by_email", mock_find_players_by_email)
+    monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", lambda x: [user])
+
+    with app.app_context():
+        g.user = user
+        puzzles_resource = SudokuPuzzles()
+        puzzles_resource.parser = MockParser()
+        result = puzzles_resource.post()
+
+    expected = {
+        'message': 'New Sudoku puzzle successfully created',
+        'difficulty': 0.5,
+        'size': 5,
+        'puzzle_id': 1,
+        'unregistered_emails': []
+    }
+    assert result == expected
+
+
 def test_sudoku_puzzles_too_many_additional(monkeypatch, user, mock_save):
     """
     A valid request to create a puzzle should be successful.

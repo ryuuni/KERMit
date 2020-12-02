@@ -100,7 +100,7 @@ class SudokuPuzzles(Resource):
                 'difficulty': args['difficulty'],
                 'size': args['size'],
                 'puzzle_id': puzzle_id,
-                'unregistered_emails': players_unregistered
+                'unregistered_emails': sorted(players_unregistered)
             }
 
         except PuzzleException as p_exception:

@@ -169,6 +169,17 @@ def test_update_success(monkeypatch, puzzle_piece):
     assert puzzle_piece.value == 5
 
 
+def test_update_success_none(monkeypatch):
+    """
+    Test attempt update puzzle piece, invalid attempt made to place non-integer value.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+
+    piece = PuzzlePiece(1, 0, 0, value=7, static_piece=False)
+    piece.update(None, autocommit=True)
+    assert piece.value is None
+
+
 def test_update_fail_static(monkeypatch):
     """
     Test attempt update puzzle piece, invalid attempt made to static piece.
@@ -178,6 +189,28 @@ def test_update_fail_static(monkeypatch):
     piece = PuzzlePiece(1, 0, 0, value=7, static_piece=True)
     with pytest.raises(PuzzleException):
         piece.update(5, autocommit=True)
+
+
+def test_update_fail_str(monkeypatch):
+    """
+    Test attempt update puzzle piece, invalid attempt made to place non-integer value.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+
+    piece = PuzzlePiece(1, 0, 0, value=7, static_piece=False)
+    with pytest.raises(PuzzleException):
+        piece.update("str", autocommit=True)
+
+
+def test_update_fail_float(monkeypatch):
+    """
+    Test attempt update puzzle piece, invalid attempt made to place non-integer value.
+    """
+    monkeypatch.setattr(db, "session", MockSession)
+
+    piece = PuzzlePiece(1, 0, 0, value=7, static_piece=False)
+    with pytest.raises(PuzzleException):
+        piece.update(3.4, autocommit=True)
 
 
 def test_get_as_str(puzzle_piece):
