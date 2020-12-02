@@ -180,7 +180,28 @@ def test_add_player_to_puzzle_player_doesnt_exist(monkeypatch):
         PuzzlePlayer.add_player_to_puzzle(1, requesting_user)
 
 
-def test_add_player_to_puzzle_ok(monkeypatch):
+def test_add_player_to_puzzle_ok_lower_bound(monkeypatch):
+    """
+    A valid attempt to add a player to a puzzle should be successful.
+    """
+    def mock_return_existing_players(*args, **kwargs):
+        """
+        Mock return existing players for the request.
+        """
+        user1 = User('923423', first_name="Tester1",
+                     last_name="Tester1", email='test1@tests.com')
+        return [user1]
+
+    monkeypatch.setattr(db, "session", MockSession)
+    monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", mock_return_existing_players)
+    requesting_user = User('923423', first_name="Requester",
+                           last_name="Requester", email='requester@tests.com')
+
+    PuzzlePlayer.add_player_to_puzzle(1, requesting_user)
+    assert True  # just need to make sure we can get to this point
+
+
+def test_add_player_to_puzzle_ok_upper_bound(monkeypatch):
     """
     A valid attempt to add a player to a puzzle should be successful.
     """
@@ -191,8 +212,10 @@ def test_add_player_to_puzzle_ok(monkeypatch):
         user1 = User('923423', first_name="Tester1",
                      last_name="Tester1", email='test1@tests.com')
         user2 = User('12345', first_name="Tester2",
-                     last_name="Tester2", email='tes2t@tests.com')
-        return [user1, user2]
+                     last_name="Tester2", email='test2@tests.com')
+        user3 = User('43256', first_name="Tester3",
+                     last_name="Tester3", email='test3@tests.com')
+        return [user1, user2, user3]
 
     monkeypatch.setattr(db, "session", MockSession)
     monkeypatch.setattr(PuzzlePlayer, "find_players_for_puzzle", mock_return_existing_players)

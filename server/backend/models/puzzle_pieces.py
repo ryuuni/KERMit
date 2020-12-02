@@ -72,6 +72,9 @@ class PuzzlePiece(db.Model):
         if self.static_piece:  # you cannot change pieces that came with the game board
             raise PuzzleException("Changes can only be made to non-static puzzle pieces.")
 
+        if not isinstance(new_value, int) and new_value is not None:
+            raise PuzzleException("Puzzle pieces can only have integer values, or None.")
+
         self.value = new_value
         if autocommit:
             db.session.commit()

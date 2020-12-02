@@ -1,0 +1,356 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.8.0, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /Users/meganfrenkel/Workspace/KERMit/server/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/meganfrenkel/Workspace/KERMit
+plugins: mock-3.3.1
+collecting ... collected 209 items
+
+server/tests/integration/test_authentication.py::test_registration_missing_header PASSED [  0%]
+server/tests/integration/test_authentication.py::test_registration_malformed_header PASSED [  0%]
+server/tests/integration/test_authentication.py::test_registration_verification_token_invalid PASSED [  1%]
+server/tests/integration/test_authentication.py::test_registration_user_info_error PASSED [  1%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info1 PASSED [  2%]
+server/tests/integration/test_authentication.py::test_register_token_valid_missing_info2 PASSED [  2%]
+server/tests/integration/test_authentication.py::test_registration_user_id_already_exists PASSED [  3%]
+server/tests/integration/test_authentication.py::test_successful_user_registration PASSED [  3%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_no_completed_puzzle PASSED [  4%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles PASSED [  4%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_limit2 PASSED [  5%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_negative PASSED [  5%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_0 PASSED [  6%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_limit_1 PASSED [  6%]
+server/tests/integration/test_leaderboard.py::test_get_leaders_completed_puzzles_invalid_value PASSED [  7%]
+server/tests/integration/test_sudoku_endpoints.py::test_cors_preflight PASSED [  7%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_use_game_without_registration PASSED [  8%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_no_puzzles PASSED [  8%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_nonexistent_puzzle PASSED [  9%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid PASSED [  9%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_difficulty PASSED [ 10%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_missing_size PASSED [ 10%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_unregistered_participant FAILED [ 11%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_duplicate_additional_players PASSED [ 11%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_user_added_themselves_as_additional_player PASSED [ 11%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_registered_participant PASSED [ 12%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_small PASSED [ 12%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_difficulty_large PASSED [ 13%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_large PASSED [ 13%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_invalid_size_small PASSED [ 14%]
+server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_too_many_additional_players PASSED [ 14%]
+server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_field_missing PASSED [ 15%]
+server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_hidden PASSED [ 15%]
+server/tests/integration/test_sudoku_endpoints.py::test_set_visibility_of_puzzle_not_hidden PASSED [ 16%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_all_puzzles_for_user PASSED [ 16%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_valid PASSED [ 17%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_get_unaffiliated_puzzle PASSED [ 17%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_already_in_puzzle PASSED [ 18%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_that_doesnt_exist PASSED [ 18%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_add_player_to_puzzle_valid PASSED [ 19%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_to_join_puzzle_max_players_reached PASSED [ 19%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_no_value_yet PASSED [ 20%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_valid_override_value PASSED [ 20%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_player_is_not_affiliated_with PASSED [ 21%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_low PASSED [ 21%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_piece_high PASSED [ 22%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_high PASSED [ 22%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_add_piece_invalid_position_low PASSED [ 22%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece FAILED [ 23%]
+server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_static_piece PASSED [ 23%]
+server/tests/integration/test_sudoku_endpoints.py::test_get_puzzle_solution_complete PASSED [ 24%]
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header PASSED [ 24%]
+server/tests/unit/test_authentication.py::test_authorize_token_missing_header2 PASSED [ 25%]
+server/tests/unit/test_authentication.py::test_authorize_token_malformed_header PASSED [ 25%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_error PASSED [ 26%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success_register PASSED [ 26%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_success PASSED [ 27%]
+server/tests/unit/test_authentication.py::test_authorize_token_validation_not_registered PASSED [ 27%]
+server/tests/unit/test_authentication.py::test_register_already_registered PASSED [ 28%]
+server/tests/unit/test_authentication.py::test_register_missing_info_email PASSED [ 28%]
+server/tests/unit/test_authentication.py::test_register_missing_info_id PASSED [ 29%]
+server/tests/unit/test_authentication.py::test_register_error_googleauth PASSED [ 29%]
+server/tests/unit/test_authentication.py::test_register_exception PASSED [ 30%]
+server/tests/unit/test_authentication.py::test_register_user_not_registered PASSED [ 30%]
+server/tests/unit/test_authentication.py::test_register_exception_db PASSED [ 31%]
+server/tests/unit/test_google_auth.py::test_validate_token PASSED        [ 31%]
+server/tests/unit/test_google_auth.py::test_get_user_information PASSED  [ 32%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard_no_leaders PASSED [ 32%]
+server/tests/unit/test_leaderboard.py::test_get_leaderboard_leaders_exist PASSED [ 33%]
+server/tests/unit/test_player.py::test_save_commit PASSED                [ 33%]
+server/tests/unit/test_player.py::test_save PASSED                       [ 33%]
+server/tests/unit/test_player.py::test_update_visibility_commit PASSED   [ 34%]
+server/tests/unit/test_player.py::test_update_visibility PASSED          [ 34%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player PASSED [ 35%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player_visible_only PASSED [ 35%]
+server/tests/unit/test_player.py::test_find_all_puzzles_for_player_visible_and_hidden PASSED [ 36%]
+server/tests/unit/test_player.py::test_find_players_for_puzzle PASSED    [ 36%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_already_too_many_players PASSED [ 37%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_player_doesnt_exist PASSED [ 37%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_ok_lower_bound PASSED [ 38%]
+server/tests/unit/test_player.py::test_add_player_to_puzzle_ok_upper_bound PASSED [ 38%]
+server/tests/unit/test_player.py::test_get_top_players_boundary PASSED   [ 39%]
+server/tests/unit/test_player.py::test_get_top_players_negative PASSED   [ 39%]
+server/tests/unit/test_player.py::test_get_top_players_str PASSED        [ 40%]
+server/tests/unit/test_player.py::test_get_top_players_none PASSED       [ 40%]
+server/tests/unit/test_player.py::test_to_player_to_str PASSED           [ 41%]
+server/tests/unit/test_puzzle_exception.py::test_get_message PASSED      [ 41%]
+server/tests/unit/test_puzzle_pieces.py::test_find_all_pieces PASSED     [ 42%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece PASSED           [ 42%]
+server/tests/unit/test_puzzle_pieces.py::test_get_piece_none PASSED      [ 43%]
+server/tests/unit/test_puzzle_pieces.py::test_save_autocommit PASSED     [ 43%]
+server/tests/unit/test_puzzle_pieces.py::test_save PASSED                [ 44%]
+server/tests/unit/test_puzzle_pieces.py::test_update_success PASSED      [ 44%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_static PASSED  [ 44%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_str PASSED     [ 45%]
+server/tests/unit/test_puzzle_pieces.py::test_update_fail_none PASSED    [ 45%]
+server/tests/unit/test_puzzle_pieces.py::test_get_as_str PASSED          [ 46%]
+server/tests/unit/test_sockets.py::test_socketio_cannot_connect_without_credentials PASSED [ 46%]
+server/tests/unit/test_sockets.py::test_socketio_cannot_connect_with_invalid_credentials PASSED [ 47%]
+server/tests/unit/test_sockets.py::test_socketio_can_connect_with_valid_credentials PASSED [ 47%]
+server/tests/unit/test_sockets.py::test_socketio_join_missing_token PASSED [ 48%]
+server/tests/unit/test_sockets.py::test_socketio_join_missing_puzzle PASSED [ 48%]
+server/tests/unit/test_sockets.py::test_socketio_join_bad_token PASSED   [ 49%]
+server/tests/unit/test_sockets.py::test_socketio_join_user_doesnt_exist PASSED [ 49%]
+server/tests/unit/test_sockets.py::test_socketio_join_puzzle_not_associated PASSED [ 50%]
+server/tests/unit/test_sockets.py::test_socketio_join_puzzle PASSED      [ 50%]
+server/tests/unit/test_sockets.py::test_socketio_disconnect PASSED       [ 51%]
+server/tests/unit/test_sockets.py::test_socketio_handle_move_missing_puzzle_id PASSED [ 51%]
+server/tests/unit/test_sockets.py::test_socketio_handle_move_not_in_room PASSED [ 52%]
+server/tests/unit/test_sockets.py::test_socketio_handle_move_in_room PASSED [ 52%]
+server/tests/unit/test_sockets.py::test_socketio_handle_message PASSED   [ 53%]
+server/tests/unit/test_sockets.py::test_socketio_handle_message_missing_puzzle_id PASSED [ 53%]
+server/tests/unit/test_sockets.py::test_socketio_handle_add_lock PASSED  [ 54%]
+server/tests/unit/test_sockets.py::test_socketio_handle_lock_missing_puzzle_id PASSED [ 54%]
+server/tests/unit/test_sockets.py::test_socketio_handle_remove_lock PASSED [ 55%]
+server/tests/unit/test_sockets.py::test_socketio_handle_remove_lock_missing_puzzle_id PASSED [ 55%]
+server/tests/unit/test_sockets.py::test_socketio_handle_leave PASSED     [ 55%]
+server/tests/unit/test_sockets.py::test_socketio_handle_leave_missing_puzzle_id PASSED [ 56%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_valid_defaults PASSED [ 56%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_puzzle_valid_specification PASSED [ 57%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_puzzle_valid_difficulty_upper_bound PASSED [ 57%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_puzzle_valid_difficulty_lower_bound PASSED [ 58%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_str PASSED [ 58%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_null PASSED [ 59%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_low PASSED [ 59%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_difficulty_too_high PASSED [ 60%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_puzzle_valid_size_lower_bound PASSED [ 60%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_puzzle_valid_size_upper_bound PASSED [ 61%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_str PASSED [ 61%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_float PASSED [ 62%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_small PASSED [ 62%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_small_boundary PASSED [ 63%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_large PASSED [ 63%]
+server/tests/unit/test_sudoku_puzzle.py::test_create_sudoku_puzzle_invalid_size_too_large_boundary PASSED [ 64%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value1 PASSED    [ 64%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_point_value2 PASSED    [ 65%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_all PASSED [ 65%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_pieces_as_arr_static_only PASSED [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_recreate_original_puzzle PASSED [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_null_values PASSED [ 66%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_complete PASSED [ 67%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_for_completion_incorrect_values PASSED [ 67%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_none PASSED [ 68%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_many_incorrect PASSED [ 68%]
+server/tests/unit/test_sudoku_puzzle.py::test_check_discrepancies_incomplete_puzzle PASSED [ 69%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_none PASSED     [ 69%]
+server/tests/unit/test_sudoku_puzzle.py::test_get_puzzle_found PASSED    [ 70%]
+server/tests/unit/test_sudoku_puzzle.py::test_save PASSED                [ 70%]
+server/tests/unit/test_sudoku_puzzle.py::test_save_autocommit PASSED     [ 71%]
+server/tests/unit/test_sudoku_puzzle.py::test_attempt_update_complete_puzzle PASSED [ 71%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate_y1 PASSED [ 72%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate_y2 PASSED [ 72%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate_x1 PASSED [ 73%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_coordinate_x2 PASSED [ 73%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value_too_small PASSED [ 74%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_invalid_value_too_large PASSED [ 74%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid PASSED        [ 75%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_lower_bounds PASSED [ 75%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_upper_bounds PASSED [ 76%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_static_piece PASSED [ 76%]
+server/tests/unit/test_sudoku_puzzle.py::test_update_valid_complete_puzzle PASSED [ 77%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete PASSED [ 77%]
+server/tests/unit/test_sudoku_puzzle.py::test_as_str PASSED              [ 77%]
+server/tests/unit/test_sudoku_puzzle.py::test_set_puzzle_complete_empty_puzzle PASSED [ 78%]
+server/tests/unit/test_sudoku_puzzle_solution.py::test_sudoku_puzzles_get_solution_not_associated PASSED [ 78%]
+server/tests/unit/test_sudoku_puzzle_solution.py::test_sudoku_puzzles_get_solution_not_associated_2 PASSED [ 79%]
+server/tests/unit/test_sudoku_puzzle_solution.py::test_sudoku_puzzles_get_solution PASSED [ 79%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_to_json PASSED   [ 80%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_none PASSED [ 80%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_one PASSED [ 81%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_many PASSED [ 81%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_puzzles_create_known_exception PASSED [ 82%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_create_one_unknown_exception PASSED [ 82%]
+server/tests/unit/test_sudoku_resources.py::test_create_puzzle_no_others PASSED [ 83%]
+server/tests/unit/test_sudoku_resources.py::test_create_puzzle_unregistered_other PASSED [ 83%]
+server/tests/unit/test_sudoku_resources.py::test_create_puzzle_registered_others PASSED [ 84%]
+server/tests/unit/test_sudoku_resources.py::test_create_puzzle_registered_duplicates PASSED [ 84%]
+server/tests/unit/test_sudoku_resources.py::test_create_puzzle_self_added_as_additional_player PASSED [ 85%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_puzzles_too_many_additional PASSED [ 85%]
+server/tests/unit/test_sudoku_resources.py::test_set_puzzle_visibility_hidden PASSED [ 86%]
+server/tests/unit/test_sudoku_resources.py::test_set_puzzle_visibility_visible PASSED [ 86%]
+server/tests/unit/test_sudoku_resources.py::test_set_puzzle_visibility_not_available PASSED [ 87%]
+server/tests/unit/test_sudoku_resources.py::test_set_puzzle_visibility_exception PASSED [ 87%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_retrieved PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_none_associated PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzle_found PASSED [ 88%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_already_joined PASSED [ 89%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle PASSED [ 89%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_full PASSED [ 90%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_known_exception PASSED [ 90%]
+server/tests/unit/test_sudoku_resources.py::test_join_sudoku_puzzle_unknown_exception PASSED [ 91%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_puzzles_add_move_not_associated PASSED [ 91%]
+server/tests/unit/test_sudoku_resources.py::test_sudoku_puzzles_add_move_success PASSED [ 92%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_position_invalid PASSED [ 92%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_value_invalid PASSED [ 93%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_add_move_exception PASSED [ 93%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece FAILED [ 94%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece_invalid PASSED [ 94%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece_not_associated PASSED [ 95%]
+server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece_exception PASSED [ 95%]
+server/tests/unit/test_user.py::test_create_user PASSED                  [ 96%]
+server/tests/unit/test_user.py::test_user_as_str PASSED                  [ 96%]
+server/tests/unit/test_user.py::test_user_print PASSED                   [ 97%]
+server/tests/unit/test_user.py::test_user_save PASSED                    [ 97%]
+server/tests/unit/test_user.py::test_find_by_g_id PASSED                 [ 98%]
+server/tests/unit/test_user.py::test_find_users_by_email_none PASSED     [ 98%]
+server/tests/unit/test_user.py::test_find_users_by_email_one_found PASSED [ 99%]
+server/tests/unit/test_user.py::test_find_users_by_email_none_found PASSED [ 99%]
+server/tests/unit/test_user.py::test_get_email PASSED                    [100%]
+
+=================================== FAILURES ===================================
+_____________ test_save_new_puzzle_valid_unregistered_participant ______________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_save_new_puzzle_valid_unregistered_participant(test_client, init_db, verification_true):
+        """
+        Test the response when a user makes a valid request to create a new sudoku puzzle,
+        with an additional specified user that does not exist (isn't registered with
+        the application.
+        """
+        data = dict(difficulty=0.5, size=3, additional_players=['not_registered.com', 'another.com'])
+        response = test_client.post('/puzzles',
+                                    data=data,
+                                    headers={'Authorization': 'Bearer 2342351231asdb'})
+        assert response.status_code == 200
+>       assert response.json == {
+            'message': 'New Sudoku puzzle successfully created',
+            'difficulty': 0.5,
+            'size': 3,
+            'puzzle_id': 4,
+            'unregistered_emails': ['another.com', 'not_registered.com']
+        }
+E       AssertionError: assert {'difficulty'...size': 3, ...} == {'difficulty'...size': 3, ...}
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'unregistered_emails': ['not_registered.com', 'another.com']} != {'unregistered_emails': ['another.com', 'not_registered.com']}
+E         Full diff:
+E           {
+E            'difficulty': 0.5,
+E            'message': 'New Sudoku puzzle successfully created',...
+E         
+E         ...Full output truncated (8 lines hidden), use '-vv' to show
+
+server/tests/integration/test_sudoku_endpoints.py:121: AssertionError
+__________________________ test_attempt_remove_piece ___________________________
+
+test_client = <FlaskClient <Flask 'backend'>>
+init_db = <SQLAlchemy engine=postgres://vkxyhzzjvibhhg:***@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dsmbl1k8cfr5h>
+verification_true = None
+
+    def test_attempt_remove_piece(test_client, init_db, verification_true):
+        """
+        Attempt to delete a non-static value from a position on the puzzle should be OK.
+        """
+        # make sure that we know what the status is of the piece that we are attempting to change
+        piece = PuzzlePiece.get_piece(3, 0, 0)
+        piece.static_piece = False
+        piece.value = 8
+        piece.save(autocommit=True)
+    
+        response = test_client.delete(
+            '/puzzles/3/piece', data=dict(
+                x_coordinate=0,
+                y_coordinate=0
+            ), headers={'Authorization': 'Bearer 2342351231asdb'}
+        )
+    
+>       assert response.status_code == 200
+E       assert 400 == 200
+E         +400
+E         -200
+
+server/tests/integration/test_sudoku_endpoints.py:617: AssertionError
+_____________________ test_get_sudoku_puzzles_delete_piece _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b221850>
+user = <User (transient 4481751600)>, mock_single_puzzles_for_player = None
+mock_get_puzzle = None
+
+    def test_get_sudoku_puzzles_delete_piece(monkeypatch, user, mock_single_puzzles_for_player,
+                                             mock_get_puzzle):
+        """
+        If a player attempts to make a move on a puzzle that they are associated
+        with, the attempt should be successful.
+        """
+        class MockParser:
+            """
+            Mock the parsing function of the endpoint.
+            """
+            def add_argument(self, *args, **kwargs):
+                """
+                Mock add argument, do nothing.
+                """
+                return
+    
+            def parse_args(self):
+                """
+                Mock the parsing function by returning known dict
+                """
+                return {'x_coordinate': 0, 'y_coordinate': 1}
+    
+        monkeypatch.setattr(db, "session", MockSession)
+    
+        with app.app_context():
+            g.user = user
+            puzzle_piece_resource = SudokuPuzzlePiece()
+            puzzle_piece_resource.parser = MockParser()
+            result = puzzle_piece_resource.delete(1)
+    
+        expected = {'message': 'Successfully deleted piece at position (0, 1) on puzzle_id 1.'}
+>       assert result == expected
+E       AssertionError: assert ({'message': ...alues.'}, 400) == {'message': '...puzzle_id 1.'}
+E         +({'message': 'Attempt to delete piece at (0, 1) on puzzle_id 1 by user Jane Doe (id = 1) was unsuccessful', 'reason': 'Puzzle pieces can only have integer values.'}, 400)
+E         -{'message': 'Successfully deleted piece at position (0, 1) on puzzle_id 1.'}
+E         Full diff:
+E         - {
+E         -  'message': 'Successfully deleted piece at position (0, 1) on puzzle_id 1.',
+E         - }
+E         + (...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+server/tests/unit/test_sudoku_resources.py:996: AssertionError
+=============================== warnings summary ===============================
+server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/eventlet/patcher.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+server/venv/lib/python3.8/site-packages/dns/hash.py:23
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/hash.py:23: DeprecationWarning: dns.hash module will be removed in future versions. Please use hashlib instead.
+    warnings.warn(
+
+server/venv/lib/python3.8/site-packages/dns/namedict.py:35
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/dns/namedict.py:35: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+    class NameDict(collections.MutableMapping):
+
+server/tests/integration/test_authentication.py::test_registration_missing_header
+  /Users/meganfrenkel/Workspace/KERMit/server/venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py:254: SADeprecationWarning: The 'postgres' dialect name has been renamed to 'postgresql'
+    loader = self.auto_fn(name)
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=========================== short test summary info ============================
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_save_new_puzzle_valid_unregistered_participant
+FAILED server/tests/integration/test_sudoku_endpoints.py::test_attempt_remove_piece
+FAILED server/tests/unit/test_sudoku_resources.py::test_get_sudoku_puzzles_delete_piece
+============ 3 failed, 206 passed, 4 warnings in 143.05s (0:02:23) =============
