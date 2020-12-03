@@ -5,7 +5,7 @@ import Chat from '../../components/Chat/Chat';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
 import socketIOClient from "socket.io-client";
-import EndPoint from '../../utils/EndPoint';
+import Endpoint from '../../utils/Endpoint';
 import './PuzzlePage.css'
 
 async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
@@ -13,7 +13,7 @@ async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
     method: 'GET',
     headers: { Authorization: `Bearer ${accessToken}` },
   };
-  const response = await fetch(EndPoint.getPuzzle({puzzleId}), requestOptions);
+  const response = await fetch(Endpoint.getPuzzle({puzzleId}), requestOptions);
   const json = await response.json();
   onSuccess(json);
 }
