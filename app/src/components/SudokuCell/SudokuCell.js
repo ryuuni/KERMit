@@ -29,7 +29,7 @@ export default function SudokuCell(props) {
   style.backgroundColor = (index === undefined || index === -1) ? 'white' : backgroundColors[index];
   console.log(index);
 
-  const firstName = player ? capitalize(player.firstName) : '';
+  const firstName = player ? `${player.firstName.charAt(0).toUpperCase()}${player.firstName.slice(1)}` : '';
   const playerDisplayName = 
     player ? (player.last_name ? `${firstName} ${player.last_name[0].toUpperCase()}.` : firstName) : '';
 
@@ -57,10 +57,6 @@ export default function SudokuCell(props) {
     />
   );
 };
-
-function capitalize(str) {
-  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
-}
 
 SudokuCell.defaultProps = {
   number: null,
