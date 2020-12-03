@@ -46,14 +46,6 @@ const PuzzlePage = () => {
     setMessages(oldMessages => [...oldMessages, data]);
   }, []);
   
-  useEffect(() => {  
-    getPuzzle({
-      accessToken,
-      puzzleId,
-      onSuccess: updatePuzzle,
-    });
-  }, [accessToken, puzzleId, updatePuzzle]);
-
   useEffect(() => {
     const currSocket = socketIOClient("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
     socket.current = currSocket;
@@ -68,6 +60,14 @@ const PuzzlePage = () => {
       currSocket.disconnect();
     };
   }, []);
+
+  useEffect(() => {  
+    getPuzzle({
+      accessToken,
+      puzzleId,
+      onSuccess: updatePuzzle,
+    });
+  }, [accessToken, puzzleId, updatePuzzle]);
 
   useEffect(() => {  
     socket.current.on("puzzle_update", ({pieces, completed}) => {
