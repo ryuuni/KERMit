@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Chat.css'
 import CurrentUserContext from '../../context/CurrentUserContext';
 import TextField from '@material-ui/core/TextField';
-// import Endpoint from '../../utils/Endpoint';
+import ChatMessage from './ChatMessage';
 
 const Chat = forwardRef((props, socket) => {
   const { userName, userEmail } = useContext(CurrentUserContext);
@@ -17,18 +17,20 @@ const Chat = forwardRef((props, socket) => {
   }, [currMessage, userName, userEmail, props.puzzleId, socket]);
 
   return (
-    <div className="chat-section">
+    <div className="chatSection">
+        <div className="chat-label">Chat</div>
         <div className="chat-view">
             {
                 (props.messages).map((messageObj) => (
-                  messageObj.messageString
+                  <ChatMessage message={messageObj} />
                 ))
             }
         </div>
         <div className="chat-input">
             <TextField 
+                className="text-field"
                 id="standard-multiline-flexible" 
-                label="Type your message here"
+                placeholder="Type your message here!" 
                 onChange={event => {
                     setCurrMessage(event.target.value);
                 }}
@@ -37,11 +39,9 @@ const Chat = forwardRef((props, socket) => {
                         addMessage();
                     }   
                 }}
+                rows={2}
                 value={currMessage}
             />
-            <button className="send-message" onClick={() => {
-                addMessage();
-            }}>Send Message</button>
         </div>
     </div>
   );

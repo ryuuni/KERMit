@@ -20,7 +20,7 @@ const GoogleBtn = () => {
       setAccessToken(response.accessToken);
       register(response.accessToken);
       const profileObj = response.profileObj;
-      setUserName(profileObj.givenName + ' ' + profileObj.familyName);
+      setUserName(profileObj.givenName + ' ' + profileObj.familyName[0]);
       setUserEmail(profileObj.email);
       history.push('/mypuzzles');
     }

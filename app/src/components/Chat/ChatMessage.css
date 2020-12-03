@@ -1,0 +1,27 @@
+.chat-message {
+    display: block;
+    max-width: 300px;
+}
+
+.user-name {
+    font-size: 12px; 
+    font-weight: normal;
+    color: rgb(94, 94, 94);
+    margin-left: 2px;
+}
+
+.message-container {
+    max-width: 300px;
+    color: rgb(43, 43, 43);
+    padding: 7px;
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.message-string {
+    font-size: 18px;
+    font-weight: normal;
+    overflow-wrap: normal;
+    padding: 2px;
+}

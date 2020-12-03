@@ -4,9 +4,8 @@ import SudokuBoard from '../../components/SudokuBoard/SudokuBoard';
 import Chat from '../../components/Chat/Chat';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
-// import { getPuzzleResponse } from '../data/get_puzzle_response'
-// import { getSolutionResponse, getSolvedSolutionResponse } from '../data/get_solution_response'
 import socketIOClient from "socket.io-client";
+import './PuzzlePage.css'
 
 async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
   const requestOptions = {
@@ -14,7 +13,6 @@ async function getPuzzle({ accessToken, puzzleId, onSuccess }) {
     headers: { Authorization: `Bearer ${accessToken}` },
   };
   const response = await fetch(`http://localhost:5000/puzzles/${puzzleId}`, requestOptions)
-  // const response = await Promise.resolve(getPuzzleResponse());
   const json = await response.json();
   onSuccess(json);
 }
@@ -82,14 +80,18 @@ const PuzzlePage = () => {
 
   return (
     <PageTemplate>
-      <SudokuBoard
-        data-testid='sudoku-board'
-        gridState={pieces}
-        puzzleId={puzzleId}
-        solved={solved}
-        ref={socket}
-      />
-      {isMultiplayerGame && <Chat messages={messages} puzzleId={puzzleId} ref={socket}/> }
+      <div className={isMultiplayerGame ? 'puzzle-page' : null}>
+        <div className={isMultiplayerGame ? 'puzzle-board' : null}>
+          <SudokuBoard
+            data-testid='sudoku-board'
+            gridState={pieces}
+            puzzleId={puzzleId}
+            solved={solved}
+            ref={socket}
+          />
+        </div>
+        {isMultiplayerGame && <div className="chat"><Chat messages={messages} puzzleId={puzzleId} ref={socket}/></div> }
+      </div>
     </PageTemplate>
   );
 }
