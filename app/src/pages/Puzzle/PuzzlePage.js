@@ -52,7 +52,7 @@ const PuzzlePage = () => {
       puzzleId,
       onSuccess: updatePuzzle,
     });
-  }, []);
+  }, [accessToken, puzzleId, updatePuzzle]);
 
   useEffect(() => {
     const currSocket = socketIOClient("ws://127.0.0.1:5000/", {query: {auth: accessToken}, transports: ['websocket']});
