@@ -1,0 +1,18 @@
+.puzzle-page {
+    display: flex; 
+    flex-direction: row;
+}
+
+.puzzle-board {
+    display: block;
+    width: 75%;
+}
+
+.chat {
+    display: block;
+    width: 25%;
+    height: 100vh;
+    padding: 30px;
+    background-color: white;
+    border-left: 1px solid  rgb(202, 202, 202);
+}

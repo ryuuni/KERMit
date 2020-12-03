@@ -1,0 +1,33 @@
+.chatSection {
+    display: flex; 
+    flex-direction: column;
+}
+
+.chat-label {
+    color: rgb(43, 43, 43);
+    font-size: 20px; 
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.chat-view {
+    width: 100%;
+    height: 73vh;
+    border-top: 1px solid  rgb(225, 223, 223);
+    border-bottom: 1px solid  rgb(225, 223, 223);
+    display: flex; 
+    flex-direction: column;
+    padding-top: 20px;
+    margin-bottom: 10px;
+}
+
+.chat-input {
+    width: 100%;
+}
+
+.text-field {
+    overflow-wrap: "normal";
+    width: 100%;
+    height: 10vh;
+    margin: 0 auto;
+}

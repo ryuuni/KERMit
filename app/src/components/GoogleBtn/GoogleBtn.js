@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import register from '../../utils/ApiClient.js';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import { useHistory } from 'react-router-dom';
 
 const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleusercontent.com';
@@ -12,16 +12,19 @@ const CLIENT_ID = '950548208840-dq7hp4pt98dlq05idlh3cn5juiqjqlpf.apps.googleuser
  * get-the-accesstoken-2ee16bfd8297
  */
 const GoogleBtn = () => {
-  const { isLoggedIn, setAccessToken } = useContext(AccessTokenContext);
+  const { isLoggedIn, setAccessToken, setUserName, setUserEmail } = useContext(CurrentUserContext);
   const history = useHistory();
 
   const login = useCallback(response => {
     if (response.accessToken) {
       setAccessToken(response.accessToken);
       register(response.accessToken);
+      const profileObj = response.profileObj;
+      setUserName(profileObj.givenName + ' ' + profileObj.familyName[0]);
+      setUserEmail(profileObj.email);
       history.push('/mypuzzles');
     }
-  }, [setAccessToken, history]);
+  }, [setAccessToken, setUserName, setUserEmail, history]);
   const logout = useCallback(() => {
     setAccessToken('');
     history.push('/');

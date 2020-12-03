@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuBoard.css'
 import SudokuCell from '../SudokuCell/SudokuCell';
-import AccessTokenContext from '../../context/AccessTokenContext';
+import CurrentUserContext from '../../context/CurrentUserContext';
 import Endpoint from '../../utils/Endpoint';
 
 async function getSolution({ accessToken, puzzleId, onSuccess }) {
@@ -17,7 +17,7 @@ async function getSolution({ accessToken, puzzleId, onSuccess }) {
 }
 
 const SudokuBoard = forwardRef((props, socket) => {
-  const { accessToken } = useContext(AccessTokenContext);
+  const { accessToken } = useContext(CurrentUserContext);
   const [solved, setSolved] = useState(props.solved);
   const [checked, setChecked] = useState(false);
 
