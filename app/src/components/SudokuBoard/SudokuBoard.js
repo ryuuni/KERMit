@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState, forwardRef } from 'react'
+import React, { useCallback, useMemo, useContext, useState, forwardRef } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuBoard.css'
 import SudokuCell from '../SudokuCell/SudokuCell';
@@ -17,9 +17,10 @@ async function getSolution({ accessToken, puzzleId, onSuccess }) {
 }
 
 const SudokuBoard = forwardRef((props, socket) => {
-  const { accessToken } = useContext(CurrentUserContext);
+  const { accessToken, userEmail } = useContext(CurrentUserContext);
   const [solved, setSolved] = useState(props.solved);
   const [checked, setChecked] = useState(false);
+  const {playersLockingCells, players} = props;
 
   const movePiece = useCallback(async ({ puzzleId, x, y, value, onSuccess }) => {
     const requestOptions = {
@@ -37,6 +38,15 @@ const SudokuBoard = forwardRef((props, socket) => {
     await fetch(Endpoint.movePiece({puzzleId}), requestOptions);
     socket.current.emit('move', {puzzle_id:puzzleId});
   }, [accessToken, socket]);
+  
+  const currentPlayer = useMemo(() => players.find(p => p.email === userEmail), [players, userEmail]);
+  const addLock = useCallback(({puzzleId, x, y}) => {
+    socket.current.emit('add_lock', {puzzle_id: puzzleId, x_coordinate: x, y_coordinate: y, player: currentPlayer});
+  }, [socket, currentPlayer]);
+
+  const removeLock = useCallback(({puzzleId, x: x_coordinate, y: y_coordinate}) => {
+    socket.current.emit('remove_lock', {puzzle_id: puzzleId, x_coordinate, y_coordinate});
+  }, [socket]);
 
   if (!props.gridState) {
     return <h3 style={{textAlign: "center"}}>Loading puzzle...</h3>;
@@ -46,21 +56,24 @@ const SudokuBoard = forwardRef((props, socket) => {
     <div>
       <div className="gridContainer">
         {
-          props.gridState.map(cell =>
+          props.gridState.map(({value, x_coordinate: x, y_coordinate: y, static_piece}) =>
             <SudokuCell
-              key={Number(cell.value) * 100 + cell.y_coordinate * 10 + cell.x_coordinate}
-              x={cell.x_coordinate}
-              y={cell.y_coordinate}
-              number={cell.value}
+              key={Number(value) * 100 + y * 10 + x}
+              x={x}
+              y={y}
+              addLock={() => addLock({puzzleId: props.puzzleId, x, y})}
+              removeLock={() => removeLock({puzzleId: props.puzzleId, x, y})}
+              number={value}
+              playerData={playersLockingCells[coordsToString(x, y)]}
               onNumberChanged={number => {
                 movePiece({
-                  x: cell.x_coordinate,
-                  y: cell.y_coordinate,
+                  x,
+                  y,
                   value: number,
                   puzzleId: props.puzzleId,
                 });
               }}
-              prefilled={cell.static_piece || props.solved}
+              prefilled={static_piece || props.solved}
             />
           )
         }
@@ -89,16 +102,37 @@ const SudokuBoard = forwardRef((props, socket) => {
   );
 });
 
+function coordsToString(x, y) {
+  return `${x},${y}`;
+}
+
 SudokuBoard.defaultProps = {
   gridState: null,
   puzzleId: '',
   solved: false,
+  players: [],
+  playersLockingCells: {},
 };
 
 SudokuBoard.propTypes = {
   gridState: PropTypes.array,
   puzzleId: PropTypes.string.isRequired,
   solved: PropTypes.bool.isRequired,
+  players: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+  }).isRequired,
+  playersLockingCells: PropTypes.objectOf(PropTypes.shape({
+    player: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      first_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string,
+      email: PropTypes.string,
+    }).isRequired,
+    index: PropTypes.number,
+  })).isRequired,
 };
 
 export default SudokuBoard;

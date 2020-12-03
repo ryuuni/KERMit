@@ -5,6 +5,7 @@ const backendRoot = `http://${BACKEND_ADDRESS}:${BACKEND_PORT}`;
 
 const Endpoint = {
   register: () => `${backendRoot}/register`,
+  getPuzzle: ({puzzleId}) => `${backendRoot}/puzzles/${puzzleId}`,
   createPuzzle: ({difficulty, additionalPlayers, size = 3}) => `${backendRoot}/puzzles?difficulty=${difficulty}&size=${size}&additional_players=${additionalPlayers.join(',')}`,
   getPuzzles: () => `${backendRoot}/puzzles`,
   movePiece: ({puzzleId}) => `${backendRoot}/puzzles/${puzzleId}/piece`,

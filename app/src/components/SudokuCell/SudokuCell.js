@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import './SudokuCell.css'
 
+const backgroundColors = Object.freeze([
+  'aliceblue',
+  'honeydew',
+  'lavender',
+  'lavenderblush',
+]);
+
 export default function SudokuCell(props) {
+  const {player, index} = props.playerData ?? {};
   const [value, setValue] = useState(props.number);
   const style = {};
   if (props.x % 3 === 0) {
@@ -14,6 +22,12 @@ export default function SudokuCell(props) {
   style.borderRight = (props.x % 3 === 2) ? '3px solid black' : 'none';
   style.borderBottom = (props.y % 3 === 2) ? '3px solid black' : 'none';
 
+  style.backgroundColor = (index === undefined || index === -1) ? 'white' : backgroundColors[index];
+
+  const firstName = player ? capitalize(player.firstName) : '';
+  const playerDisplayName = 
+    player ? (player.last_name ? `${firstName} ${player.last_name[0].toUpperCase()}.` : firstName) : '';
+
   const className = props.prefilled ? 'fixedCell' : 'inputCell';
   return (
     <input 
@@ -23,6 +37,8 @@ export default function SudokuCell(props) {
       style={style}
       readOnly={props.prefilled}
       value={value || ''}
+      onFocus={props.addLock}
+      onBlur={props.removeLock}
       onInput={event => {
         const userInput = (event.target.validity.valid) ? 
           event.target.value : value;
@@ -32,9 +48,14 @@ export default function SudokuCell(props) {
           props.onNumberChanged(userInput);
         }
       }}
+      title={playerDisplayName}
     />
   );
 };
+
+function capitalize(str) {
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+}
 
 SudokuCell.defaultProps = {
   number: null,
@@ -42,6 +63,7 @@ SudokuCell.defaultProps = {
   onNumberChanged: () => {},
   x: 0,
   y: 0,
+  player: null,
 };
 
 SudokuCell.propTypes = {
@@ -50,5 +72,15 @@ SudokuCell.propTypes = {
   onNumberChanged: PropTypes.func,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
+  playerData: PropTypes.shape({
+    player: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      first_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string,
+      email: PropTypes.string,
+    }),
+    index: PropTypes.number,
+  }),
+  addLock: PropTypes.func.isRequired,
+  removeLock: PropTypes.func.isRequired,
 };
-
