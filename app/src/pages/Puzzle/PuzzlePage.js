@@ -32,7 +32,9 @@ const PuzzlePage = () => {
         (pieceA.y_coordinate * 10 + pieceA.x_coordinate) - (pieceB.y_coordinate * 10 + pieceB.x_coordinate)
     ));
     setSolved(completed);
-    setIsMultiplayerGame(players.length > 1);
+    if (players !== undefined) {
+      setIsMultiplayerGame(players.length > 1);
+    }
   }, []);
 
   const addMessage = useCallback((data) => {
