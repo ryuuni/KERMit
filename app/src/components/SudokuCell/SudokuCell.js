@@ -29,7 +29,7 @@ export default function SudokuCell(props) {
   style.backgroundColor = (index === undefined || index === -1) ? 'white' : backgroundColors[index];
   console.log(index);
 
-  const firstName = player ? `${player.firstName.charAt(0).toUpperCase()}${player.firstName.slice(1)}` : '';
+  const firstName = player ? `${player.first_name.charAt(0).toUpperCase()}${player.first_name.slice(1)}` : '';
   const playerDisplayName = 
     player ? (player.last_name ? `${firstName} ${player.last_name[0].toUpperCase()}.` : firstName) : '';
 
