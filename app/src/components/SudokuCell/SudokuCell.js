@@ -40,7 +40,7 @@ export default function SudokuCell(props) {
       pattern="[1-9]"
       className={className}
       style={style}
-      readOnly={props.prefilled || (props.playerData && props.player.email !== userEmail)}
+      readOnly={props.prefilled || (props.playerData && props.playerData.player.email !== userEmail)}
       value={value || ''}
       onFocus={props.addLock}
       onBlur={props.removeLock}
@@ -64,7 +64,7 @@ SudokuCell.defaultProps = {
   onNumberChanged: () => {},
   x: 0,
   y: 0,
-  player: null,
+  playerData: null,
 };
 
 SudokuCell.propTypes = {
