@@ -1,6 +1,6 @@
 .chat-message {
-    display: block;
-    max-width: 300px;
+    display: flex; 
+    flex-direction: column;
 }
 
 .user-name {
@@ -8,6 +8,7 @@
     font-weight: normal;
     color: rgb(94, 94, 94);
     margin-left: 2px;
+    max-width: 300px;
 }
 
 .message-container {
