@@ -12,19 +12,40 @@ export default function PuzzleCard(props) {
     0.7:'Expert', 
     0.8:'Master', 
   };
+
+  const handleClick = (e) => {
+    if(e.target.name === 'hideButton') {
+        e.preventDefault();
+        e.stopPropagation();
+    } else {
+      props.onClick(puzzle.puzzle_id); 
+    }
+  }
+
   return (
     <div
       className="puzzle-card"
       data-testid="puzzle-card"
-      onClick={() => props.onClick(puzzle.puzzle_id)}
+      onClick={handleClick}
     >
       <div className="main-info">
         <div className="title">Puzzle {puzzle.puzzle_id}</div>
-        <div className="status">{puzzle.completed ? "Completed" : "In Progress"}</div>
+        <button className="hide-btn" name="hideButton" 
+                onClick={() => {
+                  props.setHidePuzzleId(puzzle.puzzle_id);
+                  props.setHideModalStatus(true);
+                }}>
+          Delete
+        </button>
       </div>
-      <div className="details">
-        <div className="detail">Difficulty: {difficulty_dict[puzzle.difficulty]}</div>
-        <div className="detail">Point Value: {puzzle.point_value}</div>
+      <div className="body">
+        <div className="details">
+          <div className="detail">Difficulty: {difficulty_dict[puzzle.difficulty]}</div>
+          <div className="detail">Point Value: {puzzle.point_value}</div>
+        </div>
+        <div className="status"  style={{ color: puzzle.completed ? 'green' : 'black'}}>
+          {puzzle.completed ? "Completed" : "In Progress"}
+        </div>
       </div>
     </div>
   );
