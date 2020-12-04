@@ -17,7 +17,7 @@
 .main-info {
     display: flex; 
     flex-direction: row; 
-    line-height: 20px;
+    line-height: 30px;
     height: 20px;
 }
 
@@ -31,10 +31,30 @@
     font-weight: normal;
     font-size: 14px;
     margin-left: auto;
+    margin-top: auto;
 }
 
-.details {
+.body {
     margin-top: 20px;
     font-size: 14px;
     text-align: left;
+    display: flex;
+    flex-direction: row;
 }
+
+.hide-btn {
+    /* align-content: center; */
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid rgba(177, 175, 175, 0.55);
+    color: rgba(0, 0, 0, 0.85);
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    height: 30px; 
+    align-content: center;
+    /* justify-content: center; */
+    margin-bottom: auto;
+    margin-left: auto;
+    width: 60px;
+  }

@@ -9,6 +9,7 @@ const Endpoint = {
   getPuzzles: () => `${backendRoot}/puzzles`,
   movePiece: ({puzzleId}) => `${backendRoot}/puzzles/${puzzleId}/piece`,
   getLeaderboard: () => `${backendRoot}/leaderboard`,
+  hidePuzzle: ({hidePuzzleId}) => `${backendRoot}/puzzles/${hidePuzzleId}?hidden=True`,
 };
 
 export default Endpoint;

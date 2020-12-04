@@ -2,6 +2,7 @@ import './HomePage.css';
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Redirect } from "react-router-dom";
 import CreatePuzzleModalContent from '../../components/CreatePuzzleModalContent/CreatePuzzleModalContent';
+import HidePuzzleModal from '../../components/HidePuzzleModal/HidePuzzleModal';
 import PuzzleCard from '../../components/PuzzleCard/PuzzleCard';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import PageTemplate from '../Template/PageTemplate';
@@ -12,7 +13,9 @@ const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [puzzles, setPuzzles] = useState([]);
   const [redirect, setRedirect] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [hidePuzzleId, setHidePuzzleId] = useState(-1);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [hideModalOpen, setHideModalOpen] = useState(false);
   const { accessToken } = useContext(CurrentUserContext);
 
   const redirectToPuzzle = useCallback(puzzleId => {
@@ -38,7 +41,7 @@ const HomePage = () => {
     }
   }, [accessToken, redirectToPuzzle]);
 
-  useEffect(() => {
+  const updatePuzzles = useCallback((accessToken, setPuzzles) => {
     const requestOptions = {
       method: 'GET',
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -49,7 +52,28 @@ const HomePage = () => {
         setPuzzles(data.puzzles);
       }
     });
-  }, [accessToken, setPuzzles]);
+  }, []);
+
+  const hidePuzzle = useCallback(() => {
+    if (hidePuzzleId !== -1) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: JSON.stringify({
+          'hidden': true,
+        }),
+      };
+      const url = Endpoint.hidePuzzle({hidePuzzleId});
+      fetch(url, requestOptions).then(res => res.json()).then(data => {
+        setHideModalOpen(false);
+        updatePuzzles(accessToken, setPuzzles);
+      });
+    }
+  }, [accessToken, hidePuzzleId, setPuzzles, updatePuzzles]);
+
+  useEffect(() => {
+    updatePuzzles(accessToken, setPuzzles);
+  }, [accessToken, setPuzzles, updatePuzzles]);
 
   if (redirect) {
     return <Redirect to={redirect} />
@@ -58,14 +82,20 @@ const HomePage = () => {
   return (
     <PageTemplate>
       <div className="homepage">
-        <button className="new-game-btn" onClick={() => setModalOpen(true)}>
+        <button className="new-game-btn" onClick={() => setCreateModalOpen(true)}>
           Start new puzzle
         </button>
         <Modal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
+          open={createModalOpen}
+          onClose={() => setCreateModalOpen(false)}
         >
           <CreatePuzzleModalContent createGame={createGame} />
+        </Modal>
+        <Modal
+          open={hideModalOpen}
+          onClose={() => setHideModalOpen(false)}
+        >
+          <HidePuzzleModal puzzleId={hidePuzzleId} setHideModalStatus={setHideModalOpen} hidePuzzle={hidePuzzle}/>
         </Modal>
         {puzzles.length === 0 && isLoaded
           && (<div className="empty-message">
@@ -77,6 +107,9 @@ const HomePage = () => {
               puzzle={puzzle}
               key={puzzle.puzzle_id}
               onClick={redirectToPuzzle}
+              hideModalOpen={hideModalOpen}
+              setHideModalStatus={setHideModalOpen}
+              setHidePuzzleId={setHidePuzzleId}
             />
           ))}
         </div>
