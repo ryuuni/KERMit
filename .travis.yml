@@ -1,4 +1,4 @@
-#language: python
+language: minimal
 
 env:
   - DOCKER_COMPOSE_VERSION=1.27.4
